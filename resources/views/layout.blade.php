@@ -19,7 +19,8 @@
         <nav id="sidebarMenu" class="d-lg-block sidebar collapse bg-white">
             <div class="position-sticky">
                 <div class="list-group list-group-flush mx-3 mt-4">
-                    <a href="#" class="list-group-item list-group-item-action py-2 ripple active" aria-current="true"><i
+                    <a href="/" class="list-group-item list-group-item-action py-2 ripple
+                            {{ (request()->is('/')) ? 'active' : '' }}" aria-current="true"><i
                             class="fas fa-tachometer-alt fa-fw me-3"></i><span>Dashboard</span></a>
                     <a href="#" class="list-group-item list-group-item-action py-2 ripple"><i
                             class="fas fa-chart-bar fa-fw me-3"></i><span>Zamówienia</span></a>
@@ -31,7 +32,8 @@
                             class="fas fa-building fa-fw me-3"></i><span>Partners</span></a>
                     <a href="#" class="list-group-item list-group-item-action py-2 ripple"><i
                             class="fas fa-calendar fa-fw me-3"></i><span>Kalendarz</span></a>
-                    <a href="#" class="list-group-item list-group-item-action py-2 ripple"><i
+                    <a href="/employees" class="list-group-item list-group-item-action py-2 ripple
+                            {{ (request()->is('employees')) ? 'active' : '' }}"><i
                             class="fas fa-users fa-fw me-3"></i><span>Pracownicy</span></a>
                     <a href="#" class="list-group-item list-group-item-action py-2 ripple"><i
                             class="fas fa-screwdriver-wrench fa-fw me-3"></i><span>Panel Admina</span></a>
@@ -145,7 +147,9 @@
 
     <!--Main layout-->
     <main style="margin-top: 58px;">
-        <div class="container pt-4" style="background-color: #e1e1e1 !important;">assad</div>
+        <div class="container pt-4">
+            @yield('content')
+        </div>
     </main>
     <!--Main layout-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
