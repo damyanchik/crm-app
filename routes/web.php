@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeesController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +16,21 @@ use App\Http\Controllers\EmployeesController;
 |
 */
 
-Route::get('/', [DashboardController::class, 'index']);
+Route::middleware(['auth'])->group(function () {
+    //Logout
+    Route::post('/logout', [UserController::class, 'logout']);
 
-Route::get('/employees', [EmployeesController::class, 'index']);
+    //Dashboard
+    Route::get('/', [DashboardController::class, 'index']);
+
+    //Show Employees List
+    Route::get('/employees', [EmployeesController::class, 'index']);
+});
+
+Route::middleware(['guest'])->group(function () {
+    //Show Login Form
+    Route::get('/login', [UserController::class, 'login'])->name('login')->middleware('guest');
+
+    //Show Login Form
+    Route::post('/authenticate', [UserController::class, 'authenticate'])->middleware('guest');
+});

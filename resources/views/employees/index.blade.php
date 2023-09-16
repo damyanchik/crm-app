@@ -13,12 +13,12 @@
         </thead>
         <tbody>
         @foreach($users as $user)
-        <tr>
-            <th scope="row">{{ $user['id'] }}</th>
-            <td>{{ $user['name'] }}</td>
-            <td>{{ $user['email'] }}</td>
-            <td>@mdo</td>
-        </tr>
+            <tr>
+                <th scope="row">{{ $user['id'] }}</th>
+                <td>{{ $user['name'] }}</td>
+                <td>{{ $user['email'] }}</td>
+                <td>@mdo</td>
+            </tr>
         @endforeach
         </tbody>
     </table>
