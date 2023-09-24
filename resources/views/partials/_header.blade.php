@@ -10,7 +10,8 @@
                         class="fas fa-chart-bar fa-fw me-3"></i><span>Zamówienia</span></a>
                 <a href="#" class="list-group-item list-group-item-action py-2 ripple"><i
                         class="fas fa-money-bill fa-fw me-3"></i><span>Sprzedaż</span></a>
-                <a href="#" class="list-group-item list-group-item-action py-2 ripple"><i
+                <a href="/clients" class="list-group-item list-group-item-action py-2 ripple
+                            {{ (request()->is('clients')) ? 'active' : '' }}"><i
                         class="fas fa-globe fa-fw me-3"></i><span>Klienci</span></a>
                 <a href="#" class="list-group-item list-group-item-action py-2 ripple"><i
                         class="fas fa-building fa-fw me-3"></i><span>Partners</span></a>
