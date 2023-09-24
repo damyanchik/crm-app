@@ -2,24 +2,83 @@
 
 @section('content')
     <h1>Lista użytkowników</h1>
-    <table class="table">
-        <thead>
+    <form method="get" class="input-group">
+        <div id="search-autocomplete" class="form-outline">
+            <input name="search" type="search" id="form1" class="form-control" value="{{ request()->input(['search']) }}"/>
+        </div>
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-search"></i>
+        </button>
+        <div>
+            <select name="display" class="form-select" onchange="$(this).closest('form').submit();">
+                <option value="30" {{ request()->input(['display']) == 30 ? 'selected' : '' }}>30</option>
+                <option value="60" {{ request()->input(['display']) == 60 ? 'selected' : '' }}>60</option>
+                <option value="120" {{ request()->input(['display']) == 120 ? 'selected' : '' }}>120</option>
+            </select>
+        </div>
+    </form>
+    <div class="mt-2 p-1 float-end">
+        {{ $users->appends(['search' => request()->input('search'), 'display' => request()->input('display')])->links() }}
+    </div>
+    <table class="table align-middle mb-0 bg-white">
+        <thead class="bg-light">
         <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Użytkownik</th>
-            <th scope="col"></th>
-            <th scope="col">Handle</th>
+            <th>Użytkownik</th>
+            <th>Pozycja / Dział</th>
+            <th>Status</th>
+            <th></th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
         @foreach($users as $user)
-            <tr>
-                <th scope="row">{{ $user['id'] }}</th>
-                <td>{{ $user['name'] }}</td>
-                <td>{{ $user['email'] }}</td>
-                <td>@mdo</td>
-            </tr>
+        <tr>
+            <td>
+                <div class="d-flex align-items-center">
+                    <img
+                        src="https://mdbootstrap.com/img/new/avatars/8.jpg"
+                        alt=""
+                        style="width: 45px; height: 45px"
+                        class="rounded-circle"
+                    />
+                    <div class="ms-3">
+                        <p class="fw-bold mb-1">{{ $user['name'] }} {{ $user['surname'] }}</p>
+                        <p class="text-muted mb-0">{{ $user['email'] }}</p>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <p class="fw-normal mb-1">{{ $user['position'] }}</p>
+                <p class="text-muted mb-0">{{ $user['department'] }}</p>
+            </td>
+            <td>
+                <span class="badge bg-success rounded-pill d-inline">Aktywny</span>
+                <span class="badge bg-secondary rounded-pill d-inline">Nieaktywny</span>
+            </td>
+            <td></td>
+            <td>
+                <a href="employees/{{ $user['id'] }}" class="btn btn-link btn-sm btn-rounded">
+                    <i class="fa-solid fa-user" style="color: #707070;"></i>
+                </a>
+                <a href="employees/{{ $user['id'] }}/edit" class="btn btn-link btn-sm btn-rounded">
+                    <i class="fa-solid fa-user-pen" style="color: #707070;"></i>
+                </a>
+                <form method="post" action="/employees/{{ $user['id'] }}/block" class="d-inline-block">
+                    @csrf
+                    <button type="submit" class="btn btn-link btn-sm btn-rounded">
+                    @if($user['block'])
+                        <i class="fa-solid fa-lock" style="color: #b01111;"></i>
+                    @else
+                        <i class="fa-solid fa-lock-open" style="color: #707070;"></i>
+                    @endif
+                    </button>
+                </form>
+            </td>
+        </tr>
         @endforeach
         </tbody>
     </table>
+    <div class="mt-2 p-1 float-end">
+        {{ $users->appends(['search' => request()->input('search'), 'display' => request()->input('display')])->links() }}
+    </div>
 @endsection

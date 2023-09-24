@@ -19,8 +19,17 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'surname',
         'email',
+        'phone',
+        'address',
+        'postal_code',
+        'city',
+        'state',
+        'country',
         'password',
+        'position',
+        'department'
     ];
 
     /**
@@ -42,4 +51,20 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+//    public function scopeFilter($query, array $filters)
+//    {
+//        if ($filters['search'] ?? false)
+//            $query->where('name', 'like', '%' . request('search') . '%')
+//                ->orWhere('surname', 'like', '%' . request('search') . '%')
+//                ->orWhere('email', 'like', '%' . request('search') . '%')
+//                ->orWhere('phone', 'like', '%' . request('search') . '%')
+//                ->orWhere('address', 'like', '%' . request('search') . '%')
+//                ->orWhere('postal_code', 'like', '%' . request('search') . '%')
+//                ->orWhere('city', 'like', '%' . request('search') . '%')
+//                ->orWhere('state', 'like', '%' . request('search') . '%')
+//                ->orWhere('country', 'like', '%' . request('search') . '%')
+//                ->orWhere('position', 'like', '%' . request('search') . '%')
+//                ->orWhere('department', 'like', '%' . request('search') . '%');
+//    }
 }
