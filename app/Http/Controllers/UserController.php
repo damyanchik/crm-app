@@ -14,7 +14,7 @@ class UserController extends Controller
         return view('layout');
     }
 
-    public function authenticate(Request$request)
+    public function authenticate(Request $request)
     {
         $formFields = $request->validate([
             'email' => ['required', 'email'],

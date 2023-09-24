@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeesController;
+use App\Http\Controllers\ClientsController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -16,12 +17,15 @@ use App\Http\Controllers\UserController;
 |
 */
 
-//Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth'])->group(function () {
     //Logout
     Route::post('/logout', [UserController::class, 'logout']);
 
     //Dashboard
     Route::get('/', [DashboardController::class, 'index']);
+
+    //Show Employees List
+    Route::get('/clients', [ClientsController::class, 'index']);
 
     //Show Employees List
     Route::get('/employees', [EmployeesController::class, 'index']);
@@ -38,7 +42,7 @@ use App\Http\Controllers\UserController;
     //Block user
     Route::post('/employees/{user}/block', [EmployeesController::class, 'block']);
 
-//});
+});
 
 Route::middleware(['guest'])->group(function () {
     //Show Login Form

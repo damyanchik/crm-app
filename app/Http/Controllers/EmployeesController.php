@@ -61,6 +61,9 @@ class EmployeesController extends Controller
             'department' => 'nullable'
         ]);
 
+//        if ($request->hasFile('logo')) {
+//            $formFields['logo'] = $request->file('logo')->store('logos', 'public');
+//        }
 
         $user->update($formFields);
 
@@ -74,6 +77,9 @@ class EmployeesController extends Controller
         $user->setAttribute('block', $status);
         $user->save();
 
+
+        //niemozliwosc zablokowania siebie
+        
         return back()->with('message', 'User updated successfully!');
     }
 }
