@@ -24,8 +24,28 @@ Route::middleware(['auth'])->group(function () {
     //Dashboard
     Route::get('/', [DashboardController::class, 'index']);
 
-    //Show Employees List
+
+    //Create Client
+    Route::get('/clients/create', [ClientsController::class, 'create']);
+
+    //Show Client List
     Route::get('/clients', [ClientsController::class, 'index']);
+
+    //Show Single Client
+    Route::get('/clients/{client}', [ClientsController::class, 'show']);
+
+    //Show client for edit
+    Route::get('/clients/{client}/edit', [ClientsController::class, 'edit']);
+
+    //Update client
+    Route::put('/clients/{client}', [ClientsController::class, 'update']);
+
+    //delete client
+    Route::delete('/clients/{client}', [ClientsController::class, 'destroy']);
+
+    //create client
+    Route::post('/clients', [ClientsController::class, 'store']);
+
 
     //Show Employees List
     Route::get('/employees', [EmployeesController::class, 'index']);
@@ -33,13 +53,13 @@ Route::middleware(['auth'])->group(function () {
     //Show Single Employee
     Route::get('/employees/{user}', [EmployeesController::class, 'show']);
 
-    //Show data for edit
+    //Show employee for edit
     Route::get('/employees/{user}/edit', [EmployeesController::class, 'edit']);
 
-    //Update data
+    //Update employee
     Route::put('/employees/{user}', [EmployeesController::class, 'update']);
 
-    //Block user
+    //Block employee
     Route::post('/employees/{user}/block', [EmployeesController::class, 'block']);
 
 });
