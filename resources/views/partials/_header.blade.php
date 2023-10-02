@@ -6,7 +6,8 @@
                 <a href="/" class="list-group-item list-group-item-action py-2 ripple
                             {{ (request()->is('/')) ? 'active' : '' }}" aria-current="true"><i
                         class="fas fa-tachometer-alt fa-fw me-3"></i><span>Dashboard</span></a>
-                <a href="#" class="list-group-item list-group-item-action py-2 ripple"><i
+                <a href="/orders" class="list-group-item list-group-item-action py-2 ripple
+                            {{ (request()->is('orders')) ? 'active' : '' }}"><i
                         class="fas fa-chart-bar fa-fw me-3"></i><span>Zamówienia</span></a>
                 <a href="#" class="list-group-item list-group-item-action py-2 ripple"><i
                         class="fas fa-money-bill fa-fw me-3"></i><span>Sprzedaż</span></a>

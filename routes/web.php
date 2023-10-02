@@ -23,8 +23,10 @@ Route::middleware(['auth'])->group(function () {
     //Logout
     Route::post('/logout', [UserController::class, 'logout']);
 
+
     //Search user
     Route::get('/ajax/search-users', [AjaxController::class, 'searchUsers'])->name('ajax.searchUsers');
+
 
     //Dashboard
     Route::get('/', [DashboardController::class, 'index']);

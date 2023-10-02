@@ -28,6 +28,7 @@ class ClientFactory extends Factory
             'state' => fake()->citySuffix(),
             'country' => fake()->country(),
             'tax' => fake()->unique()->countryCode(),
+            'user_id' => rand(1, 400)
         ];
     }
 }
