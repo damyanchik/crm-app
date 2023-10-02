@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('country')->nullable();
             $table->string('tax')->unique();
             $table->timestamps();
+            $table->foreignId('user_id')->nullable();
         });
     }
 

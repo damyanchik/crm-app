@@ -27,7 +27,13 @@ class Client extends Model
         'city',
         'state',
         'country',
-        'tax'
+        'tax',
+        'user_id'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', );
+    }
 
 }

@@ -5,6 +5,8 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeesController;
 use App\Http\Controllers\ClientsController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\OrdersController;
+use App\Http\Controllers\AjaxController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,8 +23,15 @@ Route::middleware(['auth'])->group(function () {
     //Logout
     Route::post('/logout', [UserController::class, 'logout']);
 
+    //Search user
+    Route::get('/ajax/search-users', [AjaxController::class, 'search'])->name('ajax.searchUsers');
+
     //Dashboard
     Route::get('/', [DashboardController::class, 'index']);
+
+
+    //Show Orders List
+    Route::get('/orders', [OrdersController::class, 'index']);
 
 
     //Create Client

@@ -35,10 +35,51 @@
                         <div class="col-md-12 mt-2"><span class="labels">Miasto</span><input name="city" type="text" class="form-control" value="{{ $client['city'] }}"></div>
                         <div class="col-md-12 mt-2"><span class="labels">Województwo</span><input name="state" type="text" class="form-control" value="{{ $client['state'] }}"></div>
                         <div class="col-md-12 mt-2"><span class="labels">Kraj</span><input name="country" type="text" class="form-control" value="{{ $client['country'] }}"></div>
+                        <div class="col-md-12 mt-2"><span class="labels">Opiekun</span>
+                            <select name="user_id" id="userSelect" class="form-control" style="width: 100%;">
+                                @if( $client['user_id'] )
+                                    <option value="{{ $client['user_id'] }}" selected>{{ $client->user->name }} {{ $client->user->surname }}</option>
+                                @endif
+                            </select>
+                        </div>
                     </div>
                     <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="submit">Zapisz zmiany</button></div>
                 </div>
             </div>
         </div>
     </form>
+    <script>
+        $('#userSelect').select2({
+            ajax: {
+                url: '{{ route('ajax.searchUsers') }}',
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return {
+                        searchTerm: params.term
+                    };
+                },
+                processResults: function (data) {
+                    var options = data.users.map(function (user) {
+                        return '<option value="' + user.id + '">' + user.name + ' ' + user.surname + '</option>';
+                    });
+
+                    $('#userSelect').html(options.join(''));
+
+                    return {
+                        results: data.users.map(function (user) {
+                            return {
+                                id: user.id,
+                                text: user.name + ' ' + user.surname
+                            };
+                        })
+                    };
+                },
+                cache: true
+            },
+            minimumInputLength: 3,
+            placeholder: 'Wybierz użytkownika',
+            allowClear: true
+        });
+    </script>
 @endsection

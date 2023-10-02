@@ -30,7 +30,7 @@
                         <p class="text-muted mb-0">{{ $client['country'] }}</p>
                     </td>
                     <td>
-                        <p class="mb-0">Max Steinberg</p>
+                        <p class="mb-0">{{ $client->user->name }} {{ $client->user->surname }}</p>
                     </td>
                     <td>
 

@@ -28,8 +28,8 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
-            $table->tinyInteger('block');
-            $table->tinyInteger('admin');
+            $table->tinyInteger('block')->default(0);
+            $table->tinyInteger('admin')->default(0);
         });
     }
 

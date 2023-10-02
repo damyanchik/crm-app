@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Client;
+use App\Models\User;
 use Illuminate\Validation\Rule;
 
 class ClientsController extends Controller
@@ -77,8 +78,12 @@ class ClientsController extends Controller
             'city' => 'nullable',
             'state' => 'nullable',
             'country' => 'nullable',
-            'tax' => 'required'
+            'tax' => 'required',
+            'user_id' => 'nullable|exists:users,id'
         ]);
+
+        if (empty($formFields['user_id']))
+            $formFields['user_id'] = null;
 
         $client->update($formFields);
 

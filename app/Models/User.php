@@ -52,19 +52,8 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-//    public function scopeFilter($query, array $filters)
-//    {
-//        if ($filters['search'] ?? false)
-//            $query->where('name', 'like', '%' . request('search') . '%')
-//                ->orWhere('surname', 'like', '%' . request('search') . '%')
-//                ->orWhere('email', 'like', '%' . request('search') . '%')
-//                ->orWhere('phone', 'like', '%' . request('search') . '%')
-//                ->orWhere('address', 'like', '%' . request('search') . '%')
-//                ->orWhere('postal_code', 'like', '%' . request('search') . '%')
-//                ->orWhere('city', 'like', '%' . request('search') . '%')
-//                ->orWhere('state', 'like', '%' . request('search') . '%')
-//                ->orWhere('country', 'like', '%' . request('search') . '%')
-//                ->orWhere('position', 'like', '%' . request('search') . '%')
-//                ->orWhere('department', 'like', '%' . request('search') . '%');
-//    }
+    public function clients()
+    {
+        return $this->hasMany(Client::class, 'user_id', );
+    }
 }
