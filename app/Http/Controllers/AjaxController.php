@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class AjaxController extends Controller
 {
-    public function search(Request $request)
+    public function searchUsers(Request $request)
     {
         $searchTerm = $request->input('searchTerm');
 

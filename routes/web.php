@@ -24,7 +24,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/logout', [UserController::class, 'logout']);
 
     //Search user
-    Route::get('/ajax/search-users', [AjaxController::class, 'search'])->name('ajax.searchUsers');
+    Route::get('/ajax/search-users', [AjaxController::class, 'searchUsers'])->name('ajax.searchUsers');
 
     //Dashboard
     Route::get('/', [DashboardController::class, 'index']);
