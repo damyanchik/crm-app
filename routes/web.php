@@ -27,6 +27,8 @@ Route::middleware(['auth'])->group(function () {
     //Search user
     Route::get('/ajax/search-users', [AjaxController::class, 'searchUsers'])->name('ajax.searchUsers');
 
+    //Search client
+    Route::get('/ajax/search-clients', [AjaxController::class, 'searchClients'])->name('ajax.searchClients');
 
     //Dashboard
     Route::get('/', [DashboardController::class, 'index']);
@@ -34,6 +36,12 @@ Route::middleware(['auth'])->group(function () {
 
     //Show Orders List
     Route::get('/orders', [OrdersController::class, 'index']);
+
+    //Show Orders List
+    Route::get('/orders/create', [OrdersController::class, 'create']);
+
+    //store client
+    Route::post('/orders', [OrdersController::class, 'store']);
 
 
     //Create Client
@@ -54,7 +62,7 @@ Route::middleware(['auth'])->group(function () {
     //delete client
     Route::delete('/clients/{client}', [ClientsController::class, 'destroy']);
 
-    //create client
+    //store client
     Route::post('/clients', [ClientsController::class, 'store']);
 
 

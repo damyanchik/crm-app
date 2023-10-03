@@ -52,7 +52,7 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function clients()
+    public function client()
     {
         return $this->hasMany(Client::class, 'user_id');
     }

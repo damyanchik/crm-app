@@ -14,12 +14,12 @@ class Order extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function clients()
+    public function client()
     {
         return $this->belongsTo(Client::class, 'client_id');
     }
 
-    public function ordersItems()
+    public function orderItem()
     {
         return $this->hasMany(OrderItem::class, 'order_id');
     }

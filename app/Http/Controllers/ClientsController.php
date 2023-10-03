@@ -11,7 +11,7 @@ use Illuminate\Validation\Rule;
 
 class ClientsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $clients = Client::where(function($query) {
             $query->orWhere('company', 'like', '%' . request('search') . '%')
