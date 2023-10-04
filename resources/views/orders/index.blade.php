@@ -7,10 +7,11 @@
         <table class="table align-middle mb-0 bg-white border">
             <thead class="bg-light">
             <tr>
-                <th>Klient</th>
-                <th>Dane adresowe</th>
+                <th>Nr zamówienia</th>
+                <th>Nr faktury</th>
+                <th>Zamawiający</th>
+                <th>Wartość</th>
                 <th>Opiekun</th>
-                <th>Status</th>
                 <th></th>
             </tr>
             </thead>
@@ -19,25 +20,21 @@
                 <tr>
                     <td>
                         <div class="ms-3">
-asd
+                            {{ $order['id'] }}
                         </div>
                     </td>
                     <td>
-x
+                        {{ $order['invoice_num'] }}
                     </td>
                     <td>
-xx
+                        <div>{{ $order->client->name }} {{ $order->client->surname }}</div>
+                        <div>{{ $order->client->company }}</div>
                     </td>
                     <td>
-x
+                        {{ number_format($order['total_price'], 2) }} PLN
                     </td>
                     <td>
-                        <a href="orders/" class="btn btn-link btn-sm btn-rounded">
-                            <i class="fa-solid fa-user" style="color: #707070;"></i>
-                        </a>
-                        <a href="orders/x/edit" class="btn btn-link btn-sm btn-rounded">
-                            <i class="fa-solid fa-user-pen" style="color: #707070;"></i>
-                        </a>
+                        {{ $order->user->name }} {{ $order->user->surname }}
                     </td>
                 </tr>
             @endforeach

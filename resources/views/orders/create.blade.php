@@ -14,7 +14,7 @@
                             <select name="client_id" id="clientSelect" class="form-control" style="width: 100%;"></select>
                         </div>
                         <div class="col-md-12 mt-2"><span class="labels">Sprzedawca</span>
-                            <input value="{{ Auth::user()->name }} {{ Auth::user()->surname }}" type="text" class="form-control" disabled>
+                            <input value="{{ Auth::user()->name }} {{ Auth::user()->surname }}" type="text" class="form-control" readonly>
                             <input name="user_id" type="hidden" value="{{ Auth::user()->id }}">
                         </div>
                         <div class="col-md-6 mt-2"><span class="labels">Status zamówienia</span>
@@ -25,9 +25,9 @@
                                 <option value="3">Zamknięte</option>
                             </select>
                         </div>
-                        <div class="col-md-6 mt-2"><span class="labels">Liczba produktów</span><input name="total_quantity" id="totalQuantity" value="0" type="number" class="form-control" disabled></div>
-                        <div class="col-md-6 mt-2"><span class="labels">Numer faktury</span><input name="invoice_num" type="text" class="form-control" disabled></div>
-                        <div class="col-md-6 mt-2"><span class="labels">Cena zamówienia</span><input name="total_price" id="totalPrice" value="0" type="number" step="0.01" class="form-control" disabled></div>
+                        <div class="col-md-6 mt-2"><span class="labels">Liczba produktów</span><input name="total_quantity" id="totalQuantity" value="0" type="number" class="form-control" readonly></div>
+                        <div class="col-md-6 mt-2"><span class="labels">Numer faktury</span><input name="invoice_num" value="{{ $orderMontQuant + 1 }}/FV/{{ $now->format('m') }}/{{ $now->format('Y') }}" type="text" class="form-control" readonly></div>
+                        <div class="col-md-6 mt-2"><span class="labels">Cena zamówienia</span><input name="total_price" id="totalPrice" value="0" type="number" step="0.01" class="form-control" readonly></div>
                     </div>
                     <div class="mt-5">
                         <table class="table">
