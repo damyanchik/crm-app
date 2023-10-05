@@ -39,8 +39,8 @@
             </button>
 
             <!-- Brand -->
-            <a class="navbar-brand" href="#">
-                CRM
+            <a class="navbar-brand mx-4" href="#">
+                miCRM
             </a>
 
             <!-- Right links -->
