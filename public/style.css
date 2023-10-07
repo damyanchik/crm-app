@@ -85,3 +85,37 @@ html, main {
     background-color: #34495E;
 }
 
+/* CONTENT BOOTSTRAP CHANGES */
+.btn-primary, .page-link.active, .active>.page-link {
+    background-color: #05489b !important;
+    color: white;
+}
+
+.page-link {
+    color: #05489b;
+}
+
+/* BEM */
+
+.pageSearch__input {
+    width: 15rem !important;
+}
+
+.sidebar__button, .sidebar__button > *:focus {
+    outline: none !important;
+}
+
+.sidebar__button--circle_block i {
+    font-size: 11px;
+    width: 22px;
+    height: 22px;
+    text-align: center;
+    line-height: 24px;
+}
+
+.sidebar__button--circle {
+    border-radius: 50%;
+    background-color: #293556;
+    color: #fff;
+    transform: rotate(180deg);
+}

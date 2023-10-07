@@ -3,26 +3,36 @@
     <nav id="sidebarMenu" class="d-lg-block sidebar collapse bg-white">
         <div class="position-sticky">
             <div class="list-group list-group-flush mx-3 mt-4">
+
+                <a href="#" class="list-group-item list-group-item-action py-2 ripple"><i
+                        class="fas fa-money-bill fa-fw me-3"></i><span>Sprzedaż</span></a>
+                <a href="#" class="list-group-item list-group-item-action py-2 ripple">
+                    <i class="fas fa-building fa-fw me-3"></i><span>Partners</span></a>
+                <a href="#" class="list-group-item list-group-item-action py-2 ripple"><i
+                        class="fas fa-calendar fa-fw me-3"></i><span>Kalendarz</span></a>
+                <a href="#" class="list-group-item list-group-item-action py-2 ripple"><i
+                        class="fas fa-screwdriver-wrench fa-fw me-3"></i><span>Administrator</span></a>
+
+
                 <a href="/" class="list-group-item list-group-item-action py-2 ripple
                             {{ (request()->is('/')) ? 'active' : '' }}" aria-current="true"><i
                         class="fas fa-tachometer-alt fa-fw me-3"></i><span>Dashboard</span></a>
-                <a href="/orders" class="list-group-item list-group-item-action py-2 ripple
-                            {{ (request()->is('orders')) ? 'active' : '' }}"><i
-                        class="fas fa-chart-bar fa-fw me-3"></i><span>Zamówienia</span></a>
-                <a href="#" class="list-group-item list-group-item-action py-2 ripple"><i
-                        class="fas fa-money-bill fa-fw me-3"></i><span>Sprzedaż</span></a>
-                <a href="/clients" class="list-group-item list-group-item-action py-2 ripple
-                            {{ (request()->is('clients')) ? 'active' : '' }}"><i
-                        class="fas fa-globe fa-fw me-3"></i><span>Klienci</span></a>
-                <a href="#" class="list-group-item list-group-item-action py-2 ripple"><i
-                        class="fas fa-building fa-fw me-3"></i><span>Partners</span></a>
-                <a href="#" class="list-group-item list-group-item-action py-2 ripple"><i
-                        class="fas fa-calendar fa-fw me-3"></i><span>Kalendarz</span></a>
-                <a href="/employees" class="list-group-item list-group-item-action py-2 ripple
-                            {{ (request()->is('employees')) ? 'active' : '' }}"><i
-                        class="fas fa-users fa-fw me-3"></i><span>Pracownicy</span></a>
-                <a href="#" class="list-group-item list-group-item-action py-2 ripple"><i
-                        class="fas fa-screwdriver-wrench fa-fw me-3"></i><span>Panel Admina</span></a>
+                <x-sidebar-nav
+                    :icon="'fas fa-chart-bar fa-fw me-3'"
+                    :category="'Zamówienia'"
+                    :pages="['orders/create'=>'Utwórz zamówienie', 'orders'=>'Lista zamówień']"
+                ></x-sidebar-nav>
+                <x-sidebar-nav
+                    :icon="'fas fa-globe fa-fw me-3'"
+                    :category="'Klienci'"
+                    :pages="['clients/create'=>'Dodaj nowego klienta', 'clients'=>'Lista klientów']"
+                ></x-sidebar-nav>
+                <x-sidebar-nav
+                    :icon="'fas fa-users fa-fw me-3'"
+                    :category="'Pracownicy'"
+                    :pages="['employees'=>'Lista pracowników']"
+                ></x-sidebar-nav>
+
             </div>
         </div>
     </nav>

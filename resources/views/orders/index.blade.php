@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('content')
-    <div class="float-end align-items-center experience"><a href="/orders/create" class="btn border px-3 p-1 add-experience"><i class="fa fa-plus"></i>&nbsp;Dodaj zamówienie</a></div>
+    <h1>Lista zamówień</h1>
     @if(isset($orders))
     <x-list-search :list="$orders">
         <table class="table align-middle mb-0 bg-white border">
