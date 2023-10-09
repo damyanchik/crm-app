@@ -1,18 +1,17 @@
-<button class="list-group-item list-group-item-action sidebar__button sidebar_btn_{{ $category }}" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $category }}" aria-expanded="false">
+<button class="list-group-item list-group-item-action py-1 sidebar__button sidebar_btn_{{ $category }}" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $category }}" aria-expanded="false">
     <i class="{{ $icon }}"></i>
-    <span>{{ $category }}</span>
+    <span class="h5">{{ $category }}</span>
     <div class="float-end sidebar__button--circle_block">
         <i class="sidebar__button--arrow fa-solid fa-angle-down"></i>
     </div>
 </button>
 <div class="check-collapse collapse multi-collapse {{ (request()->is(array_keys($pages))) ? 'show' : '' }}" id="{{ $category }}">
     @foreach($pages as $link => $name)
-        <a href="/{{ $link }}" class=" list-group-item list-group-item-action ripple {{ (request()->is($link)) ? 'active' : '' }}">
+        <a href="/{{ $link }}" class="mb-2 list-group-item list-group-item-action py-1 ripple {{ (request()->is($link)) ? 'active' : '' }}">
             <span>{{ $name }}</span>
         </a>
     @endforeach
 </div>
-
 <script>
     $(document).ready(function() {
         $('.sidebar_btn_{{ $category }}').on('click', function() {

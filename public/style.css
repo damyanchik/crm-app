@@ -2,6 +2,10 @@ html, main {
     background-color: #e8e7e7 !important;
 }
 
+body {
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
 @media (min-width: 991.98px) {
     main {
         padding-left: 240px;
@@ -42,9 +46,10 @@ html, main {
 .list-group-item {
     border: none !important;
     color: #293556;
-    margin-bottom: 3px;
-    margin-top: 3px;
+    margin-bottom: 8px;
+    margin-top: 8px;
 }
+
 .list-group-item:hover {
     border: none;
     color: white;
@@ -96,13 +101,8 @@ html, main {
 }
 
 /* BEM */
-
 .pageSearch__input {
     width: 15rem !important;
-}
-
-.sidebar__button, .sidebar__button > *:focus {
-    outline: none !important;
 }
 
 .sidebar__button--circle_block i {
@@ -119,3 +119,5 @@ html, main {
     color: #fff;
     transform: rotate(180deg);
 }
+
+

@@ -1,26 +1,27 @@
 <header>
     <!-- Sidebar -->
-    <nav id="sidebarMenu" class="d-lg-block sidebar collapse bg-white">
+    <nav id="sidebarMenu" style="font-family: 'Roboto Condensed', sans-serif;" class="d-lg-block sidebar collapse bg-white">
         <div class="position-sticky">
             <div class="list-group list-group-flush mx-3 mt-4">
 
-                <a href="#" class="list-group-item list-group-item-action py-2 ripple"><i
-                        class="fas fa-money-bill fa-fw me-3"></i><span>Sprzedaż</span></a>
-                <a href="#" class="list-group-item list-group-item-action py-2 ripple">
-                    <i class="fas fa-building fa-fw me-3"></i><span>Partners</span></a>
-                <a href="#" class="list-group-item list-group-item-action py-2 ripple"><i
-                        class="fas fa-calendar fa-fw me-3"></i><span>Kalendarz</span></a>
-                <a href="#" class="list-group-item list-group-item-action py-2 ripple"><i
-                        class="fas fa-screwdriver-wrench fa-fw me-3"></i><span>Administrator</span></a>
+{{--                <a href="#" class="list-group-item list-group-item-action py-2 ripple"><i--}}
+{{--                        class="fas fa-money-bill fa-fw me-3"></i><span>Sprzedaż</span></a>--}}
+{{--                <a href="#" class="list-group-item list-group-item-action py-2 ripple">--}}
+{{--                    <i class="fas fa-building fa-fw me-3"></i><span>Partners</span></a>--}}
 
 
-                <a href="/" class="list-group-item list-group-item-action py-2 ripple
+                <a href="/" class="list-group-item list-group-item-action py-1 ripple
                             {{ (request()->is('/')) ? 'active' : '' }}" aria-current="true"><i
-                        class="fas fa-tachometer-alt fa-fw me-3"></i><span>Dashboard</span></a>
+                        class="fas fa-tachometer-alt fa-fw me-3"></i><span class="h5"> Dashboard</span></a>
                 <x-sidebar-nav
                     :icon="'fas fa-chart-bar fa-fw me-3'"
                     :category="'Zamówienia'"
                     :pages="['orders/create'=>'Utwórz zamówienie', 'orders'=>'Lista zamówień']"
+                ></x-sidebar-nav>
+                <x-sidebar-nav
+                    :icon="'fa-solid fa-box-open me-3'"
+                    :category="'Produkty'"
+                    :pages="['products/create'=>'Dodaj nowy produkt', 'products'=>'Lista produktów']"
                 ></x-sidebar-nav>
                 <x-sidebar-nav
                     :icon="'fas fa-globe fa-fw me-3'"
@@ -30,9 +31,12 @@
                 <x-sidebar-nav
                     :icon="'fas fa-users fa-fw me-3'"
                     :category="'Pracownicy'"
-                    :pages="['employees'=>'Lista pracowników']"
+                    :pages="['employees'=>'Lista pracowników', 'employees/chat' => 'Komunikator']"
                 ></x-sidebar-nav>
-
+                <a href="#" class="list-group-item list-group-item-action py-1 ripple"><i
+                        class="fas fa-calendar fa-fw me-3"></i><span class="h5"> Kalendarz</span></a>
+                <a href="#" class="list-group-item list-group-item-action py-1 ripple"><i
+                        class="fas fa-screwdriver-wrench fa-fw me-3"></i><span class="h5"> Administrator</span></a>
             </div>
         </div>
     </nav>

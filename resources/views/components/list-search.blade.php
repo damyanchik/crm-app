@@ -1,3 +1,4 @@
+@if(!empty($list))
 <form method="get" class="my-2 mt-4 row">
     <div class="col-6">
         <div class="input-group mb-3 pageSearch__input">
@@ -22,3 +23,6 @@
 <div class="mt-4 mb-5 p-1 d-flex justify-content-center">
     {{ $list->appends(['search' => request()->input('search'), 'display' => request()->input('display')])->onEachSide(2)->links() }}
 </div>
+@else
+    Brak danych do wyświetlenia.
+@endif
