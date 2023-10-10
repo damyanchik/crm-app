@@ -11,13 +11,13 @@
                 </div>
             </div>
             <div class="col-md-5 border-right">
-                <div class="p-3 py-5">
+                <div class="p-3 p-5">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h4 class="text-right">Dane pracownika</h4>
                     </div>
                     <div class="row mt-2">
                         <div class="col-md-6"><span class="labels">Imię</span><p class="small text-muted mb-1 my-2">{{ $user['name'] }}</p></div>
-                        <div class="col-md-6"><span class="labels">Nazwisko</span><p class="small text-muted mb-1 my-2">{{ $user['name'] }}</p></div>
+                        <div class="col-md-6"><span class="labels">Nazwisko</span><p class="small text-muted mb-1 my-2">{{ $user['surname'] }}</p></div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-12 mt-2"><span class="labels">Email</span><p class="small text-muted mb-1 my-2">{{ $user['email'] }}</p></div>

@@ -78,8 +78,8 @@ class EmployeesController extends Controller
         $user->save();
 
 
-        //niemozliwosc zablokowania siebie
-        
+        //brak mozl zablokowania siebie dodac +
+
         return back()->with('message', 'User updated successfully!');
     }
 }
