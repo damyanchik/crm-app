@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreClientRequest;
+use App\Http\Requests\UpdateClientRequest;
 use Illuminate\Http\Request;
 use App\Models\Client;
-use App\Models\User;
-use Illuminate\Validation\Rule;
 
 class ClientsController extends Controller
 {
-    public function index(Request $request)
+    public function index(): object
     {
         $clients = Client::where(function($query) {
             $query->orWhere('company', 'like', '%' . request('search') . '%')
@@ -31,56 +31,30 @@ class ClientsController extends Controller
         ]);
     }
 
-    public function show(Client $client)
+    public function show(Client $client): object
     {
         return view('clients.show', [
             'client' => $client,
         ]);
     }
 
-    public function create()
+    public function create(): object
     {
         return view('clients.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreClientRequest $request): object
     {
-        $formFields = $request->validate([
-            'company' => ['required', Rule::unique('client', 'company')],
-            'name' => 'required',
-            'surname' => 'required',
-            'email' => ['required', 'email'],
-            'phone' => 'required',
-            'address' => 'nullable',
-            'postal_code' => 'nullable',
-            'city' => 'nullable',
-            'state' => 'nullable',
-            'country' => 'nullable',
-            'note'=> 'nullable',
-            'tax' => 'required'
-        ]);
+        $formFields = $request->validated();
 
         Client::create($formFields);
 
         return redirect('/clients')->with('message', 'Klient został założony.');
     }
 
-    public function update(Request $request, Client $client)
+    public function update(UpdateClientRequest $request, Client $client): object
     {
-        $formFields = $request->validate([
-            'company' => 'required',
-            'name' => 'required',
-            'surname' => 'required',
-            'email' => ['required', 'email'],
-            'phone' => 'required',
-            'address' => 'nullable',
-            'postal_code' => 'nullable',
-            'city' => 'nullable',
-            'state' => 'nullable',
-            'country' => 'nullable',
-            'tax' => 'required',
-            'user_id' => 'nullable|exists:users,id'
-        ]);
+        $formFields = $request->validated();
 
         if (empty($formFields['user_id']))
             $formFields['user_id'] = null;
@@ -90,16 +64,17 @@ class ClientsController extends Controller
         return back()->with('message', 'Klient został zaktualizowany.');
     }
 
-    public function edit(Client $client)
+    public function edit(Client $client): object
     {
         return view('clients.edit', [
             'client' => $client,
         ]);
     }
 
-    public function destroy(Client $client)
+    public function destroy(Client $client): object
     {
         $client->delete();
+
         return redirect('/clients')->with('message', 'Klient został usunięty.');
     }
 }

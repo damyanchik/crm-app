@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class AjaxController extends Controller
 {
-    public function searchUsers(Request $request)
+    public function searchUsers(Request $request): object
     {
         $searchTerm = $request->input('searchTerm');
 
@@ -22,7 +22,7 @@ class AjaxController extends Controller
         return response()->json(['users' => $users]);
     }
 
-    public function searchClients(Request $request)
+    public function searchClients(Request $request): object
     {
         $searchTerm = $request->input('searchTerm');
 

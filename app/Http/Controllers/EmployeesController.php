@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\UpdateEmployeeRequest;
 use App\Models\User;
 
 class EmployeesController extends Controller
 {
-    public function index()
+    public function index(): object
     {
         $users = User::where(function($query) {
             $query->orWhere('name', 'like', '%' . request('search') . '%')
@@ -30,36 +30,24 @@ class EmployeesController extends Controller
         ]);
     }
 
-    public function show(User $user)
+    public function show(User $user): object
     {
         return view('employees.show', [
             'user' => $user,
         ]);
     }
 
-    public function edit(User $user)
+    public function edit(User $user): object
     {
         return view('employees.edit', [
             'user' => $user,
         ]);
     }
 
-    public function update(Request $request, User $user)
+    public function update(UpdateEmployeeRequest $request, User $user): object
     {
 
-        $formFields = $request->validate([
-            'name' => 'required',
-            'surname' => 'required',
-            'email' => ['required', 'email'],
-            'phone' => 'nullable',
-            'address' => 'nullable',
-            'postal_code' => 'nullable',
-            'city' => 'nullable',
-            'state' => 'nullable',
-            'country' => 'nullable',
-            'position' => 'nullable',
-            'department' => 'nullable'
-        ]);
+        $formFields = $request->validated();
 
 //        if ($request->hasFile('logo')) {
 //            $formFields['logo'] = $request->file('logo')->store('logos', 'public');
@@ -70,7 +58,7 @@ class EmployeesController extends Controller
         return back()->with('message', 'User updated successfully!');
     }
 
-    public function block(User $user)
+    public function block(User $user): object
     {
         $status = $user->getAttribute('block') == 1 ? 0 : 1;
 

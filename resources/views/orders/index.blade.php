@@ -12,6 +12,7 @@
                     <th>Wartość</th>
                     <th>Sprzedający</th>
                     <th>Data</th>
+                    <th>Status</th>
                     <th></th>
                 </tr>
             </thead>
@@ -38,6 +39,9 @@
                     </td>
                     <td>
                         {{ $order['created_at'] }}
+                    </td>
+                    <td>
+                        {{ app('statusHelper')->getOrderStatus($order->status) }}
                     </td>
                     <td>
                         <a href="orders/{{ $order['id'] }}" class="btn btn-link btn-sm btn-rounded">

@@ -5,16 +5,15 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
 
-class UserController extends Controller
+class AuthController extends Controller
 {
-    public function login()
+    public function login(): object
     {
         return view('layout');
     }
 
-    public function authenticate(Request $request)
+    public function authenticate(Request $request): object
     {
         $formFields = $request->validate([
             'email' => ['required', 'email'],
@@ -27,10 +26,10 @@ class UserController extends Controller
             return redirect('/')->with('message', 'Zostałeś zalogowany!');
         }
 
-        return back()->withErrors(['email' => 'Invaild credentials'])->onlyInput('email');
+        return back()->withErrors(['email' => 'Niepoprawny email lub hasło.'])->onlyInput('email');
     }
 
-    public function logout(Request $request)
+    public function logout(Request $request): object
     {
         auth()->logout();
 

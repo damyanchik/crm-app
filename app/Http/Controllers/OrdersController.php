@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Support\Facades\DB;
+use App\Http\Requests\StoreOrderRequest;
+use App\Http\Requests\StoreOrdersItemsRequest;
 
 class OrdersController extends Controller
 {
-    public function index()
+    public function index(): object
     {
         $orders = Order::where(function($query) {
             $query->orWhere('id', 'like', '%' . request('search') . '%')
@@ -32,9 +33,16 @@ class OrdersController extends Controller
         ]);
     }
 
-    public function create()
+    public function show(Order $order): object
     {
-        $orderMontQuant = DB::table('orders')
+        return view('orders.show', [
+            'order' => $order,
+        ]);
+    }
+
+    public function create(): object
+    {
+        $orderMonthQuant = DB::table('orders')
             ->select(DB::raw('COUNT(*) as quantity'))
             ->whereMonth('created_at', '=', date('m'))
             ->first();
@@ -42,30 +50,16 @@ class OrdersController extends Controller
         $now = now();
 
         return view('orders.create', [
-            'orderMontQuant' => $orderMontQuant->quantity,
+            'orderMonthQuant' => $orderMonthQuant->quantity,
             'now' => $now
         ]);
     }
 
-    public function store(Request $request)
+    public function store(StoreOrderRequest $orderRequest, StoreOrdersItemsRequest $ordersItemsRequest): object
     {
+        $ordersForm = $orderRequest->validated();
 
-        $ordersForm = $request->validate([
-            'user_id' => 'required',
-            'client_id' => 'required',
-            'status' => 'required',
-            'invoice_num' => 'required',
-            'total_quantity' => 'required',
-            'total_price' => 'required'
-        ]);
-
-        $ordersItemsForm = $request->validate([
-            'products.*.name' => 'required',
-            'products.*.brand' => 'required',
-            'products.*.unit' => 'required',
-            'products.*.quantity' => 'required',
-            'products.*.price' => 'required'
-        ]);
+        $ordersItemsForm = $ordersItemsRequest->validated();
 
         $newOrder = Order::create($ordersForm);
 

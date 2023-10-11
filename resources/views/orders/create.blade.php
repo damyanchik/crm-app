@@ -29,7 +29,7 @@
                             </select>
                         </div>
                         <div class="col-md-6 mt-2"><span class="labels">Liczba produktów</span><input name="total_quantity" id="totalQuantity" value="0" type="number" class="form-control" readonly></div>
-                        <div class="col-md-6 mt-2"><span class="labels">Numer faktury</span><input name="invoice_num" value="{{ $orderMontQuant + 1 }}/FV/{{ $now->format('m') }}/{{ $now->format('Y') }}" type="text" class="form-control" readonly></div>
+                        <div class="col-md-6 mt-2"><span class="labels">Numer faktury</span><input name="invoice_num" value="{{ $orderMonthQuant + 1 }}/FV/{{ $now->format('m') }}/{{ $now->format('Y') }}" type="text" class="form-control" readonly></div>
                         <div class="col-md-6 mt-2"><span class="labels">Cena zamówienia</span><input name="total_price" id="totalPrice" value="0" type="number" step="0.01" class="form-control" readonly></div>
                     </div>
                     <div class="col-md-12 border border-2 mt-5">
