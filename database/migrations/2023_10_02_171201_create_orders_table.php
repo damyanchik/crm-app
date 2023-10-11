@@ -3,6 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Models\Client;
+use App\Models\User;
 
 return new class extends Migration
 {
@@ -13,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('client_id');
-            $table->foreignId('user_id');
+            $table->foreignIdFor(Client::class,'client_id');
+            $table->foreignIdFor(User::class, 'user_id');
             $table->string('invoice_num')->unique();
             $table->tinyInteger('status');
             $table->float('total_price');

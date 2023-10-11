@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Models\Order;
 
 return new class extends Migration
 {
@@ -15,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('brand');
-            $table->foreignId('order_id');
+            $table->foreignIdFor(Order::class, 'order_id');
             $table->float('price');
             $table->tinyInteger('unit');
             $table->integer('quantity');
