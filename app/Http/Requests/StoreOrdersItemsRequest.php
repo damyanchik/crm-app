@@ -16,12 +16,11 @@ class StoreOrdersItemsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required',
-            'client_id' => 'required',
-            'status' => 'required',
-            'invoice_num' => 'required',
-            'total_quantity' => 'required',
-            'total_price' => 'required'
+            'products.*.name' => 'required',
+            'products.*.brand' => 'required',
+            'products.*.unit' => 'required',
+            'products.*.quantity' => 'required',
+            'products.*.price' => 'required'
         ];
     }
 }

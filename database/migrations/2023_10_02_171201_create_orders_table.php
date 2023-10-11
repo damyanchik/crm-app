@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('client_id');
             $table->foreignId('user_id');
-            $table->string('invoice_num');
+            $table->string('invoice_num')->unique();
             $table->tinyInteger('status');
             $table->float('total_price');
             $table->integer('total_quantity');

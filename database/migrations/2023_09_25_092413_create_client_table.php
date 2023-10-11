@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('address');
             $table->string('postal_code');
             $table->string('city');
-            $table->string('state')->nullable();
-            $table->string('country')->nullable();
+            $table->string('state');
+            $table->string('country');
             $table->string('tax')->unique();
             $table->timestamps();
             $table->foreignId('user_id')->nullable();

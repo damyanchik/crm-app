@@ -57,18 +57,25 @@ class OrdersController extends Controller
 
     public function store(StoreOrderRequest $orderRequest, StoreOrdersItemsRequest $ordersItemsRequest): object
     {
-        $ordersForm = $orderRequest->validated();
+        DB::beginTransaction();
 
-        $ordersItemsForm = $ordersItemsRequest->validated();
+        try {
+            $ordersForm = $orderRequest->validated();
+            $ordersItemsForm = $ordersItemsRequest->validated();
 
-        $newOrder = Order::create($ordersForm);
+            $newOrder = Order::create($ordersForm);
 
-        foreach ($ordersItemsForm['products'] as $orderItem) {
-            $orderItem['user_id'] = $ordersForm['user_id'];
-            $orderItem['order_id'] = $newOrder->id;
-            OrderItem::create($orderItem);
+            foreach ($ordersItemsForm['products'] as $orderItem) {
+                $orderItem['user_id'] = $ordersForm['user_id'];
+                $orderItem['order_id'] = $newOrder->id;
+                OrderItem::create($orderItem);
+            }
+
+            DB::commit(); // Zatwierdź transakcję po pomyślnym zakończeniu
+            return redirect('/orders')->with('message', 'Utworzono zamówienie.');
+        } catch (\Exception $e) {
+            DB::rollBack(); // Wycofaj transakcję w przypadku błędu
+            return back()->with('error', 'Wystąpił błąd podczas tworzenia zamówienia.');
         }
-
-        return redirect('/orders')->with('message', 'Utworzono zamówienie.');
     }
 }
