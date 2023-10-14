@@ -4,29 +4,33 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
+use App\Http\Requests\StoreProductRequest;
+
 class ProductsController extends Controller
 {
-    public function index()
+    public function index(): object
     {
+        $products = Product::where(
+            'name', 'like', '%' . request('search') . '%'
+        )->paginate(request('display'));
+
         return view('products.index', [
-
+            'products' => $products
         ]);
     }
 
-    public function show()
+    public function create(): object
     {
-
+        return view('products.create');
     }
 
-    public function create()
+    public function store(StoreProductRequest $request): object
     {
-        return view('products.create', [
+        $formFields = $request->validated();
 
-        ]);
-    }
+        Product::create($formFields);
 
-    public function store()
-    {
-
+        return redirect('/products')->with('message', 'Produkt został utworzony.');
     }
 }

@@ -6,13 +6,18 @@ namespace App\Helpers;
 
 class UnitHelper
 {
-    const UNIT = [
+    private const PRODUCT_UNIT = [
         0 => 'szt.',
         1 => 'kpl.'
     ];
 
     public static function getProductUnit($unitId): string
     {
-        return self::UNIT[$unitId] ?? 'Nieznany';
+        return self::PRODUCT_UNIT[$unitId] ?? 'Nieznany';
+    }
+
+    public static function getAllProductUnits(): array
+    {
+        return self::PRODUCT_UNIT;
     }
 }

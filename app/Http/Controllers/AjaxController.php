@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Models\Brand;
 use App\Models\Client;
+use App\Models\ProductCategory;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -19,7 +21,9 @@ class AjaxController extends Controller
             ->orWhere('email', 'like', "%$searchTerm%")
             ->get();
 
-        return response()->json(['users' => $users]);
+        return response()->json([
+            'users' => $users
+        ]);
     }
 
     public function searchClients(Request $request): object
@@ -33,6 +37,32 @@ class AjaxController extends Controller
             ->orWhere('email', 'like', "%$searchTerm%")
             ->get();
 
-        return response()->json(['clients' => $clients]);
+        return response()->json([
+            'clients' => $clients
+        ]);
+    }
+
+    public function searchBrands(Request $request): object
+    {
+        $searchTerm = $request->input('searchTerm');
+
+        $brands = Brand::where('name', 'like', "%$searchTerm%")
+            ->get();
+
+        return response()->json([
+            'brands' => $brands
+        ]);
+    }
+
+    public function searchProductCategories(Request $request): object
+    {
+        $searchTerm = $request->input('searchTerm');
+
+        $productCategories = ProductCategory::where('name', 'like', "%$searchTerm%")
+            ->get();
+
+        return response()->json([
+            'productCategories' => $productCategories
+        ]);
     }
 }

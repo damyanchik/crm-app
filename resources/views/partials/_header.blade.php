@@ -1,6 +1,6 @@
 <header>
     <!-- Sidebar -->
-    <nav id="sidebarMenu" style="font-family: 'Roboto Condensed', sans-serif;" class="d-lg-block sidebar collapse bg-white">
+    <nav id="sidebarMenu" style="font-family: 'Roboto Condensed', sans-serif;" class="d-lg-block sidebar collapse bg-white overflow-auto">
         <div class="position-sticky">
             <div class="list-group list-group-flush mx-3 mt-4">
 
@@ -21,7 +21,12 @@
                 <x-sidebar-nav
                     :icon="'fa-solid fa-box-open me-3'"
                     :category="'Produkty'"
-                    :pages="['products/create'=>'Dodaj nowy produkt', 'products'=>'Lista produktów']"
+                    :pages="[
+                    'products/create'=>'Dodaj nowy produkt',
+                    'products'=>'Lista produktów',
+                    'brands' => 'Marki produktów',
+                    'product-categories' => 'Kategorie produktowe'
+                    ]"
                 ></x-sidebar-nav>
                 <x-sidebar-nav
                     :icon="'fas fa-globe fa-fw me-3'"

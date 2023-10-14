@@ -22,34 +22,60 @@
                         </div>
                         <div class="col-md-6 mt-2"><span class="labels">Status zamówienia*</span>
                             <select name="status" class="form-control">
-                                <option value="0">Przyjęte</option>
-                                <option value="1">Oczekiwanie</option>
-                                <option value="2">Gotowe</option>
-                                <option value="3">Zamknięte</option>
+                                @foreach(app('statusHelper')->getAllOrderStatuses() as $id => $name)
+                                    <option value="{{ $id }}">{{ $name }}</option>
+                                @endforeach
                             </select>
                         </div>
-                        <div class="col-md-6 mt-2"><span class="labels">Liczba produktów</span><input name="total_quantity" id="totalQuantity" value="0" type="number" class="form-control" readonly></div>
-                        <div class="col-md-6 mt-2"><span class="labels">Numer faktury</span><input name="invoice_num" value="{{ $orderMonthQuant + 1 }}/FV/{{ $now->format('m') }}/{{ $now->format('Y') }}" type="text" class="form-control" readonly></div>
-                        <div class="col-md-6 mt-2"><span class="labels">Cena zamówienia</span><input name="total_price" id="totalPrice" value="0" type="number" step="0.01" class="form-control" readonly></div>
+                        <div class="col-md-6 mt-2"><span class="labels">Liczba produktów</span>
+                            <input name="total_quantity" id="totalQuantity" value="0" type="number" class="form-control" readonly>
+                        </div>
+                        <div class="col-md-6 mt-2">
+                            <span class="labels">Numer faktury</span>
+                            <input name="invoice_num" value="{{ $orderMonthQuant + 1 }}/FV/{{ $now->format('m') }}/{{ $now->format('Y') }}" type="text" class="form-control" readonly>
+                        </div>
+                        <div class="col-md-6 mt-2">
+                            <span class="labels">Cena zamówienia</span>
+                            <input name="total_price" id="totalPrice" value="0" type="number" step="0.01" class="form-control" readonly>
+                        </div>
                     </div>
                     <div class="col-md-12 border border-2 mt-5">
                         <div class="p-3 py-3">
-                            <div class="float-end align-items-center experience"><a href="#" class="btn border px-3 p-1 add-experience"><i class="fa fa-plus"></i>&nbsp;Załaduj listę produktów</a></div>
+                            <div class="float-end align-items-center experience">
+                                <a href="#" class="btn border px-3 p-1 add-experience">
+                                    <i class="fa fa-plus"></i>&nbsp;
+                                    Załaduj listę produktów
+                                </a>
+                            </div>
                             <div class="d-flex justify-content-between align-items-center mb-1">
                                 <h5 class="text-right">Dodawanie produktów</h5>
                             </div>
                             <div class="row">
-                                <div class="col-md-8 mt-2"><span class="labels">Nazwa produktu</span><input name="newProduct" type="text" class="form-control"></div>
-                                <div class="col-md-4 mt-2"><span class="labels">Marka produktu</span><input name="newBrand" type="text" class="form-control"></div>
-                                <div class="col-md-4 mt-2"><span class="labels">Jednostka</span>
+                                <div class="col-md-8 mt-2"><span class="labels">Nazwa produktu</span>
+                                    <input name="newProduct" type="text" class="form-control">
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <span class="labels">Marka produktu</span>
+                                    <input name="newBrand" type="text" class="form-control">
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <span class="labels">Jednostka</span>
                                     <select name="newUnit" class="form-control">
                                         <option value="0">szt.</option>
                                         <option value="1">kpl.</option>
                                     </select>
                                 </div>
-                                <div class="col-md-4 mt-2"><span class="labels">Ilość</span><input name="newQuantity" type="number" class="form-control"></div>
-                                <div class="col-md-4 mt-2"><span class="labels">Cena</span><input name="newPrice" type="number" step="0.01" class="form-control"></div>
-                                <div class="mt-3 mb-2 text-end"><button id="addProduct" class="btn btn-primary profile-button" type="button">Dodaj produkt</button></div>
+                                <div class="col-md-4 mt-2">
+                                    <span class="labels">Ilość</span>
+                                    <input name="newQuantity" type="number" class="form-control">
+                                </div>
+                                <div class="col-md-4 mt-2">
+                                    <span class="labels">Cena</span>
+                                    <input name="newPrice" type="number" step="0.01" class="form-control">
+                                </div>
+                                <div class="mt-3 mb-2 text-end">
+                                    <button id="addProduct" class="btn btn-primary profile-button" type="button">Dodaj produkt</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -68,7 +94,9 @@
                             <tbody id="productList"></tbody>
                         </table>
                     </div>
-                    <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="submit">Utwórz zamówienie</button></div>
+                    <div class="mt-5 text-center">
+                        <button class="btn btn-primary profile-button" type="submit">Utwórz zamówienie</button>
+                    </div>
                 </div>
             </form>
         </div>

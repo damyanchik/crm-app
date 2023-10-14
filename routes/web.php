@@ -8,6 +8,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\BrandsController;
+use App\Http\Controllers\ProductCategoriesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,21 +28,53 @@ Route::middleware(['auth'])->group(function () {
 
     //Search user
     Route::get('/ajax/search-users', [AjaxController::class, 'searchUsers'])->name('ajax.searchUsers');
-
     //Search client
     Route::get('/ajax/search-clients', [AjaxController::class, 'searchClients'])->name('ajax.searchClients');
+    //Search brand
+    Route::get('/ajax/search-brands', [AjaxController::class, 'searchBrands'])->name('ajax.searchBrands');
+    //Search product category
+    Route::get('/ajax/search-product-categories', [AjaxController::class, 'searchProductCategories'])->name('ajax.searchProductCategories');
+
 
     //Dashboard
     Route::get('/', [DashboardController::class, 'index']);
 
 
-    //List
+    //Product list
     Route::get('/products', [ProductsController::class, 'index']);
     //Create
     Route::get('/products/create', [ProductsController::class, 'create']);
+    //Store
+    Route::post('/products', [ProductsController::class, 'store']);
+
+    //Brand List
+    Route::get('/brands', [BrandsController::class, 'index']);
+    //Create
+    Route::get('/brands/create', [BrandsController::class, 'create']);
+    //Store
+    Route::post('/brands', [BrandsController::class, 'store']);
+    //Edit
+    Route::get('/brands/{brand}/edit', [BrandsController::class, 'edit']);
+    //Update
+    Route::put('/brands/{brand}', [BrandsController::class, 'update']);
+    //Delete
+    Route::delete('/brands/{brand}', [BrandsController::class, 'destroy']);
+
+    //Product Categories List
+    Route::get('/product-categories', [ProductCategoriesController::class, 'index']);
+    //Create
+    Route::get('/product-categories/create', [ProductCategoriesController::class, 'create']);
+    //Store
+    Route::post('/product-categories', [ProductCategoriesController::class, 'store']);
+    //Edit
+    Route::get('/product-categories/{productCategory}/edit', [ProductCategoriesController::class, 'edit']);
+    //Update
+    Route::put('/product-categories/{productCategory}', [ProductCategoriesController::class, 'update']);
+    //Delete
+    Route::delete('/product-categories/{productCategory}', [ProductCategoriesController::class, 'destroy']);
 
 
-    //List
+    //Order List
     Route::get('/orders', [OrdersController::class, 'index']);
     //Create
     Route::get('/orders/create', [OrdersController::class, 'create']);
@@ -50,13 +84,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/orders/{order}', [OrdersController::class, 'show']);
 
 
-    //Create Client
-    Route::get('/clients/create', [ClientsController::class, 'create']);
-    //Show Client List
+    //Client List
     Route::get('/clients', [ClientsController::class, 'index']);
+    //Create
+    Route::get('/clients/create', [ClientsController::class, 'create']);
     //Show Single Client
     Route::get('/clients/{client}', [ClientsController::class, 'show']);
-    //Show client for edit
+    //Edit
     Route::get('/clients/{client}/edit', [ClientsController::class, 'edit']);
     //Update client
     Route::put('/clients/{client}', [ClientsController::class, 'update']);
@@ -66,15 +100,15 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/clients', [ClientsController::class, 'store']);
 
 
-    //Show Employees List
+    //Employees List
     Route::get('/employees', [EmployeesController::class, 'index']);
-    //Show Single Employee
+    //Show
     Route::get('/employees/{user}', [EmployeesController::class, 'show']);
-    //Show employee for edit
+    //Edit
     Route::get('/employees/{user}/edit', [EmployeesController::class, 'edit']);
-    //Update employee
+    //Update
     Route::put('/employees/{user}', [EmployeesController::class, 'update']);
-    //Block employee
+    //Block
     Route::post('/employees/{user}/block', [EmployeesController::class, 'block']);
 
 });
