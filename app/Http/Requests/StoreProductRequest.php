@@ -17,7 +17,7 @@ class StoreProductRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'brand_id' => 'required',
+            'brand_id' => 'nullable',
             'category_id' => 'nullable',
             'quantity' => 'required',
             'price' => 'required',

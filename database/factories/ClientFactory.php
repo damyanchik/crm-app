@@ -17,7 +17,7 @@ class ClientFactory extends Factory
     public function definition(): array
     {
         return [
-            'company' => fake()->company(),
+            'company' => fake()->unique()->company(),
             'name' => fake()->firstName(),
             'surname' => fake()->lastName(),
             'email' => fake()->companyEmail(),
@@ -25,10 +25,10 @@ class ClientFactory extends Factory
             'address' => fake()->address(),
             'postal_code' => fake()->postcode(),
             'city' => fake()->city(),
-            'state' => fake()->citySuffix(),
+            'state' => fake()->countryCode(),
             'country' => fake()->country(),
-            'tax' => fake()->unique()->countryCode(),
-            'user_id' => rand(1, 400)
+            'tax' => fake()->unique()->phoneNumber(),
+            'user_id' => rand(1, 100)
         ];
     }
 }

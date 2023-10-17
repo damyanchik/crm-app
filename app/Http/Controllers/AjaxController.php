@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Brand;
 use App\Models\Client;
+use App\Models\Product;
 use App\Models\ProductCategory;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -63,6 +64,23 @@ class AjaxController extends Controller
 
         return response()->json([
             'productCategories' => $productCategories
+        ]);
+    }
+
+    public function searchProducts(Request $request): object
+    {
+        $searchTerm = $request->input('searchTerm');
+
+        $products = Product::with('brand')
+            ->where('name', 'like', "%$searchTerm%")
+            ->orWhere('code', 'like', "%$searchTerm%")
+            ->orWhereHas('brand', function ($brandQuery) use ($searchTerm) {
+                $brandQuery->where('name', 'like', "%$searchTerm%");
+            })
+            ->get();
+
+        return response()->json([
+            'products' => $products
         ]);
     }
 }

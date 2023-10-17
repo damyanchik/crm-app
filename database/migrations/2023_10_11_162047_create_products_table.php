@@ -16,12 +16,12 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->foreignIdFor(Brand::class, 'brand_id');
+            $table->foreignIdFor(Brand::class, 'brand_id')->nullable();
             $table->foreignIdFor(ProductCategory::class, 'category_id')->nullable();
             $table->longText('description')->nullable();
             $table->bigInteger('quantity');
             $table->float('price');
-            $table->string('ean')->nullable();
+            $table->string('code')->nullable();
             $table->tinyInteger('unit');
             $table->tinyInteger('status');
             $table->timestamps();

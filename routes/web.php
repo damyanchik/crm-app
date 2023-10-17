@@ -34,6 +34,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/ajax/search-brands', [AjaxController::class, 'searchBrands'])->name('ajax.searchBrands');
     //Search product category
     Route::get('/ajax/search-product-categories', [AjaxController::class, 'searchProductCategories'])->name('ajax.searchProductCategories');
+    //search products
+    Route::get('/ajax/search-products', [AjaxController::class, 'searchProducts'])->name('ajax.searchProducts');
 
 
     //Dashboard
@@ -46,6 +48,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/products/create', [ProductsController::class, 'create']);
     //Store
     Route::post('/products', [ProductsController::class, 'store']);
+    //Edit
+    Route::get('/products/{product}/edit', [ProductsController::class, 'edit']);
+    //Update
+    Route::put('/products/{product}', [ProductsController::class, 'update']);
+    //Delete
+    Route::delete('/products/{product}', [ProductsController::class, 'destroy']);
 
     //Brand List
     Route::get('/brands', [BrandsController::class, 'index']);

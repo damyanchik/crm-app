@@ -19,7 +19,6 @@ class StoreOrderRequest extends FormRequest
             'user_id' => 'required',
             'client_id' => 'required',
             'status' => 'required',
-            'invoice_num' => 'required',
             'total_quantity' => 'required',
             'total_price' => 'required'
         ];

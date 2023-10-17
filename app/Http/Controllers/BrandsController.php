@@ -36,6 +36,24 @@ class BrandsController extends Controller
         return redirect('/brands')->with('message', 'Marka została utworzona.');
     }
 
+    public function edit(Brand $brand): object
+    {
+        return view('products.brands.edit', [
+            'brand' => $brand
+        ]);
+    }
+
+    public function update(Request $request, Brand $brand): object
+    {
+        $formFields = $request->validate([
+            'name' => 'required'
+        ]);
+
+        $brand->update($formFields);
+
+        return back()->with('message', 'Marka została edytowana.');
+    }
+
     public function destroy(Brand $brand): object
     {
         $brand->delete();

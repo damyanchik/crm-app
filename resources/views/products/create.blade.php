@@ -23,7 +23,7 @@
                         <select name="category_id" id="prodCatSelect" class="form-control" style="width: 100%;"></select>
                     </div>
                     <div class="col-6 col-md-3 mt-2">
-                        <span class="labels">Ilość</span>
+                        <span class="labels">Stan magazynowy</span>
                         <input name="quantity" type="text" class="form-control">
                     </div>
                     <div class="col-6 col-md-3 mt-2">
@@ -48,7 +48,7 @@
                     </div>
                     <div class="col-12 mt-2">
                         <span class="labels">Opis produktu</span>
-                        <textarea name="description" class="form-control" id="exampleFormControlTextarea1" rows="5" style="resize: none;"></textarea>
+                        <textarea name="description" class="form-control" rows="5" style="resize: none;"></textarea>
                     </div>
                 </div>
                 <div class="mt-5 text-center">

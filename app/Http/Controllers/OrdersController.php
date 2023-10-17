@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Helpers\UnitHelper;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Support\Facades\DB;
@@ -42,16 +43,10 @@ class OrdersController extends Controller
 
     public function create(): object
     {
-        $orderMonthQuant = DB::table('orders')
-            ->select(DB::raw('COUNT(*) as quantity'))
-            ->whereMonth('created_at', '=', date('m'))
-            ->first();
-
-        $now = now();
+        $jsonUnits = json_encode(UnitHelper::getAllProductUnits());
 
         return view('orders.create', [
-            'orderMonthQuant' => $orderMonthQuant->quantity,
-            'now' => $now
+            'jsonUnits' => $jsonUnits
         ]);
     }
 
@@ -63,6 +58,7 @@ class OrdersController extends Controller
             $ordersForm = $orderRequest->validated();
             $ordersItemsForm = $ordersItemsRequest->validated();
 
+            $ordersForm['invoice_num'] = $this->invoiceNumber();
             $newOrder = Order::create($ordersForm);
 
             foreach ($ordersItemsForm['products'] as $orderItem) {
@@ -71,11 +67,24 @@ class OrdersController extends Controller
                 OrderItem::create($orderItem);
             }
 
-            DB::commit(); // Zatwierdź transakcję po pomyślnym zakończeniu
+            DB::commit();
             return redirect('/orders')->with('message', 'Utworzono zamówienie.');
         } catch (\Exception $e) {
-            DB::rollBack(); // Wycofaj transakcję w przypadku błędu
+            DB::rollBack();
             return back()->with('error', 'Wystąpił błąd podczas tworzenia zamówienia.');
         }
+    }
+
+    private function invoiceNumber(): string
+    {
+        $orderMonthQuant = DB::table('orders')
+            ->select(DB::raw('COUNT(*) as quantity'))
+            ->whereMonth('created_at', '=', date('m'))
+            ->first();
+        $invoiceNumber = $orderMonthQuant->quantity+1;
+
+        $now = now();
+
+        return $invoiceNumber.'/FV/'.$now->month.'/'.$now->year;
     }
 }

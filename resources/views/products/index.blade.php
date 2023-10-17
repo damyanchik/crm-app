@@ -18,7 +18,9 @@
                 <tr>
                     <td>
                         <p>{{ $product['name'] }}</p>
+                        @if (!empty($product['brand_id']) || !empty($product->brand->name))
                         <p class="text-muted mb-1">{{ $product->brand->name }}</p>
+                        @endif
                     </td>
                     <td>
                         <p class="text-muted mb-1">{{ $product['quantity'] .' '. app('unitHelper')->getProductUnit($product['unit']) }}</p>
@@ -27,13 +29,10 @@
                         <p class="mb-0">{{ number_format($product['price'], 2) }} PLN</p>
                     </td>
                     <td>
-                        <p class="mb-0">{{ app('statusHelper')->getOrderStatus($product['status']) }}</p>
+                        <p class="mb-0">{{ app('statusHelper')->getProductStatus($product['status']) }}</p>
                     </td>
                     <td>
-                        <a href="" class="btn btn-link btn-sm btn-rounded">
-                            <i class="fa-solid fa-magnifying-glass" style="color: #707070;"></i>
-                        </a>
-                        <a href="" class="btn btn-link btn-sm btn-rounded">
+                        <a href="products/{{ $product['id'] }}/edit" class="btn btn-link btn-sm btn-rounded">
                             <i class="fa-solid fa-pen-to-square" style="color: #707070;"></i>
                         </a>
                     </td>

@@ -30,13 +30,6 @@
                         <a href="product-categories/{{ $productCategory['id'] }}/edit" class="btn btn-link btn-sm btn-rounded">
                             <i class="fa-solid fa-pen-to-square" style="color: #707070;"></i>
                         </a>
-                        <form method="post" action="/product-categories/{{ $productCategory['id'] }}" class="d-inline-block">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-link btn-sm btn-rounded">
-                                    <i class="fa-solid fa-trash" style="color: #b01111;"></i>
-                            </button>
-                        </form>
                     </td>
                 </tr>
             @endforeach

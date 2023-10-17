@@ -12,7 +12,10 @@ class ProductsController extends Controller
     public function index(): object
     {
         $products = Product::where(
-            'name', 'like', '%' . request('search') . '%'
+            'name', 'like', '%' . request('search') . '%')
+            ->orWhereHas('brand', function ($brandQuery) {
+                $brandQuery->where('name', 'like', "%".request('search')."%");
+            }
         )->paginate(request('display'));
 
         return view('products.index', [
@@ -32,5 +35,28 @@ class ProductsController extends Controller
         Product::create($formFields);
 
         return redirect('/products')->with('message', 'Produkt został utworzony.');
+    }
+
+    public function edit(Product $product): object
+    {
+        return view('products.edit', [
+            'product' => $product
+        ]);
+    }
+
+    public function update(StoreProductRequest $request, Product $product): object
+    {
+        $formFields = $request->validated();
+
+        $product->update($formFields);
+
+        return back()->with('message', 'Produkt został zaktualizowany.');
+    }
+
+    public function destroy(Product $product): object
+    {
+        $product->delete();
+
+        return redirect('/products')->with('message', 'Produkt został usunięty.');
     }
 }

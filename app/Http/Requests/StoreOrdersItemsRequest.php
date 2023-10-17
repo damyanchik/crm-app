@@ -17,10 +17,11 @@ class StoreOrdersItemsRequest extends FormRequest
     {
         return [
             'products.*.name' => 'required',
-            'products.*.brand' => 'required',
+            'products.*.code' => 'nullable',
             'products.*.unit' => 'required',
             'products.*.quantity' => 'required',
-            'products.*.price' => 'required'
+            'products.*.price' => 'required',
+            'products.*.product_price' => 'required'
         ];
     }
 }
