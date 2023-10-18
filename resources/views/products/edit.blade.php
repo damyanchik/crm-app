@@ -25,6 +25,11 @@
                         <div class="col-12 col-md-6 mt-2">
                             <span class="labels">Nazwa produktu</span>
                             <input name="name" value="{{ $product['name'] }}" type="text" class="form-control">
+                            @error('name')
+                            <span class="flash-message__alert" role="alert">
+                                {{ $message }}
+                            </span>
+                            @enderror
                         </div>
                         <div class="col-6 col-md-3 mt-2">
                             <span class="labels">Marka produktu</span>
@@ -45,10 +50,20 @@
                         <div class="col-6 col-md-3 mt-2">
                             <span class="labels">Stan magazynowy</span>
                             <input value="{{ $product['quantity'] }}" name="quantity" type="text" class="form-control">
+                            @error('quantity')
+                            <span class="flash-message__alert" role="alert">
+                                {{ $message }}
+                            </span>
+                            @enderror
                         </div>
                         <div class="col-6 col-md-3 mt-2">
                             <span class="labels">Cena</span>
                             <input value="{{ $product['price'] }}" name="price" type="text" class="form-control">
+                            @error('price')
+                            <span class="flash-message__alert" role="alert">
+                                {{ $message }}
+                            </span>
+                            @enderror
                         </div>
                         <div class="col-6 col-md-3 mt-2">
                             <span class="labels">Jednostka</span>

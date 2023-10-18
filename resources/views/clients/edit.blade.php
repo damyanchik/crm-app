@@ -25,28 +25,58 @@
                         <div class="col-md-6">
                             <span class="labels">Firma</span>
                             <input name="company" type="text" class="form-control" value="{{ $client['company'] }}">
+                            @error('company')
+                            <span class="flash-message__alert" role="alert">
+                                {{ $message }}
+                            </span>
+                            @enderror
                         </div>
                         <div class="col-md-6 mt-2">
                             <span class="labels">NIP</span>
                             <input name="tax" type="text" class="form-control" value="{{ $client['tax'] }}">
+                            @error('tax')
+                            <span class="flash-message__alert" role="alert">
+                                {{ $message }}
+                            </span>
+                            @enderror
                         </div>
                         <div class="col-md-6 mt-2">
                             <span class="labels">Imię</span>
                             <input name="name" type="text" class="form-control" value="{{ $client['name'] }}">
+                            @error('name')
+                            <span class="flash-message__alert" role="alert">
+                                {{ $message }}
+                            </span>
+                            @enderror
                         </div>
                         <div class="col-md-6 mt-2">
                             <span class="labels">Nazwisko</span>
                             <input name="surname" type="text" class="form-control" value="{{ $client['surname'] }}">
+                            @error('surname')
+                            <span class="flash-message__alert" role="alert">
+                                {{ $message }}
+                            </span>
+                            @enderror
                         </div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-6 mt-2">
                             <span class="labels">Email</span>
                             <input name="email" type="email" class="form-control" value="{{ $client['email'] }}">
+                            @error('email')
+                            <span class="flash-message__alert" role="alert">
+                                {{ $message }}
+                            </span>
+                            @enderror
                         </div>
                         <div class="col-md-6 mt-2">
                             <span class="labels">Numer telefonu</span>
                             <input name="phone" type="text" class="form-control" value="{{ $client['phone'] }}">
+                            @error('phone')
+                            <span class="flash-message__alert" role="alert">
+                                {{ $message }}
+                            </span>
+                            @enderror
                         </div>
                         <div class="col-md-6 mt-2">
                             <span class="labels">Adres zamieszkania</span>

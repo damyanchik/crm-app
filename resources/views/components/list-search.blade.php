@@ -10,7 +10,7 @@
     </div>
     <div class="col-6">
         <div class="input-group mb-3 pageSearch__input float-end">
-            <label class="input-group-text" for="inputGroupSelect02">Pozycji na stronie</label>
+            <label class="input-group-text">Pozycji na stronie</label>
             <select name="display" class="form-select" onchange="$(this).closest('form').submit();">
                 <option value="15" {{ request()->input(['display']) == 15 ? 'selected' : '' }}>15</option>
                 <option value="30" {{ request()->input(['display']) == 30 ? 'selected' : '' }}>30</option>

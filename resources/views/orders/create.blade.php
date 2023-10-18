@@ -8,12 +8,16 @@
                 <div class="p-3 py-2">
                     <div class="align-items-center mb-3">
                         <h4>Tworzenie nowego zamówienia</h4>
-                        <p>Należy uzupełnić pola zaznaczone gwiazdką*</p>
                     </div>
                     <div class="row">
                         <div class="col-md-12 mt-2">
-                            <span class="labels">Klient*</span>
+                            <span class="labels">Klient</span>
                             <select name="client_id" id="clientSelect" class="form-control" style="width: 100%;"></select>
+                            @error('client_id')
+                            <span class="flash-message__alert" role="alert">
+                                {{ $message }}
+                            </span>
+                            @enderror
                         </div>
                         <div class="col-md-12 mt-2">
                             <span class="labels">Sprzedawca</span>
@@ -21,12 +25,18 @@
                             <input name="user_id" type="hidden" value="{{ Auth::user()->id }}">
                         </div>
                         <div class="col-md-4 mt-2">
-                            <span class="labels">Status zamówienia*</span>
+                            <span class="labels">Status zamówienia</span>
                             <select name="status" class="form-control">
+                                    <option></option>
                                 @foreach(app('statusHelper')->getAllOrderStatuses() as $id => $name)
                                     <option value="{{ $id }}">{{ $name }}</option>
                                 @endforeach
                             </select>
+                            @error('status')
+                            <span class="flash-message__alert" role="alert">
+                                {{ $message }}
+                            </span>
+                            @enderror
                         </div>
                         <div class="col-md-4 mt-2"><span class="labels">Liczba produktów</span>
                             <input name="total_quantity" id="totalQuantity" value="0" type="number" class="form-control" readonly>

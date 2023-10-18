@@ -102,7 +102,13 @@ body {
 
 /* BEM */
 .pageSearch__input {
-    width: 15rem !important;
+    width: 15rem;
+}
+
+@media (max-width: 770px) {
+    .pageSearch__input {
+        width: 12rem;
+    }
 }
 
 .sidebar__button--circle_block i {
@@ -120,6 +126,12 @@ body {
     transform: rotate(180deg);
 }
 
+.login {
+    background-color: #fff;
+    border-radius: 15px;
+    box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+}
+
 .flash-message {
     font-size: 16px;
     position: fixed;
@@ -134,5 +146,12 @@ body {
     z-index: 9999;
     border-radius: 5px;
     box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+}
+
+.flash-message__alert {
+    font-size: 12px;
+    font-weight: bold;
+    color: #c90707;
+    padding: 1px;
 }
 

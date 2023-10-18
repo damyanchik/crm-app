@@ -16,7 +16,11 @@
                 <x-sidebar-nav
                     :icon="'fas fa-chart-bar fa-fw me-3'"
                     :category="'Zamówienia'"
-                    :pages="['orders/create'=>'Utwórz zamówienie', 'orders'=>'Lista zamówień']"
+                    :pages="[
+                    'orders/create'=>'Utwórz zamówienie',
+                    'orders'=>'Lista zamówień',
+                    'orders/archive' => 'Archiwum'
+                    ]"
                 ></x-sidebar-nav>
                 <x-sidebar-nav
                     :icon="'fa-solid fa-box-open me-3'"
@@ -58,8 +62,10 @@
             </button>
 
             <!-- Brand -->
-            <a class="navbar-brand mx-4" href="#">
-                miCRM
+            <a class="navbar-brand mx-4" href="/">
+                <div style="width: 5rem">
+                <img src="{{ asset('/images/logo.png') }}" class="img-fluid">
+                </div>
             </a>
 
             <!-- Right links -->

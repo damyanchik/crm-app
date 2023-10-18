@@ -55,7 +55,7 @@ class EmployeesController extends Controller
 
         $user->update($formFields);
 
-        return back()->with('message', 'User updated successfully!');
+        return back()->with('message', 'Użytkownik zaktualizowany!');
     }
 
     public function block(User $user): object
@@ -68,6 +68,6 @@ class EmployeesController extends Controller
 
         //brak mozl zablokowania siebie dodac +
 
-        return back()->with('message', 'User updated successfully!');
+        return back()->with('message', 'Zmiana statusu użytkownika!');
     }
 }

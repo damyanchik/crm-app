@@ -13,28 +13,58 @@
                         <div class="col-md-6 py-1">
                             <span class="labels">Firma</span>
                             <input name="company" type="text" class="form-control">
+                            @error('company')
+                            <span class="flash-message__alert" role="alert">
+                                {{ $message }}
+                            </span>
+                            @enderror
                         </div>
                         <div class="col-md-6 py-1">
                             <span class="labels">NIP</span>
                             <input name="tax" type="text" class="form-control">
+                            @error('tax')
+                            <span class="flash-message__alert" role="alert">
+                                {{ $message }}
+                            </span>
+                            @enderror
                         </div>
                         <div class="col-md-6 py-1">
                             <span class="labels">Imię</span>
                             <input name="name" type="text" class="form-control">
+                            @error('name')
+                            <span class="flash-message__alert" role="alert">
+                                {{ $message }}
+                            </span>
+                            @enderror
                         </div>
                         <div class="col-md-6 py-1">
                             <span class="labels">Nazwisko</span>
                             <input name="surname" type="text" class="form-control">
+                            @error('surname')
+                            <span class="flash-message__alert" role="alert">
+                                {{ $message }}
+                            </span>
+                            @enderror
                         </div>
                     </div>
                     <div class="row mt-3">
                         <div class="col-md-6 mt-2">
                             <span class="labels">Email</span>
                             <input name="email" type="email" class="form-control">
+                            @error('email')
+                            <span class="flash-message__alert" role="alert">
+                                {{ $message }}
+                            </span>
+                            @enderror
                         </div>
                         <div class="col-md-6 mt-2">
                             <span class="labels">Numer telefonu</span>
                             <input name="phone" type="text" class="form-control">
+                            @error('phone')
+                            <span class="flash-message__alert" role="alert">
+                                {{ $message }}
+                            </span>
+                            @enderror
                         </div>
                         <div class="col-md-6 mt-2">
                             <span class="labels">Adres zamieszkania</span>

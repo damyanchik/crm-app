@@ -13,6 +13,11 @@
                         <div class="col-12 mt-2">
                             <span class="labels">Nazwa kategorii</span>
                             <input name="name" type="text" class="form-control">
+                            @error('name')
+                            <span class="flash-message__alert" role="alert">
+                                {{ $message }}
+                            </span>
+                            @enderror
                         </div>
                     </div>
                     <div class="mt-5 text-center">

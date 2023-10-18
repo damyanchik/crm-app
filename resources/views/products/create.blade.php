@@ -13,6 +13,11 @@
                     <div class="col-12 col-md-6 mt-2">
                         <span class="labels">Nazwa produktu</span>
                         <input name="name" type="text" class="form-control">
+                        @error('name')
+                        <span class="flash-message__alert" role="alert">
+                                {{ $message }}
+                            </span>
+                        @enderror
                     </div>
                     <div class="col-6 col-md-3 mt-2">
                         <span class="labels">Marka produktu</span>
@@ -25,26 +30,48 @@
                     <div class="col-6 col-md-3 mt-2">
                         <span class="labels">Stan magazynowy</span>
                         <input name="quantity" type="text" class="form-control">
+                        @error('quantity')
+                        <span class="flash-message__alert" role="alert">
+                                {{ $message }}
+                            </span>
+                        @enderror
                     </div>
                     <div class="col-6 col-md-3 mt-2">
                         <span class="labels">Cena</span>
                         <input name="price" type="text" class="form-control">
+                        @error('price')
+                        <span class="flash-message__alert" role="alert">
+                                {{ $message }}
+                            </span>
+                        @enderror
                     </div>
                     <div class="col-6 col-md-3 mt-2">
                         <span class="labels">Jednostka</span>
                         <select name="unit" class="form-control">
+                            <option></option>
                             @foreach(app('unitHelper')->getAllProductUnits() as $id => $name)
                                 <option value="{{ $id }}">{{ $name }}</option>
                             @endforeach
                         </select>
+                        @error('unit')
+                        <span class="flash-message__alert" role="alert">
+                                {{ $message }}
+                            </span>
+                        @enderror
                     </div>
                     <div class="col-6 col-md-3 mt-2">
                         <span class="labels">Status</span>
                         <select name="status" class="form-control">
+                            <option></option>
                             @foreach(app('statusHelper')->getAllProductStatuses() as $id => $name)
                                 <option value="{{ $id }}">{{ $name }}</option>
                             @endforeach
                         </select>
+                        @error('status')
+                        <span class="flash-message__alert" role="alert">
+                            {{ $message }}
+                        </span>
+                        @enderror
                     </div>
                     <div class="col-12 mt-2">
                         <span class="labels">Opis produktu</span>

@@ -23,7 +23,7 @@ class AuthController extends Controller
         if (auth()->attempt($formFields)) {
             $request->session()->regenerate();
 
-            return redirect('/')->with('message', 'Zostałeś zalogowany!');
+            return redirect('/');
         }
 
         return back()->withErrors(['email' => 'Niepoprawny email lub hasło.'])->onlyInput('email');
