@@ -120,4 +120,19 @@ body {
     transform: rotate(180deg);
 }
 
+.flash-message {
+    font-size: 16px;
+    position: fixed;
+    background-color: #293556;;
+    color: #fff;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30rem;
+    padding: 0.5rem 4rem;
+    text-align: center;
+    z-index: 9999;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+}
 
