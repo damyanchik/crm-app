@@ -83,37 +83,7 @@
         </div>
     </form>
     <script>
-        $('#userSelect').select2({
-            ajax: {
-                url: '{{ route('ajax.searchUsers') }}',
-                dataType: 'json',
-                delay: 250,
-                data: function (params) {
-                    return {
-                        searchTerm: params.term
-                    };
-                },
-                processResults: function (data) {
-                    var options = data.users.map(function (user) {
-                        return '<option value="' + user.id + '">' + user.name + ' ' + user.surname + '</option>';
-                    });
-
-                    $('#userSelect').html(options.join(''));
-
-                    return {
-                        results: data.users.map(function (user) {
-                            return {
-                                id: user.id,
-                                text: user.name + ' ' + user.surname
-                            };
-                        })
-                    };
-                },
-                cache: true
-            },
-            minimumInputLength: 3,
-            placeholder: 'Wybierz użytkownika',
-            allowClear: true
-        });
+        var ajaxSearchUsersLink = @json(route('ajax.searchUsers'));
     </script>
+    <script src="{{ asset('/js/clients/ajax_search_employees.js') }}"></script>
 @endsection

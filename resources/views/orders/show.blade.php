@@ -70,14 +70,25 @@
                 <div class="p-md-3 py-md-5">
                     <div class="col-md-12">
                         <h5 class="mb-2 fw-bold">Zamówione produkty</h5>
-                        <div class="companyServe overflow-auto border border-2 p-2" style="height: 30rem">
+                        <div class="companyServe overflow-auto border border-2 p-1" style="height: 30rem; overflow-x: hidden !important; overflow-y: auto !important;">
                             @foreach($order->orderItem as $item)
                                 <div class="border company-link my-1">
-                                    <p class="name-and-brand pt-2 px-2">{{ $item['name'].' '.$item['brand'] }}</p>
+                                    <p class="name-and-brand pt-2 px-2">
+                                        {{ $item['name'].' '.$item['brand'] }}
+                                    </p>
                                     <div class="row pb-2 px-2">
-                                        <div class="col-4 small"><span class="d-block fw-bold">ILOŚĆ</span> {{ $item['quantity'].' '.app('unitHelper')->getProductUnit($item['unit']) }} </div>
-                                        <div class="col-4 small"><span class="d-block fw-bold">CENA</span> {{ $item['price'].' PLN / '.app('unitHelper')->getProductUnit($item['unit']) }} </div>
-                                        <div class="col-4 small"><span class="d-block fw-bold">SUMA</span> </div>
+                                        <div class="col-4 small">
+                                            <span class="d-block fw-bold">ILOŚĆ</span>
+                                            {{ $item['quantity'].' '.app('unitHelper')->getProductUnit($item['unit']) }}
+                                        </div>
+                                        <div class="col-4 small">
+                                            <span class="d-block fw-bold">CENA</span>
+                                            {{ $item['price'].' PLN / '.app('unitHelper')->getProductUnit($item['unit']) }}
+                                        </div>
+                                        <div class="col-4 small">
+                                            <span class="d-block fw-bold">SUMA</span>
+                                            {{ $item['product_price'].' PLN'}}
+                                        </div>
                                     </div>
                                 </div>
                             @endforeach
@@ -91,19 +102,5 @@
             </div>
         </div>
     </div>
-    <script>
-        $(document).ready(function() {
-            $('#searchCompanyInput').on('input', function() {
-                var searchText = $(this).val().toLowerCase();
-                $('.company-link').each(function() {
-                    var companyText = $(this).find('.name-and-brand').text().toLowerCase();
-                    if (companyText.indexOf(searchText) !== -1) {
-                        $(this).show();
-                    } else {
-                        $(this).hide();
-                    }
-                });
-            });
-        });
-    </script>
+    <script src="{{ asset('/js/orders.show/search_order_item.js') }}"></script>
 @endsection

@@ -50,19 +50,5 @@
             </div>
         </div>
     </div>
-    <script>
-        $(document).ready(function() {
-            $('#searchCompanyInput').on('input', function() {
-                var searchText = $(this).val().toLowerCase();
-                $('.company-link').each(function() {
-                    var companyText = $(this).text().toLowerCase();
-                    if (companyText.indexOf(searchText) !== -1) {
-                        $(this).show();
-                    } else {
-                        $(this).hide();
-                    }
-                });
-            });
-        });
-    </script>
+    <script src="{{ asset('/js/employees.show/search_companies.js') }}"></script>
 @endsection

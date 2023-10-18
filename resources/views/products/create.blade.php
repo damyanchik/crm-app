@@ -59,71 +59,9 @@
     </div>
 </div>
 <script>
-    $('#brandSelect').select2({
-        ajax: {
-            url: '{{ route('ajax.searchBrands') }}',
-            dataType: 'json',
-            delay: 250,
-            data: function (params) {
-                return {
-                    searchTerm: params.term
-                };
-            },
-            processResults: function (data) {
-                var options = data.brands.map(function (brand) {
-                    return '<option value="' + brand.id + '">' + brand.name + '</option>';
-                });
-
-                $('#brandSelect').html(options.join(''));
-
-                return {
-                    results: data.brands.map(function (brand) {
-                        return {
-                            id: brand.id,
-                            text: brand.name
-                        };
-                    })
-                };
-            },
-            cache: true
-        },
-        minimumInputLength: 2,
-        placeholder: 'Wybierz markę',
-        allowClear: true
-    });
+    var ajaxSearchBrandLink = @json(route('ajax.searchBrands'));
+    var ajaxSearchProductCategoriesLink = @json(route('ajax.searchProductCategories'));
 </script>
-<script>
-    $('#prodCatSelect').select2({
-        ajax: {
-            url: '{{ route('ajax.searchProductCategories') }}',
-            dataType: 'json',
-            delay: 250,
-            data: function (params) {
-                return {
-                    searchTerm: params.term
-                };
-            },
-            processResults: function (data) {
-                var options = data.productCategories.map(function (productCategory) {
-                    return '<option value="' + productCategory.id + '">' + productCategory.name + '</option>';
-                });
-
-                $('#prodCatSelect').html(options.join(''));
-
-                return {
-                    results: data.productCategories.map(function (productCategory) {
-                        return {
-                            id: productCategory.id,
-                            text: productCategory.name
-                        };
-                    })
-                };
-            },
-            cache: true
-        },
-        minimumInputLength: 2,
-        placeholder: 'Wybierz kategorię',
-        allowClear: true
-    });
-</script>
+<script src="{{ asset('/js/products/ajax_search_brands.js') }}"></script>
+<script src="{{ asset('/js/products/ajax_search_product_categories.js') }}"></script>
 @endsection
