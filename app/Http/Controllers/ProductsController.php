@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\UpdateProductRequest;
 
 class ProductsController extends Controller
 {
@@ -44,7 +45,7 @@ class ProductsController extends Controller
         ]);
     }
 
-    public function update(StoreProductRequest $request, Product $product): object
+    public function update(UpdateProductRequest $request, Product $product): object
     {
         $formFields = $request->validated();
 
