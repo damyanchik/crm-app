@@ -10,7 +10,8 @@ use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\BrandsController;
 use App\Http\Controllers\ProductCategoriesController;
-
+use App\Http\Controllers\PusherController;
+use App\Http\Controllers\ChatController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -40,6 +41,13 @@ Route::middleware(['auth'])->group(function () {
 
     //Dashboard
     Route::get('/', [DashboardController::class, 'index']);
+
+
+    //Chat
+    Route::get('/chat', [ChatController::class, 'index']);
+    Route::get('/chat/ajax/load-messages', [ChatController::class, 'loadMessages'])->name('ajax.loadMessages');
+    Route::post('/chat/broadcast', [PusherController::class, 'broadcast']);
+    Route::post('/chat/receive', [PusherController::class, 'receive']);
 
 
     //Product list

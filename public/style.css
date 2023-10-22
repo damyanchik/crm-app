@@ -18,7 +18,7 @@ body {
     color: white;
 }
 
-#main-navbar {
+#main-navbar, .bg-base {
     background-color: rgba(41, 53, 86, 1);
     background-image: linear-gradient(60deg, rgba(41, 53, 86, 1) 5%, rgba(5, 72, 155, 1) 91%);
 }
@@ -91,9 +91,13 @@ body {
 }
 
 /* CONTENT BOOTSTRAP CHANGES */
-.btn-primary, .page-link.active, .active>.page-link {
+.btn-primary, .bg-primary, .page-link.active, .active>.page-link {
     background-color: #05489b !important;
     color: white;
+}
+
+.border-primary {
+    border-color: #05489b !important;
 }
 
 .page-link {

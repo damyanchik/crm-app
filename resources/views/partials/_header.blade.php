@@ -40,7 +40,7 @@
                 <x-sidebar-nav
                     :icon="'fas fa-users fa-fw me-3'"
                     :category="'Pracownicy'"
-                    :pages="['employees'=>'Lista pracowników', 'employees/chat' => 'Komunikator']"
+                    :pages="['employees'=>'Lista pracowników', 'chat' => 'Komunikator']"
                 ></x-sidebar-nav>
                 <a href="#" class="list-group-item list-group-item-action py-1 ripple"><i
                         class="fas fa-calendar fa-fw me-3"></i><span class="h5"> Kalendarz</span></a>
