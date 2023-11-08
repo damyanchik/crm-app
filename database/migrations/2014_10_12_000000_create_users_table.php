@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('city');
             $table->string('state');
             $table->string('country');
+            $table->string('avatar')->nullable();
             $table->string('position')->nullable();
             $table->string('department')->nullable();
             $table->string('password');

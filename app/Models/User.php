@@ -29,6 +29,7 @@ class User extends Authenticatable
         'state',
         'country',
         'password',
+        'avatar',
         'position',
         'department'
     ];

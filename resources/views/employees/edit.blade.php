@@ -1,14 +1,26 @@
 @extends('layout')
 
 @section('content')
-    <form method="post" action="/employees/{{$user->id}}" class="container rounded bg-white mb-5">
+    <form method="post" action="/employees/{{$user['id']}}" class="container rounded bg-white mb-5" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="row">
             <div class="col-md-3 border-right">
                 <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                    <img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg">
+                    <img class="rounded-circle mt-5" width="150px"
+                            @if(!empty($user['avatar']))
+                                src="{{ asset('storage/'.$user['avatar']) }}"
+                            @else
+                                src="{{ asset('images/unknown.png') }}"
+                            @endif
+                    >
                 </div>
+                @error('avatar')
+                    <span class="flash-message__alert" role="alert">
+                        {{ $message }}
+                    </span>
+                @enderror
+                <input type="file" class="form-control" name="avatar">
             </div>
             <div class="col-md-5 border-right">
                 <div class="p-3 py-5">

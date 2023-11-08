@@ -3,13 +3,6 @@
     <nav id="sidebarMenu" style="font-family: 'Roboto Condensed', sans-serif;" class="d-lg-block sidebar collapse bg-white overflow-auto">
         <div class="position-sticky">
             <div class="list-group list-group-flush mx-3 mt-4">
-
-{{--                <a href="#" class="list-group-item list-group-item-action py-2 ripple"><i--}}
-{{--                        class="fas fa-money-bill fa-fw me-3"></i><span>Sprzedaż</span></a>--}}
-{{--                <a href="#" class="list-group-item list-group-item-action py-2 ripple">--}}
-{{--                    <i class="fas fa-building fa-fw me-3"></i><span>Partners</span></a>--}}
-
-
                 <a href="/" class="list-group-item list-group-item-action py-1 ripple
                             {{ (request()->is('/')) ? 'active' : '' }}" aria-current="true"><i
                         class="fas fa-tachometer-alt fa-fw me-3"></i><span class="h5"> Dashboard</span></a>
@@ -138,15 +131,15 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
                         <li>
-                            <a class="dropdown-item" href="#">My profile</a>
+                            <a class="dropdown-item" href="/employees/{{ Auth::user()->id }}">Mój profil</a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="#">Settings</a>
+                            <a class="dropdown-item" href="/employees/{{ Auth::user()->id }}/edit">Ustawienia</a>
                         </li>
                         <li>
                             <form method="post" action="/logout">
                                 @csrf
-                                <button class="dropdown-item">Logout</button>
+                                <button class="dropdown-item">Wyloguj</button>
                             </form>
                         </li>
                     </ul>
