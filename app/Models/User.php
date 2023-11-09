@@ -31,7 +31,8 @@ class User extends Authenticatable
         'password',
         'avatar',
         'position',
-        'department'
+        'department',
+        'last_activity'
     ];
 
     /**

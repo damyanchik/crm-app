@@ -14,6 +14,11 @@
                     >
                     <span class="font-weight-bold">{{ $user['position'] }}</span>
                     <span class="text-black-50">{{ $user['department'] }}</span>
+                    @if (now()->subMinutes(5)->lessThanOrEqualTo($user['last_activity']) && !empty($user['last_activity']))
+                        <span class="mt-2 badge bg-success rounded-pill d-inline">Aktywny</span>
+                    @else
+                        <span class="mt-2 badge bg-secondary rounded-pill d-inline">Nieaktywny</span>
+                    @endif
                 </div>
             </div>
             <div class="col-md-5 border-right">

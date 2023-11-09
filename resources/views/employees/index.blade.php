@@ -39,8 +39,11 @@
                     <p class="text-muted mb-0">{{ $user['department'] }}</p>
                 </td>
                 <td>
+                    @if (now()->subMinutes(5)->lessThanOrEqualTo($user['last_activity']) && !empty($user['last_activity']))
                     <span class="badge bg-success rounded-pill d-inline">Aktywny</span>
+                    @else
                     <span class="badge bg-secondary rounded-pill d-inline">Nieaktywny</span>
+                    @endif
                 </td>
                 <td></td>
                 <td>
