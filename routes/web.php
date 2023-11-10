@@ -126,6 +126,10 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/employees/{user}', [EmployeesController::class, 'update']);
     //Block
     Route::post('/employees/{user}/block', [EmployeesController::class, 'block']);
+    //Change password
+    Route::put('/employees/{user}/change-pass', [EmployeesController::class, 'changePassword']);
+    //delete avatar
+    Route::put('/employees/{user}/delete-avatar', [EmployeesController::class, 'deleteAvatar']);
 
 });
 

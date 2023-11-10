@@ -3,7 +3,7 @@
 @section('content')
     <section class="bg-base p-4 rounded">
             <div class="row">
-                <div class="col-md-4 mb-4">
+                <div class="col-md-4 mb-4" hidden>
                     <div class="card">
                         <div class="card-body" style="overflow: auto; height: 30rem">
                             <ul class="list-unstyled mb-0">
@@ -13,11 +13,9 @@
                                             <div class="p-1 bg-primary d-flex align-self-center me-3 shadow-1-strong" style="width: 60px; height: 60px; border-radius: 50%"></div>
                                             <div class="pt-1">
                                                 <p class="fw-bold mb-0">Czat firmowy</p>
-                                                <p class="small text-muted">Hello, Are you there?</p>
                                             </div>
                                         </div>
                                         <div class="pt-1">
-                                            <p class="small text-muted mb-1">Just now</p>
                                             <span class="badge bg-danger float-end">1</span>
                                         </div>
                                     </a>
@@ -44,8 +42,8 @@
                         <input type="text" placeholder="Wyszukaj użytkownika" class="form-control">
                     </div>
                 </div>
-                <div class="col-md-8 pt-2">
-                    <ul class="chat messages list-unstyled p-3" style="height: 28rem; overflow: auto; background-color: #e8e7e7;"></ul>
+                <div class="col-md-8 pt-2 mx-auto">
+                    <ul class="chat messages list-unstyled p-3" style="height: 26rem; overflow: auto; background-color: #e8e7e7;"></ul>
                     <form class="pe-1">
                         <div class="bg-white mb-3 d-flex justify-content-between bg-base">
                             <div class="form-outline m-1 w-100 pe-2">

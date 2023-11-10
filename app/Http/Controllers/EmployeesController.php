@@ -6,6 +6,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateEmployeeRequest;
 use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class EmployeesController extends Controller
@@ -79,9 +82,33 @@ class EmployeesController extends Controller
         $user->setAttribute('block', $status);
         $user->save();
 
-
-        //brak mozl zablokowania siebie dodac +
-
         return back()->with('message', 'Zmiana statusu użytkownika!');
+    }
+
+    public function changePassword(Request $request)
+    {
+        $formPassword = $request->validate([
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $user = Auth::user();
+        $user->update(['password' => Hash::make($formPassword['password'])]);
+
+        return redirect()->route('home')->with('message', 'Nastąpiła zamiana hasła!');
+    }
+
+    public function deleteAvatar(User $user): object
+    {
+        if ($user->avatar) {
+            $previousAvatarPath = 'public/' . $user->avatar;
+
+            if (Storage::disk('local')->exists($previousAvatarPath)) {
+                Storage::disk('local')->delete($previousAvatarPath);
+            }
+        }
+        $user->setAttribute('avatar', null);
+        $user->save();
+
+        return back()->with('message', 'Usunięto zdjęcie profilowe.');
     }
 }
