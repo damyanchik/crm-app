@@ -12,6 +12,7 @@ use App\Http\Controllers\BrandsController;
 use App\Http\Controllers\ProductCategoriesController;
 use App\Http\Controllers\PusherController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\CalendarController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -48,6 +49,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/chat/ajax/load-messages', [ChatController::class, 'loadMessages'])->name('ajax.loadMessages');
     Route::post('/chat/broadcast', [PusherController::class, 'broadcast']);
     Route::post('/chat/receive', [PusherController::class, 'receive']);
+
+    Route::get('/calendar', [CalendarController::class, 'index']);
+    Route::post('/calendar', [CalendarController::class, 'store']);
 
 
     //Product list

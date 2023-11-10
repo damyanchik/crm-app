@@ -60,6 +60,8 @@ return array(
     "unique"               => ":attribute jest już zajęty.",
     "url"                  => "format :attribute jest nieprawidłowy.",
     "timezone"             => ":attribute musi być prawidłową strefą czasową.",
+    "before_or_equal"      => "Niepoprawnie wprowadzone daty.",
+    "after_or_equal"      => "Niepoprawnie wprowadzone daty.",
 
     /*
     |--------------------------------------------------------------------------
