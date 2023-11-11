@@ -7,17 +7,32 @@ namespace App\Http\Controllers;
 use App\Models\Calendar;
 use App\Http\Requests\CalendarStoreRequest;
 use Illuminate\Support\Facades\Auth;
+use App\Helpers\ColorHelper;
 
 class CalendarController extends Controller
 {
     public function index()
     {
         $events = Calendar::orderBy('id', 'ASC')
-            ->select('date_start as start', 'date_end as end', 'title')
+            ->select('id', 'date_start', 'date_end', 'title', 'description', 'color', 'user_id')
+            ->with('user:id,name,surname')
             ->get();
 
+        $transformedEvents = $events->map(function ($event) {
+            return [
+                'id' => $event->id,
+                'title' => $event->title,
+                'name' => $event->user->name.' '.$event->user->surname,
+                'description' => $event->description,
+                'color' => ColorHelper::getColor($event->color, 'en'),
+                'start' => $event->date_start,
+                'end' => $event->date_end,
+                'user_id' => $event->user_id,
+            ];
+        });
+
         return view('calendar.index', [
-            'events' => $events
+            'events' => $transformedEvents
         ]);
     }
 
@@ -29,5 +44,12 @@ class CalendarController extends Controller
         Calendar::create($formFields);
 
         return redirect('/calendar')->with('message', 'Utworzono wydarzenie w kalendarzu.');
+    }
+
+    public function destroy(Calendar $event): object
+    {
+        $event->delete();
+
+        return redirect('/calendar')->with('message', 'Wydarzenie z kalendarza zostało usunięte.');
     }
 }

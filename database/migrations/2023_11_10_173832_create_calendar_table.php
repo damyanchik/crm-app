@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class, 'user_id');
             $table->string('title');
             $table->string('description');
-            $table->string('priority')->default(0);
+            $table->string('color')->default(0);
             $table->timestamp('date_start');
             $table->timestamp('date_end');
         });

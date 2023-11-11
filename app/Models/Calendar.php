@@ -15,8 +15,13 @@ class Calendar extends Model
         'user_id',
         'title',
         'description',
-        'priority',
+        'color',
         'date_start',
         'date_end'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

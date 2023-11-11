@@ -52,7 +52,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/calendar', [CalendarController::class, 'index']);
     Route::post('/calendar', [CalendarController::class, 'store']);
-
+    Route::delete('/calendar/{event}', [CalendarController::class, 'destroy']);
 
     //Product list
     Route::get('/products', [ProductsController::class, 'index']);

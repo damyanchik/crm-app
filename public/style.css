@@ -159,3 +159,20 @@ body {
     padding: 1px;
 }
 
+/* CALENDAR */
+
+.fc-event {
+    cursor: pointer;
+}
+
+.fc-past span {
+    text-decoration: line-through;
+}
+
+.fc-other-month {
+    background-color: #f3f3f3 !important;
+}
+
+.fc-today span {
+    font-weight: bold;
+}

@@ -64,4 +64,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(ChatMessage::class, 'user_id');
     }
+
+    public function calendar()
+    {
+        return $this->hasMany(Calendar::class, 'user_id');
+    }
 }

@@ -53,9 +53,6 @@
                         <div class="col-6">
                             <h5 class="col-12 text fw-bold">Obsługujący zamówienie</h5>
                             <p>
-                                <a href="/employees/{{ $order->user->id }}" class="btn btn-link">
-                                    <i class="fa-solid fa-user mr-1" style="color: #707070;"></i>
-                                </a>
                                 {{ $order->user->name.' '.$order->user->surname }}
                             </p>
                         </div>
