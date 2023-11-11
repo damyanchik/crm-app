@@ -31,6 +31,20 @@ class Client extends Model
         'user_id'
     ];
 
+    public function scopeSearch($query, $searchTerm)
+    {
+        return $query->where('company', 'like', '%' . $searchTerm . '%')
+            ->orWhere('name', 'like', '%' . $searchTerm . '%')
+            ->orWhere('surname', 'like', '%' . $searchTerm . '%')
+            ->orWhere('email', 'like', '%' . $searchTerm . '%')
+            ->orWhere('phone', 'like', '%' . $searchTerm . '%')
+            ->orWhere('address', 'like', '%' . $searchTerm . '%')
+            ->orWhere('postal_code', 'like', '%' . $searchTerm . '%')
+            ->orWhere('city', 'like', '%' . $searchTerm . '%')
+            ->orWhere('state', 'like', '%' . $searchTerm . '%')
+            ->orWhere('country', 'like', '%' . $searchTerm . '%');
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');

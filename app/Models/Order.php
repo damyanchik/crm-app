@@ -23,6 +23,21 @@ class Order extends Model
         'total_price'
     ];
 
+    public function scopeSearch($query, $searchTerm)
+    {
+        return $query->orWhere('id', 'like', '%' . $searchTerm . '%')
+            ->orWhere('invoice_num', 'like', '%' . $searchTerm . '%')
+            ->orWhereHas('client', function ($clientQuery) use ($searchTerm) {
+                $clientQuery->where('name', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('surname', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('company', 'like', '%' . $searchTerm . '%');
+            })
+            ->orWhereHas('user', function ($userQuery) use ($searchTerm) {
+                $userQuery->where('name', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('surname', 'like', '%' . $searchTerm . '%');
+            });
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');

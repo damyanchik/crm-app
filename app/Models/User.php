@@ -55,6 +55,23 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    public function scopeSearch($query, $searchTerm)
+    {
+        return $query->where(function ($query) use ($searchTerm) {
+            $query->orWhere('name', 'like', '%' . $searchTerm . '%')
+                ->orWhere('surname', 'like', '%' . $searchTerm . '%')
+                ->orWhere('email', 'like', '%' . $searchTerm . '%')
+                ->orWhere('phone', 'like', '%' . $searchTerm . '%')
+                ->orWhere('address', 'like', '%' . $searchTerm . '%')
+                ->orWhere('postal_code', 'like', '%' . $searchTerm . '%')
+                ->orWhere('city', 'like', '%' . $searchTerm . '%')
+                ->orWhere('state', 'like', '%' . $searchTerm . '%')
+                ->orWhere('country', 'like', '%' . $searchTerm . '%')
+                ->orWhere('position', 'like', '%' . $searchTerm . '%')
+                ->orWhere('department', 'like', '%' . $searchTerm . '%');
+        });
+    }
+
     public function client()
     {
         return $this->hasMany(Client::class, 'user_id');

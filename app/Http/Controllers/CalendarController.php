@@ -11,7 +11,7 @@ use App\Helpers\ColorHelper;
 
 class CalendarController extends Controller
 {
-    public function index()
+    public function index(): object
     {
         $events = Calendar::orderBy('id', 'ASC')
             ->select('id', 'date_start', 'date_end', 'title', 'description', 'color', 'user_id')
@@ -36,7 +36,7 @@ class CalendarController extends Controller
         ]);
     }
 
-    public function store(CalendarStoreRequest $request)
+    public function store(CalendarStoreRequest $request): object
     {
         $formFields = $request->validated();
         $formFields['user_id'] = Auth::id();

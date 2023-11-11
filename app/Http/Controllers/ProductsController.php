@@ -12,12 +12,7 @@ class ProductsController extends Controller
 {
     public function index(): object
     {
-        $products = Product::where(
-            'name', 'like', '%' . request('search') . '%')
-            ->orWhereHas('brand', function ($brandQuery) {
-                $brandQuery->where('name', 'like', "%".request('search')."%");
-            }
-        )->paginate(request('display'));
+        $products = Product::search(request('search'))->paginate(request('display'));
 
         return view('products.index', [
             'products' => $products

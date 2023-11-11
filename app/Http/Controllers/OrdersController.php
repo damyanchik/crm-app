@@ -15,19 +15,7 @@ class OrdersController extends Controller
 {
     public function index(): object
     {
-        $orders = Order::where(function($query) {
-            $query->orWhere('id', 'like', '%' . request('search') . '%')
-                ->orWhere('invoice_num', 'like', '%' . request('search') . '%')
-                ->orWhereHas('client', function ($clientQuery) {
-                    $clientQuery->where('name', 'like', '%' . request('search') . '%')
-                        ->orWhere('surname', 'like', '%' . request('search') . '%')
-                        ->orWhere('company', 'like', '%' . request('search') . '%');
-                })
-                ->orWhereHas('user', function ($userQuery) {
-                    $userQuery->where('name', 'like', '%' . request('search') . '%')
-                        ->orWhere('surname', 'like', '%' . request('search') . '%');
-                });
-        })->paginate(request('display'));
+        $orders = Order::search(request('search'))->paginate(request('display'));
 
         return view('orders.index', [
             'orders' => $orders

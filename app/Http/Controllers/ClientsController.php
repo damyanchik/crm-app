@@ -12,18 +12,7 @@ class ClientsController extends Controller
 {
     public function index(): object
     {
-        $clients = Client::where(function($query) {
-            $query->orWhere('company', 'like', '%' . request('search') . '%')
-                ->orWhere('name', 'like', '%' . request('search') . '%')
-                ->orWhere('surname', 'like', '%' . request('search') . '%')
-                ->orWhere('email', 'like', '%' . request('search') . '%')
-                ->orWhere('phone', 'like', '%' . request('search') . '%')
-                ->orWhere('address', 'like', '%' . request('search') . '%')
-                ->orWhere('postal_code', 'like', '%' . request('search') . '%')
-                ->orWhere('city', 'like', '%' . request('search') . '%')
-                ->orWhere('state', 'like', '%' . request('search') . '%')
-                ->orWhere('country', 'like', '%' . request('search') . '%');
-        })->paginate(request('display'));
+        $clients = Client::search(request('search'))->paginate(request('display'));
 
         return view('clients.index', [
             'clients' => $clients
