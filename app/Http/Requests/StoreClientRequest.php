@@ -28,7 +28,8 @@ class StoreClientRequest extends FormRequest
             'state' => 'nullable',
             'country' => 'nullable',
             'note'=> 'nullable',
-            'tax' => 'required'
+            'tax' => 'required',
+            'user_id' => 'nullable|exists:users,id'
         ];
     }
 }

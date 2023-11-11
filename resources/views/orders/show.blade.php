@@ -75,12 +75,12 @@
                                     </p>
                                     <div class="row pb-2 px-2">
                                         <div class="col-4 small">
-                                            <span class="d-block fw-bold">ILOŚĆ</span>
-                                            {{ $item['quantity'].' '.app('unitHelper')->getProductUnit($item['unit']) }}
+                                            <span class="d-block fw-bold">Cena</span>
+                                            {{ $item['price'].' PLN / '.app('unitHelper')->getProductUnit($item['unit']) }}
                                         </div>
                                         <div class="col-4 small">
-                                            <span class="d-block fw-bold">CENA</span>
-                                            {{ $item['price'].' PLN / '.app('unitHelper')->getProductUnit($item['unit']) }}
+                                            <span class="d-block fw-bold">Ilość</span>
+                                            {{ $item['quantity'].' '.app('unitHelper')->getProductUnit($item['unit']) }}
                                         </div>
                                         <div class="col-4 small">
                                             <span class="d-block fw-bold">SUMA</span>

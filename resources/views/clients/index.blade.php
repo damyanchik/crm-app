@@ -29,7 +29,9 @@
                         <p class="text-muted mb-0">{{ $client['country'] }}</p>
                     </td>
                     <td>
+                        @if($client['user_id'])
                         <p class="mb-0">{{ $client->user->name }} {{ $client->user->surname }}</p>
+                        @endif
                     </td>
                     <td>
                         <a href="clients/{{ $client['id'] }}" class="btn btn-link btn-sm btn-rounded">

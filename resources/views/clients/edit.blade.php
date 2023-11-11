@@ -1,8 +1,9 @@
 @extends('layout')
 
 @section('content')
-    <div class="row float-end">
-        <div class="col-12">
+    <div class="row">
+        <div class="col-12 px-4 mt-2">
+            <h4 class="d-inline">Edycja danych klienta</h4>
             <form method="post" action="/clients/{{$client->id}}" class="float-end align-items-center">
                 @csrf
                 @method('DELETE')
@@ -11,17 +12,13 @@
                 </button>
             </form>
         </div>
-    </div>
     <form method="post" action="/clients/{{$client->id}}" class="container rounded bg-white mb-5">
         @csrf
         @method('PUT')
-        <div class="row">
-            <div class="col-md-12 border-right">
-                <div class="p-5 py-5">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h4 class="text-right">Edycja danych klienta</h4>
-                    </div>
-                    <div class="row mt-2">
+
+            <div class="col-md-12 mt-3">
+                <div class="px-3">
+                    <div class="row">
                         <div class="col-md-6">
                             <span class="labels">Firma</span>
                             <input name="company" type="text" class="form-control" value="{{ $client['company'] }}">
@@ -31,7 +28,7 @@
                             </span>
                             @enderror
                         </div>
-                        <div class="col-md-6 mt-2">
+                        <div class="col-md-6">
                             <span class="labels">NIP</span>
                             <input name="tax" type="text" class="form-control" value="{{ $client['tax'] }}">
                             @error('tax')
@@ -110,8 +107,8 @@
                     <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="submit">Zapisz zmiany</button></div>
                 </div>
             </div>
-        </div>
     </form>
+    </div>
     <script>
         var ajaxSearchUsersLink = @json(route('ajax.searchUsers'));
     </script>

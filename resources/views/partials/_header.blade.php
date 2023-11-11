@@ -11,8 +11,7 @@
                     :category="'Zamówienia'"
                     :pages="[
                     'orders/create'=>'Utwórz zamówienie',
-                    'orders'=>'Lista zamówień',
-                    'orders/archive' => 'Archiwum'
+                    'orders'=>'Lista zamówień'
                     ]"
                 ></x-sidebar-nav>
                 <x-sidebar-nav

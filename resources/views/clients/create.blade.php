@@ -86,6 +86,10 @@
                             <span class="labels">Kraj</span>
                             <input name="country" type="text" class="form-control">
                         </div>
+                        <div class="col-md-6 mt-2">
+                            <span class="labels">Opiekun</span>
+                            <select name="user_id" id="userSelect" class="form-control" style="width: 100%;">></select>
+                        </div>
                     </div>
                     <div class="mt-5 text-center">
                         <button class="btn btn-primary profile-button" type="submit">Utwórz klienta</button>
@@ -94,4 +98,8 @@
             </div>
         </div>
     </form>
+    <script>
+        var ajaxSearchUsersLink = @json(route('ajax.searchUsers'));
+    </script>
+    <script src="{{ asset('/js/clients/ajax_search_employees.js') }}"></script>
 @endsection

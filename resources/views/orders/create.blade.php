@@ -26,8 +26,8 @@
                         </div>
                         <div class="col-md-4 mt-2">
                             <span class="labels">Status zamówienia</span>
-                            <select name="status" class="form-control">
-                                    <option></option>
+                            <select name="status" class="form-control" placeholder="test">
+                                <option value="" disabled selected>Wybierz status</option>
                                 @foreach(app('statusHelper')->getAllOrderStatuses() as $id => $name)
                                     <option value="{{ $id }}">{{ $name }}</option>
                                 @endforeach
@@ -69,12 +69,12 @@
                                 </div>
                                 <div class="col-6 col-md-4 mt-2">
                                     <span class="labels">Ilość <small class="show-quantity"></small></span>
-                                    <input name="newQuantity" value="" type="number" class="form-control">
+                                    <input name="newQuantity" value="" placeholder="Wpisz ilość" type="number" class="form-control">
                                     <input name="newUnit" value="" type="number" class="form-control" hidden>
                                 </div>
                                 <div class="col-6 col-md-4 mt-2">
                                     <span class="labels">Cena <small class="show-price"></small></span>
-                                    <input name="newPrice" value="" type="number" step="0.01" class="form-control">
+                                    <input name="newPrice" value="" placeholder="Wpisz cenę" type="number" step="0.01" class="form-control">
                                 </div>
                             </div>
                                 <div class="mt-3 mb-2 text-end">

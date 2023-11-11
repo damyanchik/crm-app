@@ -12,7 +12,7 @@
                 <div class="row">
                     <div class="col-12 col-md-6 mt-2">
                         <span class="labels">Nazwa produktu</span>
-                        <input name="name" type="text" class="form-control">
+                        <input name="name" placeholder="Wpisz nazwę" type="text" class="form-control">
                         @error('name')
                         <span class="flash-message__alert" role="alert">
                                 {{ $message }}
@@ -29,7 +29,7 @@
                     </div>
                     <div class="col-6 col-md-3 mt-2">
                         <span class="labels">Stan magazynowy</span>
-                        <input name="quantity" type="text" class="form-control">
+                        <input name="quantity" placeholder="Wpisz ilość" type="number" class="form-control">
                         @error('quantity')
                         <span class="flash-message__alert" role="alert">
                                 {{ $message }}
@@ -38,7 +38,7 @@
                     </div>
                     <div class="col-6 col-md-3 mt-2">
                         <span class="labels">Cena</span>
-                        <input name="price" type="text" class="form-control">
+                        <input name="price" placeholder="Wpisz cenę" type="number" step="0.01" class="form-control">
                         @error('price')
                         <span class="flash-message__alert" role="alert">
                                 {{ $message }}
@@ -48,7 +48,7 @@
                     <div class="col-6 col-md-3 mt-2">
                         <span class="labels">Jednostka</span>
                         <select name="unit" class="form-control">
-                            <option></option>
+                            <option value="" disabled selected>Wybierz jednostkę</option>
                             @foreach(app('unitHelper')->getAllProductUnits() as $id => $name)
                                 <option value="{{ $id }}">{{ $name }}</option>
                             @endforeach
@@ -62,7 +62,7 @@
                     <div class="col-6 col-md-3 mt-2">
                         <span class="labels">Status</span>
                         <select name="status" class="form-control">
-                            <option></option>
+                            <option value="" disabled selected>Wybierz status</option>
                             @foreach(app('statusHelper')->getAllProductStatuses() as $id => $name)
                                 <option value="{{ $id }}">{{ $name }}</option>
                             @endforeach
