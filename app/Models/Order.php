@@ -25,17 +25,28 @@ class Order extends Model
 
     public function scopeSearch($query, $searchTerm)
     {
-        return $query->orWhere('id', 'like', '%' . $searchTerm . '%')
-            ->orWhere('invoice_num', 'like', '%' . $searchTerm . '%')
-            ->orWhereHas('client', function ($clientQuery) use ($searchTerm) {
-                $clientQuery->where('name', 'like', '%' . $searchTerm . '%')
-                    ->orWhere('surname', 'like', '%' . $searchTerm . '%')
-                    ->orWhere('company', 'like', '%' . $searchTerm . '%');
-            })
-            ->orWhereHas('user', function ($userQuery) use ($searchTerm) {
-                $userQuery->where('name', 'like', '%' . $searchTerm . '%')
-                    ->orWhere('surname', 'like', '%' . $searchTerm . '%');
-            });
+        return $query->where(function ($query) use ($searchTerm) {
+            $query->orWhere('id', 'like', '%' . $searchTerm . '%')
+                ->orWhere('invoice_num', 'like', '%' . $searchTerm . '%')
+                ->orWhereHas('client', function ($clientQuery) use ($searchTerm) {
+                    $clientQuery->where(function ($query) use ($searchTerm) {
+                        $query->where('name', 'like', '%' . $searchTerm . '%')
+                            ->orWhere('surname', 'like', '%' . $searchTerm . '%')
+                            ->orWhere('company', 'like', '%' . $searchTerm . '%');
+                    });
+                })
+                ->orWhereHas('user', function ($userQuery) use ($searchTerm) {
+                    $userQuery->where(function ($query) use ($searchTerm) {
+                        $query->where('name', 'like', '%' . $searchTerm . '%')
+                            ->orWhere('surname', 'like', '%' . $searchTerm . '%');
+                    });
+                });
+        });
+    }
+
+    public function scopeSortBy($query, $column, $direction)
+    {
+        return $query->orderBy($column, $direction);
     }
 
     public function user()
