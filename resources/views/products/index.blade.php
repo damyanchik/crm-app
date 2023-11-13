@@ -6,10 +6,10 @@
         <table class="table align-middle mb-0 bg-white border">
             <thead class="bg-light">
             <tr>
-                <th>Nazwa produktu / marka</th>
-                <th>Na stanie</th>
-                <th>Cena</th>
-                <th>Status</th>
+                <th data-column="name">Nazwa produktu / marka</th>
+                <th data-column="quantity">Na stanie</th>
+                <th data-column="price">Cena</th>
+                <th data-column="status">Status</th>
                 <th style="width: 6rem"></th>
             </tr>
             </thead>

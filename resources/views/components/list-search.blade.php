@@ -1,5 +1,5 @@
 @if(!empty($list))
-<form method="get" class="my-2 mt-4 row" id="listManager">
+<form method="get" class="my-2 mt-4 row" id="listManager" data-arrow="{{ asset('images/arrow.png') }}">
     <div class="col-6">
         <div class="input-group mb-3 pageSearch__input">
             <input type="text" name="search" class="form-control" placeholder="Wyszukaj..." value="{{ request()->input(['search']) }}">
@@ -19,8 +19,8 @@
             </select>
         </div>
     </div>
-    <input name="column" value="{{ request()->input(['column']) }}" onchange="$(this).closest('form').submit();" readonly hidden>
-    <input name="order" value="{{ request()->input(['order']) }}" readonly hidden>
+    <input name="column" value="{{ request()->input(['column']) }}" readonly hidden>
+    <input name="order" value="{{ request()->input(['order']) }}" onchange="$(this).closest('form').submit();" readonly hidden>
 </form>
 {{ $slot }}
 <div class="mt-4 mb-5 p-1 d-flex justify-content-center">
@@ -31,6 +31,7 @@
     'order' => request()->input('order')
     ])->onEachSide(2)->links() }}
 </div>
+<script src="{{ asset('/js/sort_search_list.js') }}"></script>
 @else
     Brak danych do wyświetlenia.
 @endif

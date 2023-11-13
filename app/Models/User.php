@@ -72,6 +72,11 @@ class User extends Authenticatable
         });
     }
 
+    public function scopeSortBy($query, $column, $direction)
+    {
+        return $query->orderBy($column, $direction);
+    }
+
     public function client()
     {
         return $this->hasMany(Client::class, 'user_id');

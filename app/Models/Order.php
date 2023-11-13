@@ -25,23 +25,25 @@ class Order extends Model
 
     public function scopeSearch($query, $searchTerm)
     {
-        return $query->where(function ($query) use ($searchTerm) {
-            $query->orWhere('id', 'like', '%' . $searchTerm . '%')
-                ->orWhere('invoice_num', 'like', '%' . $searchTerm . '%')
-                ->orWhereHas('client', function ($clientQuery) use ($searchTerm) {
-                    $clientQuery->where(function ($query) use ($searchTerm) {
-                        $query->where('name', 'like', '%' . $searchTerm . '%')
-                            ->orWhere('surname', 'like', '%' . $searchTerm . '%')
-                            ->orWhere('company', 'like', '%' . $searchTerm . '%');
-                    });
-                })
-                ->orWhereHas('user', function ($userQuery) use ($searchTerm) {
-                    $userQuery->where(function ($query) use ($searchTerm) {
-                        $query->where('name', 'like', '%' . $searchTerm . '%')
-                            ->orWhere('surname', 'like', '%' . $searchTerm . '%');
-                    });
-                });
-        });
+        return $query->leftJoin('client', 'orders.client_id', '=', 'client.id')
+            ->leftJoin('users', 'orders.user_id', '=', 'users.id')
+            ->where(function ($query) use ($searchTerm) {
+                $query->orWhere('orders.id', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('orders.invoice_num', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('client.name', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('client.surname', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('client.company', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('users.name', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('users.surname', 'like', '%' . $searchTerm . '%');
+            })
+            ->select(
+                'orders.*',
+                'client.name',
+                'client.surname',
+                'client.company',
+                'users.name',
+                'users.surname'
+            );
     }
 
     public function scopeSortBy($query, $column, $direction)

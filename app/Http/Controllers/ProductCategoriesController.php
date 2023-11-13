@@ -13,7 +13,8 @@ class ProductCategoriesController extends Controller
     {
         $productCategories = ProductCategory::where(
             'name', 'like', '%' . request('search') . '%'
-        )->paginate(request('display'));
+        )->orderBy(request('column') ?? 'id', request('order') ?? 'asc')
+            ->paginate(request('display'));
 
         return view('products.product_categories.index', [
             'productCategories' => $productCategories

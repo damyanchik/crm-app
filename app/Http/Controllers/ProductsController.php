@@ -12,7 +12,9 @@ class ProductsController extends Controller
 {
     public function index(): object
     {
-        $products = Product::search(request('search'))->paginate(request('display'));
+        $products = Product::search(request('search'))
+            ->orderBy(request('column') ?? 'id', request('order') ?? 'asc')
+            ->paginate(request('display'));
 
         return view('products.index', [
             'products' => $products

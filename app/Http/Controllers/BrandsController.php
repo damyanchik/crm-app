@@ -13,7 +13,8 @@ class BrandsController extends Controller
     {
         $brands = Brand::where(
             'name', 'like', '%' . request('search') . '%'
-        )->paginate(request('display'));
+        )->orderBy(request('column') ?? 'id', request('order') ?? 'asc')
+            ->paginate(request('display'));
 
         return view('products.brands.index', [
             'brands' => $brands

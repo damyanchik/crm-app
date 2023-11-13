@@ -16,7 +16,7 @@ class OrdersController extends Controller
     public function index(): object
     {
         $orders = Order::search(request('search'))
-            ->orderBy(request('column'), request('order'))
+            ->sortBy(request('column') ?? 'id', request('order') ?? 'asc')
             ->paginate(request('display'));
 
         return view('orders.index', [

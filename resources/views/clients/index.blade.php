@@ -6,9 +6,9 @@
         <table class="table align-middle mb-0 bg-white border">
             <thead class="bg-light">
                 <tr>
-                    <th>Klient</th>
-                    <th>Dane adresowe</th>
-                    <th>Opiekun</th>
+                    <th data-column="company">Klient</th>
+                    <th data-column="city">Dane adresowe</th>
+                    <th data-column="users.surname">Opiekun</th>
                     <th></th>
                 </tr>
             </thead>

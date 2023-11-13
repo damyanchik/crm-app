@@ -33,16 +33,30 @@ class Client extends Model
 
     public function scopeSearch($query, $searchTerm)
     {
-        return $query->where('company', 'like', '%' . $searchTerm . '%')
-            ->orWhere('name', 'like', '%' . $searchTerm . '%')
-            ->orWhere('surname', 'like', '%' . $searchTerm . '%')
-            ->orWhere('email', 'like', '%' . $searchTerm . '%')
-            ->orWhere('phone', 'like', '%' . $searchTerm . '%')
-            ->orWhere('address', 'like', '%' . $searchTerm . '%')
-            ->orWhere('postal_code', 'like', '%' . $searchTerm . '%')
-            ->orWhere('city', 'like', '%' . $searchTerm . '%')
-            ->orWhere('state', 'like', '%' . $searchTerm . '%')
-            ->orWhere('country', 'like', '%' . $searchTerm . '%');
+        return $query->leftJoin('users', 'client.user_id', '=', 'users.id')
+            ->where(function ($query) use ($searchTerm) {
+                $query->orWhere('client.company', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('client.name', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('client.surname', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('client.email', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('client.phone', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('client.address', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('client.postal_code', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('client.city', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('client.state', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('client.country', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('users.name', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('users.surname', 'like', '%' . $searchTerm . '%');
+            })
+            ->select(
+                'client.*',
+                'users.name',
+                'users.surname'
+            );
+    }
+    public function scopeSortBy($query, $column, $direction)
+    {
+        return $query->orderBy($column, $direction);
     }
 
     public function user()

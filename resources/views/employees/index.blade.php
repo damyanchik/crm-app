@@ -6,9 +6,9 @@
         <table class="table align-middle mb-0 bg-white border">
             <thead class="bg-light">
                 <tr>
-                    <th>Użytkownik</th>
-                    <th>Pozycja / Dział</th>
-                    <th>Status</th>
+                    <th data-column="surname">Użytkownik</th>
+                    <th data-column="position">Pozycja / Dział</th>
+                    <th data-column="last_activity">Status</th>
                     <th></th>
                     <th></th>
                 </tr>
