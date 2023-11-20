@@ -3,13 +3,13 @@
 @section('content')
     <h1>Lista klientów</h1>
     <x-list-search :list="$clients">
-        <table class="table align-middle mb-0 bg-white border">
+        <table id="table-breakpoint" class="table align-middle mb-0 bg-white border">
             <thead class="bg-light">
                 <tr>
                     <th data-column="company">Klient</th>
                     <th data-column="city">Dane adresowe</th>
                     <th data-column="users.surname">Opiekun</th>
-                    <th></th>
+                    <th>Akcje</th>
                 </tr>
             </thead>
             <tbody>

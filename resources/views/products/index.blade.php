@@ -3,14 +3,14 @@
 @section('content')
     <h1>Lista produktów</h1>
     <x-list-search :list="$products">
-        <table class="table align-middle mb-0 bg-white border">
+        <table id="table-breakpoint" class="table align-middle mb-0 bg-white border">
             <thead class="bg-light">
             <tr>
                 <th data-column="name">Nazwa produktu / marka</th>
                 <th data-column="quantity">Na stanie</th>
                 <th data-column="price">Cena</th>
                 <th data-column="status">Status</th>
-                <th style="width: 6rem"></th>
+                <th style="width: 6rem">Akcje</th>
             </tr>
             </thead>
             <tbody>

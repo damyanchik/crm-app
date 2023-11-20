@@ -9,8 +9,10 @@
         </div>
     </div>
     <div class="col-6">
-        <div class="input-group mb-3 pageSearch__input float-end">
-            <label class="input-group-text">Pozycji na stronie</label>
+        <div class="input-group mb-3 pageSearch__input float-end" style="width: 7.5rem;">
+            <label class="input-group-text">
+                <i class="fa-solid fa-list-ol" style="color: #707070;"></i>
+            </label>
             <select name="display" class="form-select" onchange="$(this).closest('form').submit();">
                 <option value="15" {{ request()->input(['display']) == 15 ? 'selected' : '' }}>15</option>
                 <option value="30" {{ request()->input(['display']) == 30 ? 'selected' : '' }}>30</option>
@@ -32,6 +34,7 @@
     ])->onEachSide(2)->links() }}
 </div>
 <script src="{{ asset('/js/sort_search_list.js') }}"></script>
+<script src="{{ asset('/js/table_breakpoint.js') }}"></script>
 @else
     Brak danych do wyświetlenia.
 @endif

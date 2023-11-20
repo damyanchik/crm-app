@@ -9,20 +9,16 @@
     </div>
     <h1>Marki produktów</h1>
     <x-list-search :list="$brands">
-        <table class="table align-middle mb-0 bg-white border">
+        <table id="table-breakpoint" class="table align-middle mb-0 bg-white border">
             <thead class="bg-light">
             <tr>
-                <th style="width: 2rem" data-column="id">ID</th>
                 <th data-column="name">Nazwa marki</th>
-                <th style="width: 6rem"></th>
+                <th style="width: 6rem">Akcje</th>
             </tr>
             </thead>
             <tbody>
             @foreach($brands as $brand)
                 <tr>
-                    <td class="text-center">
-                        {{ $brand['id'] }}
-                    </td>
                     <td>
                         {{ $brand['name'] }}
                     </td>

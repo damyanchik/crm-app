@@ -9,20 +9,16 @@
     </div>
     <h1>Kategorie produktowe</h1>
     <x-list-search :list="$productCategories">
-        <table class="table align-middle mb-0 bg-white border">
+        <table id="table-breakpoint" class="table align-middle mb-0 bg-white border">
             <thead class="bg-light">
             <tr>
-                <th style="width: 2rem" data-column="id">ID</th>
                 <th data-column="name">Nazwa marki</th>
-                <th style="width: 6rem"></th>
+                <th style="width: 6rem">Akcje</th>
             </tr>
             </thead>
             <tbody>
             @foreach($productCategories as $productCategory)
                 <tr>
-                    <td class="text-center">
-                        {{ $productCategory['id'] }}
-                    </td>
                     <td>
                         {{ $productCategory['name'] }}
                     </td>
@@ -36,4 +32,5 @@
             </tbody>
         </table>
     </x-list-search>
+    <script src="{{ asset('/js/table_breakpoint.js') }}"></script>
 @endsection

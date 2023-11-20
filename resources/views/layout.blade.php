@@ -27,6 +27,12 @@
     <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+    <script src="
+https://cdn.jsdelivr.net/npm/basictable@2.0.4/dist/js/jquery.basictable.min.js
+"></script>
+    <link href="
+https://cdn.jsdelivr.net/npm/basictable@2.0.4/dist/css/basictable.min.css
+" rel="stylesheet">
 </head>
 <body>
 

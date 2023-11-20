@@ -3,7 +3,7 @@
 @section('content')
     <h1>Lista zamówień</h1>
     <x-list-search :list="$orders">
-        <table class="table align-middle mb-0 bg-white border">
+        <table id="table-breakpoint" class="table align-middle mb-0 bg-white border">
             <thead class="bg-light">
                 <tr>
                     <th data-column="id">Nr zamówienia</th>
@@ -13,7 +13,7 @@
                     <th data-column="users.surname">Sprzedający</th>
                     <th data-column="created_at">Data</th>
                     <th data-column="status">Status</th>
-                    <th></th>
+                    <th>Akcje</th>
                 </tr>
             </thead>
             <tbody>

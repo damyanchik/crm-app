@@ -3,14 +3,13 @@
 @section('content')
     <h1>Lista użytkowników</h1>
     <x-list-search :list="$users">
-        <table class="table align-middle mb-0 bg-white border">
+        <table id="table-breakpoint" class="table align-middle mb-0 bg-white border">
             <thead class="bg-light">
                 <tr>
                     <th data-column="surname">Użytkownik</th>
                     <th data-column="position">Pozycja / Dział</th>
                     <th data-column="last_activity">Status</th>
-                    <th></th>
-                    <th></th>
+                    <th>Akcje</th>
                 </tr>
             </thead>
             <tbody>
@@ -45,7 +44,6 @@
                     <span class="badge bg-secondary rounded-pill d-inline">Nieaktywny</span>
                     @endif
                 </td>
-                <td></td>
                 <td>
                     <a href="employees/{{ $user['id'] }}" class="btn btn-link btn-sm btn-rounded">
                         <i class="fa-solid fa-user" style="color: #707070;"></i>
