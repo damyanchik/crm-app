@@ -45,6 +45,7 @@ class Client extends Model
                     ->orWhere('client.city', 'like', '%' . $searchTerm . '%')
                     ->orWhere('client.state', 'like', '%' . $searchTerm . '%')
                     ->orWhere('client.country', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('client.tax', 'like', '%' . $searchTerm . '%')
                     ->orWhere('users.name', 'like', '%' . $searchTerm . '%')
                     ->orWhere('users.surname', 'like', '%' . $searchTerm . '%');
             })
@@ -66,7 +67,7 @@ class Client extends Model
 
     public function order()
     {
-        return $this->hasMany(Order::class, 'order_id');
+        return $this->hasMany(Order::class, 'client_id');
     }
 
 }

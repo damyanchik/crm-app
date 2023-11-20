@@ -64,7 +64,7 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="p-md-3 py-md-5">
+                <div class="p-md-3 py-1 py-md-5">
                     <div class="col-md-12">
                         <h5 class="mb-2 fw-bold">Zamówione produkty</h5>
                         <div class="companyServe overflow-auto border border-2 p-1" style="height: 30rem; overflow-x: hidden !important; overflow-y: auto !important;">

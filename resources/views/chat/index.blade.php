@@ -66,7 +66,7 @@
         const pusher = new Pusher('{{config('broadcasting.connections.pusher.key')}}', {cluster: 'eu'});
         const channel = pusher.subscribe('public');
     </script>
-    `<script src="{{ asset('/js/chat/function_replaceAll.js') }}"></script>`
+    <script src="{{ asset('/js/chat/function_replaceAll.js') }}"></script>
     <script src="{{ asset('/js/chat/loading_chat.js') }}"></script>
     <script src="{{ asset('/js/chat/scroll_chat.js') }}"></script>
     <script src="{{ asset('/js/chat/receive_messages.js') }}"></script>

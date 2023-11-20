@@ -13,7 +13,10 @@ class ClientsController extends Controller
     public function index(): object
     {
         $clients = Client::search(request('search'))
-            ->sortBy(request('column') ?? 'id', request('order') ?? 'asc')
+            ->sortBy(
+                request('column') ?? 'id',
+                request('order') ?? 'asc'
+            )
             ->paginate(request('display'));
 
         return view('clients.index', [

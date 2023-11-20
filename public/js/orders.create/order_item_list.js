@@ -14,11 +14,14 @@ function updateProductNumbers() {
         $(this).find(".productIndex").text(index + 1);
     });
 
+    $("#createOrder").prop("disabled", false);
     $("#totalQuantity").val(totalQuantity);
-    $("#totalPrice").val(totalPrice.toFixed(2)); // Zaokrąglamy cenę do dwóch miejsc po przecinku
+    $("#totalPrice").val(totalPrice.toFixed(2));
 }
 
+$("#createOrder").prop("disabled", true);
 $("#addProduct").prop("disabled", true);
+
 $("input[name='newQuantity'], input[name='newPrice'], select[name='newProduct']").change(function() {
     var isEmpty = $("input[name='newQuantity']").val() === "" ||
         $("input[name='newPrice']").val() === "" ||
@@ -35,8 +38,7 @@ $("#addProduct").click(function () {
     const newPrice = $("input[name='newPrice']").val();
     const newTotalPrice = newQuantity * newPrice;
 
-    const productDiv = `
-                            <tr class="product">
+    const productDiv = `        <tr class="product">
                                 <th scope="row" class="productIndex">${productCount}</th>
                                 <td>${newProduct}</td>
                                 <input name="products[${productCount}][name]" value="${newProduct}" type="hidden">
