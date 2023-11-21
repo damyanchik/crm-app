@@ -66,6 +66,8 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/products/{product}', [ProductsController::class, 'update']);
     //Delete
     Route::delete('/products/{product}', [ProductsController::class, 'destroy']);
+    //Del photo
+    Route::put('/products/{product}/delete-product-photo', [ProductsController::class, 'deleteProductPhoto']);
 
     //Brand List
     Route::get('/brands', [BrandsController::class, 'index']);

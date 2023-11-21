@@ -7,13 +7,18 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Services\ProductService;
+use Illuminate\Support\Facades\App;
 
 class ProductsController extends Controller
 {
     public function index(): object
     {
         $products = Product::search(request('search'))
-            ->orderBy(request('column') ?? 'id', request('order') ?? 'asc')
+            ->orderBy(
+                request('column') ?? 'id',
+                request('order') ?? 'asc'
+            )
             ->paginate(request('display'));
 
         return view('products.index', [
@@ -28,9 +33,8 @@ class ProductsController extends Controller
 
     public function store(StoreProductRequest $request): object
     {
-        $formFields = $request->validated();
-
-        Product::create($formFields);
+        $productService = App::make(ProductService::class);
+        $productService->createProduct($request);
 
         return redirect('/products')->with('message', 'Produkt został utworzony.');
     }
@@ -44,9 +48,8 @@ class ProductsController extends Controller
 
     public function update(UpdateProductRequest $request, Product $product): object
     {
-        $formFields = $request->validated();
-
-        $product->update($formFields);
+        $productService = App::make(ProductService::class);
+        $productService->updateProduct($product, $request);
 
         return back()->with('message', 'Produkt został zaktualizowany.');
     }
@@ -56,5 +59,16 @@ class ProductsController extends Controller
         $product->delete();
 
         return redirect('/products')->with('message', 'Produkt został usunięty.');
+    }
+
+    public function deleteProductPhoto(Product $product): object
+    {
+        $productService = App::make(ProductService::class);
+        $productService->deletePreviousPhoto($product->photo);
+
+        $product->setAttribute('photo', null);
+        $product->save();
+
+        return back()->with('message', 'Usunięto zdjęcie produktu.');
     }
 }

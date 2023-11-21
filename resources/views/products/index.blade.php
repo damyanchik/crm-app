@@ -6,7 +6,9 @@
         <table id="table-breakpoint" class="table align-middle mb-0 bg-white border">
             <thead class="bg-light">
             <tr>
-                <th data-column="name">Nazwa produktu / marka</th>
+                <th data-column="name">Nazwa produktu</th>
+                <th data-column="brand">Marka</th>
+                <th data-column="category">Kategoria</th>
                 <th data-column="quantity">Na stanie</th>
                 <th data-column="price">Cena</th>
                 <th data-column="status">Status</th>
@@ -17,9 +19,30 @@
             @foreach($products as $product)
                 <tr>
                     <td>
-                        <p>{{ $product['name'] }}</p>
-                        @if (!empty($product['brand_id']) || !empty($product->brand->name))
-                        <p class="text-muted mb-1">{{ $product->brand->name }}</p>
+                        <div class="d-flex align-items-center">
+                            <img
+                                @if(!empty($product['photo']))
+                                    src="{{ asset('storage/'.$product['photo']) }}"
+                                @else
+                                    src="{{ asset('images/unknown-product.png') }}"
+                                @endif
+                                alt=""
+                                style="width: 45px; height: 45px"
+                                class="rounded-circle"
+                            />
+                            <div class="ms-3 mt-2">
+                                <p>{{ $product['name'] }}</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        @if (!empty($product['brand']))
+                            <p class="text-muted mb-1">{{ $product['brand'] }}</p>
+                        @endif
+                    </td>
+                    <td>
+                        @if (!empty($product['category']))
+                            <p class="text-muted mb-1">{{ $product['category'] }}</p>
                         @endif
                     </td>
                     <td>

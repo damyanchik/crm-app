@@ -13,9 +13,37 @@
                     </button>
                 </form>
             </div>
-            <form method="post" action="/products/{{$product['id']}}" class="col-md-12">
+
+            <div class="col-3 px-4 pt-2 text-center">
+                <img class="rounded-circle my-4" width="150px"
+                     @if(!empty($product['photo']))
+                         src="{{ asset('storage/'.$product['photo']) }}"
+                     @else
+                         src="{{ asset('images/unknown-product.png') }}"
+                    @endif
+                >
+                @if(!empty($product['photo']))
+                    <form method="post" action="/products/{{$product['id']}}/delete-product-photo" class="text-center my-2">
+                        @csrf
+                        @method('PUT')
+                        <button class="btn btn-danger border px-3 p-0">
+                            <i class="fa fa-minus"></i>&nbsp;Usuń zdjęcie
+                        </button>
+                    </form>
+                @endif
+            </div>
+
+            <form method="post" action="/products/{{$product['id']}}" class="col-md-12" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
+                <div class="col-12 p-3 py-2">
+                    <input type="file" class="form-control" name="photo" style="width: 18rem">
+                    @error('photo')
+                    <span class="flash-message__alert" role="alert">
+                                {{ $message }}
+                    </span>
+                    @enderror
+                </div>
                 <div class="p-3 py-2">
                     <div class="row">
                         <div class="col-12 col-md-6 mt-2">

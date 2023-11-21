@@ -3,7 +3,7 @@
 @section('content')
 <div class="container rounded bg-white mb-5">
     <div class="row">
-        <form method="post" action="/products/" class="col-md-12 border-right">
+        <form method="post" action="/products/" class="col-md-12 border-right" enctype="multipart/form-data">
             @csrf
             <div class="p-3 py-2">
                 <div class="align-items-center mb-3">
@@ -76,6 +76,15 @@
                     <div class="col-12 mt-2">
                         <span class="labels">Opis produktu</span>
                         <textarea name="description" class="form-control" rows="5" style="resize: none;"></textarea>
+                    </div>
+                    <div class="col-12 mt-2">
+                        <span class="labels">Wybierz zdjęcie produktu</span>
+                        <input type="file" class="form-control" name="photo" style="width: 18rem">
+                        @error('photo')
+                        <span class="flash-message__alert" role="alert">
+                            {{ $message }}
+                        </span>
+                        @enderror
                     </div>
                 </div>
                 <div class="mt-5 text-center">

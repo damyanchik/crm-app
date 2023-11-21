@@ -16,7 +16,10 @@ class EmployeesController extends Controller
     public function index(): object
     {
         $users = User::search(request('search'))
-            ->sortBy(request('column') ?? 'id', request('order') ?? 'asc')
+            ->sortBy(
+                request('column') ?? 'id',
+                request('order') ?? 'asc'
+            )
             ->paginate(request('display'));
 
         return view('employees.index', [

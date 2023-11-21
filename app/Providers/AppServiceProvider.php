@@ -7,6 +7,7 @@ use Illuminate\Pagination\Paginator;
 use App\Helpers\UnitHelper;
 use App\Helpers\StatusHelper;
 use App\Helpers\ColorHelper;
+use App\Services\ProductService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,6 +27,8 @@ class AppServiceProvider extends ServiceProvider
         app()->bind('colorHelper', function () {
             return new ColorHelper();
         });
+
+        app()->bind(ProductService::class);
     }
 
     /**

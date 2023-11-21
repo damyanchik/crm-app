@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('code')->nullable();
             $table->tinyInteger('unit');
             $table->tinyInteger('status');
+            $table->string('photo')->nullable();
             $table->timestamps();
         });
     }

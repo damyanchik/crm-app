@@ -22,15 +22,24 @@ class Product extends Model
         'price',
         'unit',
         'status',
+        'photo',
         'description'
     ];
 
     public function scopeSearch($query, $searchTerm)
     {
-        return $query->where('name', 'like', '%' . $searchTerm . '%')
-            ->orWhereHas('brand', function ($brandQuery) use ($searchTerm) {
-                $brandQuery->where('name', 'like', "%$searchTerm%");
-            });
+        return $query->leftJoin('brands', 'products.brand_id', '=', 'brands.id')
+            ->leftJoin('product_categories', 'products.category_id', '=', 'product_categories.id')
+            ->where(function ($query) use ($searchTerm) {
+                $query->orWhere('products.name', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('brands.name', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('product_categories.name', 'like', '%' . $searchTerm . '%');
+            })
+            ->select(
+                'products.*',
+                'product_categories.name as category',
+                'brands.name as brand'
+            );
     }
 
     public function brand()
