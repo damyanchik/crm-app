@@ -13,8 +13,9 @@
                 </p>
             </div>
         </div>
-        <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-5.webp" alt="avatar"
-             class="rounded-circle d-flex align-self-start ms-2 me-2 shadow-1-strong" width="60">
+        <img
+            src="{{ asset($avatar) }}"
+            class="rounded-circle d-flex align-self-start ms-2 me-2 shadow-1-strong" width="60">
     </li>
 </div>
 

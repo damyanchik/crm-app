@@ -15,7 +15,6 @@ class ChatMessage extends Model
         'message'
     ];
 
-
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');

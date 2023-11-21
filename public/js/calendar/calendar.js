@@ -11,8 +11,8 @@ $(document).ready(function () {
             week: 'Tydzień',
             day: 'Dzień'
         },
-        dayNamesShort: ['Niedz.', 'Pon.', 'Wt.', 'Śr.', 'Czw.', 'Pt.', 'Sob.'],
-        dayNames: ['Nd', 'Pn', 'Wt', 'Śr', 'Czw', 'Pi', 'So'],
+        dayNamesShort: ['Nd', 'Pn', 'Wt', 'Śr', 'Czw', 'Pt', 'So'],
+        dayNames: ['Nd', 'Pn', 'Wt', 'Śr', 'Czw', 'Pt', 'So'],
         monthNames: ['Styczeń', 'Luty', 'Marzec', 'Kwiecień', 'Maj', 'Czerwiec', 'Lipiec', 'Sierpień', 'Wrzesień', 'Październik', 'Listopad', 'Grudzień'],
         timeFormat: 'H:mm',
         locale: 'pl',

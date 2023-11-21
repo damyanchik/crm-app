@@ -32,7 +32,7 @@
                 <x-sidebar-nav
                     :icon="'fas fa-users fa-fw me-3'"
                     :category="'Pracownicy'"
-                    :pages="['employees'=>'Lista pracowników', 'chat' => 'Komunikator']"
+                    :pages="['chat' => 'Komunikator', 'employees'=>'Lista pracowników']"
                 ></x-sidebar-nav>
                 <a href="/calendar" class="list-group-item list-group-item-action py-1 ripple
                         {{ (request()->is('calendar')) ? 'active' : '' }}"><i

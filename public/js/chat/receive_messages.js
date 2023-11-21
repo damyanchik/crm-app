@@ -1,9 +1,10 @@
 channel.bind('chat', function (data) {
     $.post("/chat/receive", {
         _token: csrfToken,
-        message: data.message,
-        name: data.name,
-        time: data.time
+        message: data.content.message,
+        name: data.content.name,
+        time: data.content.time,
+        avatar: data.content.avatar
     })
         .done(function (res) {
             $(".messages > .message").last().after(res);

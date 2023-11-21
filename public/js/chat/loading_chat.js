@@ -33,6 +33,7 @@ function loadMessages() {
                 var $iframe = chooseTemplate(sessionId, messageContent.user_id);
                 var user = messageContent.user;
                 messageContent.name = user.name+' '+user.surname;
+                messageContent.avatar = user.avatar ? 'storage/'+ user.avatar : unknownAvatarLink;
 
                 $iframe.on('load', function () {
                     var iframeDoc = $iframe[0].contentDocument;

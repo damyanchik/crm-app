@@ -58,6 +58,7 @@
     <script>
         var broadcastTemplateLink = @json(asset('html/chat/broadcast.html'));
         var receiveTemplateLink = @json(asset('html/chat/receive.html'));
+        var unknownAvatarLink = @json(asset('images/unknown.png'));
 
         var sessionId = @json(Auth::user()->id);
         var csrfToken = @json(csrf_token());

@@ -13,23 +13,26 @@ class PusherController extends Controller
 {
     public function broadcast(Request $request): object
     {
-        $messageContent = $request->get('message');
-        $time = date('Y-m-d H:i:s');
+        $content['message'] = $request->get('message');
+        $content['time'] = date('Y-m-d H:i:s');
+
         $user = Auth::user();
 
         $message = new ChatMessage();
-        $message->message = $messageContent;
+        $message->message = $content['message'];
         $message->recipient = 0;
 
         $user->chatMessage()->save($message);
 
-        $name = $user->name.' '.$user->surname;
+        $content['name'] = $user->name.' '.$user->surname;
+        $content['avatar'] = $user->avatar ? 'storage/'.$user->avatar : asset('images/unknown.png');
 
-        broadcast(new PusherBroadcast($messageContent, $name, $time))->toOthers();
+        broadcast(new PusherBroadcast($content))->toOthers();
 
         return view('chat.broadcast', [
-            'message' => $messageContent,
-            'time' => $time
+            'message' => $content['message'],
+            'time' => $content['time'],
+            'avatar' => $content['avatar']
         ]);
     }
 
@@ -38,7 +41,8 @@ class PusherController extends Controller
         return view('chat.receive', [
             'message' => $request->get('message'),
             'name' =>  $request->get('name'),
-            'time' => $request->get('time')
+            'time' => $request->get('time'),
+            'avatar' => $request->get('avatar')
         ]);
     }
 }
