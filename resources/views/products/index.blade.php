@@ -46,13 +46,13 @@
                         @endif
                     </td>
                     <td>
-                        <p class="text-muted mb-1">{{ $product['quantity'] .' '. app('unitHelper')->getProductUnit($product['unit']) }}</p>
+                        <p class="text-muted mb-1">{{ $product['quantity'] .' '. app('ProductUnitEnum')->getUnit($product['unit']) }}</p>
                     </td>
                     <td>
                         <p class="mb-0">{{ number_format($product['price'], 2) }} PLN</p>
                     </td>
                     <td>
-                        <p class="mb-0">{{ app('statusHelper')->getProductStatus($product['status']) }}</p>
+                        <p class="mb-0">{{ app('ProductStatusEnum')->getStatus($product['status']) }}</p>
                     </td>
                     <td>
                         <a href="products/{{ $product['id'] }}/edit" class="btn btn-link btn-sm btn-rounded">

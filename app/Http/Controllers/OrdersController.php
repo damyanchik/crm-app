@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Helpers\UnitHelper;
+use App\Enum\ProductUnitEnum;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Support\Facades\DB;
@@ -33,7 +33,7 @@ class OrdersController extends Controller
 
     public function create(): object
     {
-        $jsonUnits = json_encode(UnitHelper::getAllProductUnits());
+        $jsonUnits = json_encode(ProductUnitEnum::getAllUnits());
 
         return view('orders.create', [
             'jsonUnits' => $jsonUnits

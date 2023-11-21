@@ -11,7 +11,7 @@ use App\Http\Requests\StoreProductRequest;
 
 class ProductService
 {
-    public function createProduct(StoreProductRequest $request): void
+    public function storeProduct(StoreProductRequest $request): void
     {
         $formFields = $request->validated();
 

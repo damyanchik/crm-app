@@ -28,7 +28,7 @@
                             <span class="labels">Status zamówienia</span>
                             <select name="status" class="form-control" placeholder="test">
                                 <option value="" disabled selected>Wybierz status</option>
-                                @foreach(app('statusHelper')->getAllOrderStatuses() as $id => $name)
+                                @foreach(app('OrderStatusEnum')->getAllStatuses() as $id => $name)
                                     <option value="{{ $id }}">{{ $name }}</option>
                                 @endforeach
                             </select>

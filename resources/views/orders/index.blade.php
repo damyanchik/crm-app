@@ -41,7 +41,7 @@
                         {{ $order['created_at'] }}
                     </td>
                     <td>
-                        {{ app('statusHelper')->getOrderStatus($order->status) }}
+                        {{ app('OrderStatusEnum')->getStatus($order->status) }}
                     </td>
                     <td>
                         <a href="orders/{{ $order['id'] }}" class="btn btn-link btn-sm btn-rounded">

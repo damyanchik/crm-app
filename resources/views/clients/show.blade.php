@@ -66,7 +66,7 @@
                             @foreach($client->order as $order)
                                 <div class="p-1 border m-1 invoice-link">
                                     <a href="/orders/{{ $order['id'] }}" class="btn">{{ $order['invoice_num'] }}</a>
-                                    <span class="m-1 p-1 float-end">{{ app('statusHelper')->getOrderStatus($order['status']) }}</span>
+                                    <span class="m-1 p-1 float-end">{{ app('OrderStatusEnum')->getStatus($order['status']) }}</span>
                                 </div>
                             @endforeach
                         </div>

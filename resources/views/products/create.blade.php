@@ -49,7 +49,7 @@
                         <span class="labels">Jednostka</span>
                         <select name="unit" class="form-control">
                             <option value="" disabled selected>Wybierz jednostkę</option>
-                            @foreach(app('unitHelper')->getAllProductUnits() as $id => $name)
+                            @foreach(app('ProductUnitEnum')->getAllUnits() as $id => $name)
                                 <option value="{{ $id }}">{{ $name }}</option>
                             @endforeach
                         </select>
@@ -63,7 +63,7 @@
                         <span class="labels">Status</span>
                         <select name="status" class="form-control">
                             <option value="" disabled selected>Wybierz status</option>
-                            @foreach(app('statusHelper')->getAllProductStatuses() as $id => $name)
+                            @foreach(app('ProductStatusEnum')->getAllStatuses() as $id => $name)
                                 <option value="{{ $id }}">{{ $name }}</option>
                             @endforeach
                         </select>

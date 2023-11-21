@@ -34,7 +34,7 @@ class ProductsController extends Controller
     public function store(StoreProductRequest $request): object
     {
         $productService = App::make(ProductService::class);
-        $productService->createProduct($request);
+        $productService->storeProduct($request);
 
         return redirect('/products')->with('message', 'Produkt został utworzony.');
     }

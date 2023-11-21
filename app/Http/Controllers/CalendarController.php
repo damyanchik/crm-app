@@ -7,7 +7,7 @@ namespace App\Http\Controllers;
 use App\Models\Calendar;
 use App\Http\Requests\CalendarStoreRequest;
 use Illuminate\Support\Facades\Auth;
-use App\Helpers\ColorHelper;
+use App\Enum\CalendarColorEnum;
 
 class CalendarController extends Controller
 {
@@ -24,7 +24,7 @@ class CalendarController extends Controller
                 'title' => $event->title,
                 'name' => $event->user->name.' '.$event->user->surname,
                 'description' => $event->description,
-                'color' => ColorHelper::getColor($event->color, 'en'),
+                'color' => CalendarColorEnum::getColor((int) $event->color),
                 'start' => $event->date_start,
                 'end' => $event->date_end,
                 'user_id' => $event->user_id,

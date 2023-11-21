@@ -24,9 +24,8 @@
         <div class="col-md-1 mt-2">
             <label>Kolor</label>
             <select name="color" class="form-control">
-                <option value="0"></option>
-                @foreach(app('colorHelper')->getAllColors() as $id => $color)
-                    <option value="{{ $id }}" style="background-color: {{ $color['en'] }}; color: white">{{ $color['pl'] }}</option>
+                @foreach(app('CalendarColorEnum')->getAllColors() as $id => $color)
+                    <option value="{{ $id }}" style="background-color: {{ $color }};">&nbsp;</option>
                 @endforeach
             </select>
             @error('color')

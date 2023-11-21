@@ -92,7 +92,7 @@
                         <div class="col-6 col-md-3 mt-2">
                             <span class="labels">Jednostka</span>
                             <select name="unit" class="form-control">
-                                @foreach(app('unitHelper')->getAllProductUnits() as $id => $name)
+                                @foreach(app('ProductUnitEnum')->getAllUnits() as $id => $name)
                                     <option value="{{ $id }}" {{ $id == $product['unit'] ? 'selected' : '' }}>{{ $name }}</option>
                                 @endforeach
                             </select>
@@ -100,7 +100,7 @@
                         <div class="col-6 col-md-3 mt-2">
                             <span class="labels">Status</span>
                             <select name="status" class="form-control">
-                                @foreach(app('statusHelper')->getAllProductStatuses() as $id => $name)
+                                @foreach(app('ProductStatusEnum')->getAllStatuses() as $id => $name)
                                     <option value="{{ $id }}" {{ $id == $product['status'] ? 'selected' : '' }}>{{ $name }}</option>
                                 @endforeach
                             </select>

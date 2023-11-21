@@ -2,11 +2,12 @@
 
 namespace App\Providers;
 
+use App\Enum\OrderStatusEnum;
+use App\Enum\ProductStatusEnum;
+use App\Enum\ProductUnitEnum;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
-use App\Helpers\UnitHelper;
-use App\Helpers\StatusHelper;
-use App\Helpers\ColorHelper;
+use App\Enum\CalendarColorEnum;
 use App\Services\ProductService;
 
 class AppServiceProvider extends ServiceProvider
@@ -16,16 +17,20 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        app()->bind('unitHelper', function () {
-            return new UnitHelper();
+        app()->bind('ProductUnitEnum', function () {
+            return new ProductUnitEnum();
         });
 
-        app()->bind('statusHelper', function () {
-            return new StatusHelper();
+        app()->bind('OrderStatusEnum', function () {
+            return new OrderStatusEnum();
         });
 
-        app()->bind('colorHelper', function () {
-            return new ColorHelper();
+        app()->bind('ProductStatusEnum', function () {
+            return new ProductStatusEnum();
+        });
+
+        app()->bind('CalendarColorEnum', function () {
+            return new CalendarColorEnum();
         });
 
         app()->bind(ProductService::class);
