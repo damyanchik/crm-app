@@ -6,21 +6,25 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateEmployeeRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
+use App\Services\EmployeeService;
+use Illuminate\Foundation\Http\FormRequest;
 
 class EmployeesController extends Controller
 {
+    private EmployeeService $employeeService;
+
+    public function __construct(EmployeeService $employeeService)
+    {
+        $this->employeeService = $employeeService;
+    }
+
     public function index(): object
     {
         $users = User::search(request('search'))
             ->sortBy(
                 request('column') ?? 'id',
                 request('order') ?? 'asc'
-            )
-            ->paginate(request('display'));
+            )->paginate(request('display'));
 
         return view('employees.index', [
             'users' => $users
@@ -36,12 +40,12 @@ class EmployeesController extends Controller
 
     public function block(User $user): object
     {
-        $status = $user->getAttribute('block') == 1 ? 0 : 1;
+        $this->employeeService->checkAndSetBlock($user);
 
-        $user->setAttribute('block', $status);
-        $user->save();
-
-        return back()->with('message', 'Zmiana statusu użytkownika!');
+        return back()->with(
+            'message',
+            'Zmiana statusu użytkownika!'
+        );
     }
 
     public function edit(User $user): object
@@ -53,56 +57,31 @@ class EmployeesController extends Controller
 
     public function update(UpdateEmployeeRequest $request, User $user): object
     {
+        $this->employeeService->validateAndUpdateEmployee($request, $user);
 
-        $formFields = $request->validated();
-
-        if ($request->hasFile('avatar')) {
-
-            $request->validate([
-                'avatar' => 'image|max:5120|dimensions:min_width=200,min_height=200,max_width=800,max_height=800',
-            ]);
-
-            if ($user->avatar) {
-                $previousAvatarPath = 'public/' . $user->avatar;
-
-                if (Storage::disk('local')->exists($previousAvatarPath)) {
-                    Storage::disk('local')->delete($previousAvatarPath);
-                }
-            }
-
-            $formFields['avatar'] = $request->file('avatar')->store('images/avatars', 'public');
-        }
-
-        $user->update($formFields);
-
-        return back()->with('message', 'Użytkownik zaktualizowany!');
+        return back()->with(
+            'message',
+            'Użytkownik zaktualizowany!'
+        );
     }
 
-    public function changePassword(Request $request)
+    public function changePassword(FormRequest $request, User $user): object
     {
-        $formPassword = $request->validate([
-            'password' => 'required|string|min:8|confirmed',
-        ]);
+        $this->employeeService->validateAndChangePassword($request, $user);
 
-        $user = Auth::user();
-        $user->update(['password' => Hash::make($formPassword['password'])]);
-
-        return redirect()->route('home')->with('message', 'Nastąpiła zamiana hasła!');
+        return redirect()->route('home')->with(
+            'message',
+            'Nastąpiła zamiana hasła!'
+        );
     }
 
     public function deleteAvatar(User $user): object
     {
-        if ($user->avatar) {
-            $previousAvatarPath = 'public/' . $user->avatar;
+        $this->employeeService->checkAndDeleteAvatar($user);
 
-            if (Storage::disk('local')->exists($previousAvatarPath)) {
-                Storage::disk('local')->delete($previousAvatarPath);
-            }
-        }
-
-        $user->setAttribute('avatar', null);
-        $user->save();
-
-        return back()->with('message', 'Usunięto zdjęcie profilowe.');
+        return back()->with(
+            'message',
+            'Usunięto zdjęcie profilowe.'
+        );
     }
 }

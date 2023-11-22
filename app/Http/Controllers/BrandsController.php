@@ -12,9 +12,15 @@ class BrandsController extends Controller
     public function index(): object
     {
         $brands = Brand::where(
-            'name', 'like', '%' . request('search') . '%'
-        )->orderBy(request('column') ?? 'id', request('order') ?? 'asc')
-            ->paginate(request('display'));
+            'name',
+            'like',
+            '%' . request('search') . '%'
+        )->orderBy(
+            request('column') ?? 'id',
+            request('order') ?? 'asc'
+        )->paginate(
+            request('display')
+        );
 
         return view('products.brands.index', [
             'brands' => $brands
@@ -34,7 +40,9 @@ class BrandsController extends Controller
 
         Brand::create($formFields);
 
-        return redirect('/brands')->with('message', 'Marka została utworzona.');
+        return redirect('/brands')->with(
+            'message', 'Marka została utworzona.'
+        );
     }
 
     public function edit(Brand $brand): object
@@ -52,13 +60,17 @@ class BrandsController extends Controller
 
         $brand->update($formFields);
 
-        return back()->with('message', 'Marka została edytowana.');
+        return back()->with(
+            'message', 'Marka została edytowana.'
+        );
     }
 
     public function destroy(Brand $brand): object
     {
         $brand->delete();
 
-        return redirect('/brands')->with('message', 'Marka została usunięta.');
+        return redirect('/brands')->with(
+            'message', 'Marka została usunięta.'
+        );
     }
 }

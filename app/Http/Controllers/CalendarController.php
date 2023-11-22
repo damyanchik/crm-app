@@ -14,21 +14,11 @@ class CalendarController extends Controller
     public function index(): object
     {
         $events = Calendar::orderBy('id', 'ASC')
-            ->select('id', 'date_start', 'date_end', 'title', 'description', 'color', 'user_id')
             ->with('user:id,name,surname')
             ->get();
 
         $transformedEvents = $events->map(function ($event) {
-            return [
-                'id' => $event->id,
-                'title' => $event->title,
-                'name' => $event->user->name.' '.$event->user->surname,
-                'description' => $event->description,
-                'color' => CalendarColorEnum::getColor((int) $event->color),
-                'start' => $event->date_start,
-                'end' => $event->date_end,
-                'user_id' => $event->user_id,
-            ];
+            return $this->transformEvent($event);
         });
 
         return view('calendar.index', [
@@ -38,8 +28,10 @@ class CalendarController extends Controller
 
     public function store(CalendarStoreRequest $request): object
     {
-        $formFields = $request->validated();
-        $formFields['user_id'] = Auth::id();
+        $formFields = array_merge(
+            $request->validated(), [
+                'user_id' => Auth::id()
+            ]);
 
         Calendar::create($formFields);
 
@@ -51,5 +43,19 @@ class CalendarController extends Controller
         $event->delete();
 
         return redirect('/calendar')->with('message', 'Wydarzenie z kalendarza zostało usunięte.');
+    }
+
+    private function transformEvent(Calendar $event): array
+    {
+        return [
+            'id' => $event->id,
+            'title' => $event->title,
+            'name' => $event->user->name . ' ' . $event->user->surname,
+            'description' => $event->description,
+            'color' => CalendarColorEnum::getColor((int) $event->color),
+            'start' => $event->date_start,
+            'end' => $event->date_end,
+            'user_id' => $event->user_id
+        ];
     }
 }

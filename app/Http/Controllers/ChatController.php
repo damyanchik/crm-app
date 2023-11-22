@@ -12,8 +12,10 @@ class ChatController extends Controller
 {
     public function index(): object
     {
-        $users = User::orderBy('surname', 'ASC')
-            ->get();
+        $users = User::orderBy(
+            'surname',
+            'ASC'
+        )->get();
 
         return view('chat.index', [
             'users' => $users
@@ -32,7 +34,9 @@ class ChatController extends Controller
                 'created_at as time',
             )
             ->with('user')
-            ->offset(($page - 1) * $perPage)
+            ->offset(
+                ($page - 1) * $perPage
+            )
             ->limit($perPage)
             ->get();
 

@@ -16,8 +16,7 @@ class ClientsController extends Controller
             ->sortBy(
                 request('column') ?? 'id',
                 request('order') ?? 'asc'
-            )
-            ->paginate(request('display'));
+            )->paginate(request('display'));
 
         return view('clients.index', [
             'clients' => $clients
@@ -42,19 +41,24 @@ class ClientsController extends Controller
 
         Client::create($formFields);
 
-        return redirect('/clients')->with('message', 'Klient został założony.');
+        return redirect('/clients')->with(
+            'message',
+            'Klient został założony.'
+        );
     }
 
     public function update(UpdateClientRequest $request, Client $client): object
     {
         $formFields = $request->validated();
 
-        if (empty($formFields['user_id']))
-            $formFields['user_id'] = null;
+        $formFields['user_id'] = $formFields['user_id'] ?? null;
 
         $client->update($formFields);
 
-        return back()->with('message', 'Klient został zaktualizowany.');
+        return back()->with(
+            'message',
+            'Klient został zaktualizowany.'
+        );
     }
 
     public function edit(Client $client): object
@@ -68,6 +72,10 @@ class ClientsController extends Controller
     {
         $client->delete();
 
-        return redirect('/clients')->with('message', 'Klient został usunięty.');
+        return redirect('/clients')->with(
+            'message',
+            'Klient został usunięty.'
+
+        );
     }
 }

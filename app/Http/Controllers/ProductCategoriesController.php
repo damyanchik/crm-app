@@ -13,8 +13,10 @@ class ProductCategoriesController extends Controller
     {
         $productCategories = ProductCategory::where(
             'name', 'like', '%' . request('search') . '%'
-        )->orderBy(request('column') ?? 'id', request('order') ?? 'asc')
-            ->paginate(request('display'));
+        )->orderBy(
+            request('column') ?? 'id',
+            request('order') ?? 'ASC'
+        )->paginate(request('display'));
 
         return view('products.product_categories.index', [
             'productCategories' => $productCategories
@@ -34,7 +36,10 @@ class ProductCategoriesController extends Controller
 
         ProductCategory::create($formFields);
 
-        return redirect('/product-categories')->with('message', 'Kategoria produktowa została utworzona.');
+        return redirect('/product-categories')->with(
+            'message',
+            'Kategoria produktowa została utworzona.'
+        );
     }
 
     public function edit(ProductCategory $productCategory): object
@@ -52,7 +57,10 @@ class ProductCategoriesController extends Controller
 
         $productCategory->update($formFields);
 
-        return back()->with('message', 'Kategoria produktowa została edytowana.');
+        return back()->with(
+            'message',
+            'Kategoria produktowa została edytowana.'
+        );
     }
 
 
@@ -60,6 +68,9 @@ class ProductCategoriesController extends Controller
     {
         $productCategory->delete();
 
-        return redirect('/product-categories')->with('message', 'Kategoria została usunięta.');
+        return redirect('/product-categories')->with(
+            'message',
+            'Kategoria została usunięta.'
+        );
     }
 }

@@ -17,10 +17,11 @@ class AjaxController extends Controller
     {
         $searchTerm = $request->input('searchTerm');
 
-        $users = User::where('name', 'like', "%$searchTerm%")
-            ->orWhere('surname', 'like', "%$searchTerm%")
-            ->orWhere('email', 'like', "%$searchTerm%")
-            ->get();
+        $users = $this->searchItems(
+            User::query(),
+            $searchTerm,
+            ['name', 'surname', 'email']
+        );
 
         return response()->json([
             'users' => $users
@@ -31,12 +32,11 @@ class AjaxController extends Controller
     {
         $searchTerm = $request->input('searchTerm');
 
-        $clients = Client::where('name', 'like', "%$searchTerm%")
-            ->orWhere('surname', 'like', "%$searchTerm%")
-            ->orWhere('company', 'like', "%$searchTerm%")
-            ->orWhere('tax', 'like', "%$searchTerm%")
-            ->orWhere('email', 'like', "%$searchTerm%")
-            ->get();
+        $clients = $this->searchItems(
+            Client::query(),
+            $searchTerm,
+            ['name', 'surname', 'company', 'tax', 'email']
+        );
 
         return response()->json([
             'clients' => $clients
@@ -47,8 +47,11 @@ class AjaxController extends Controller
     {
         $searchTerm = $request->input('searchTerm');
 
-        $brands = Brand::where('name', 'like', "%$searchTerm%")
-            ->get();
+        $brands = $this->searchItems(
+            Brand::query(),
+            $searchTerm,
+            ['name']
+        );
 
         return response()->json([
             'brands' => $brands
@@ -59,8 +62,11 @@ class AjaxController extends Controller
     {
         $searchTerm = $request->input('searchTerm');
 
-        $productCategories = ProductCategory::where('name', 'like', "%$searchTerm%")
-            ->get();
+        $productCategories = $this->searchItems(
+            ProductCategory::query(),
+            $searchTerm,
+            ['name']
+        );
 
         return response()->json([
             'productCategories' => $productCategories
@@ -82,5 +88,16 @@ class AjaxController extends Controller
         return response()->json([
             'products' => $products
         ]);
+    }
+
+    private function searchItems(object $query, string $searchTerm, array $columns): object
+    {
+        $items = $query;
+
+        foreach ($columns as $column) {
+            $items->orWhere($column, 'like', "%$searchTerm%");
+        }
+
+        return $items->get();
     }
 }
