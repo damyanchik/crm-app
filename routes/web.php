@@ -13,6 +13,7 @@ use App\Http\Controllers\ProductCategoriesController;
 use App\Http\Controllers\PusherController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CalendarController;
+use App\Http\Controllers\InvoiceController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -67,7 +68,7 @@ Route::middleware(['auth'])->group(function () {
     //Delete
     Route::delete('/products/{product}', [ProductsController::class, 'destroy']);
     //Del photo
-    Route::put('/products/{product}/delete-product-photo', [ProductsController::class, 'deleteProductPhoto']);
+    Route::put('/products/{product}/delete-product-photo', [ProductsController::class, 'deletePhoto']);
 
     //Brand List
     Route::get('/brands', [BrandsController::class, 'index']);
@@ -137,6 +138,7 @@ Route::middleware(['auth'])->group(function () {
     //delete avatar
     Route::put('/employees/{user}/delete-avatar', [EmployeesController::class, 'deleteAvatar']);
 
+    Route::get('/invoice/{order}', [InvoiceController::class, 'generateInvoice']);
 });
 
 Route::middleware(['guest'])->group(function () {

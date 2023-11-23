@@ -60,6 +60,11 @@
                             <h5 class="col-12 text fw-bold">Status zamówienia</h5>
                             <p>{{ app('OrderStatusEnum')->getStatus($order->status)  }}</p>
                         </div>
+                        <div class="col-12">
+                            <div class="mt-3">
+                                <a href="/invoice/{{ $order['id'] }}" class="btn btn-primary profile-button" type="button">Faktura</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -74,16 +79,22 @@
                                         {{ $item['name'].' '.$item['brand'] }}
                                     </p>
                                     <div class="row pb-2 px-2">
-                                        <div class="col-4 small">
-                                            <span class="d-block fw-bold">Cena</span>
+                                        <div class="col-4 text-center small">
+                                            <span class="d-block fw-bold">
+                                                <i class="fa-regular fa-money-bill-1"></i>
+                                            </span>
                                             {{ $item['price'].' PLN / '.app('ProductUnitEnum')->getUnit($item['unit']) }}
                                         </div>
-                                        <div class="col-4 small">
-                                            <span class="d-block fw-bold">Ilość</span>
+                                        <div class="col-4 text-center small">
+                                            <span class="d-block fw-bold">
+                                                <i class="fa-solid fa-cubes"></i>
+                                            </span>
                                             {{ $item['quantity'].' '.app('ProductUnitEnum')->getUnit($item['unit']) }}
                                         </div>
-                                        <div class="col-4 small">
-                                            <span class="d-block fw-bold">SUMA</span>
+                                        <div class="col-4 text-center small">
+                                            <span class="d-block fw-bold">
+                                                <i class="fa-solid fa-equals"></i>
+                                            </span>
                                             {{ $item['product_price'].' PLN'}}
                                         </div>
                                     </div>

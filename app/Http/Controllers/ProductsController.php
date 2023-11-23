@@ -75,7 +75,7 @@ class ProductsController extends Controller
         );
     }
 
-    public function deleteProductPhoto(Product $product): object
+    public function deletePhoto(Product $product): object
     {
         PhotoHelper::deletePreviousPhoto($product->photo);
 
