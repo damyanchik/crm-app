@@ -49,10 +49,10 @@
                     <div class="col-md-12 border border-2 mt-5">
                         <div class="p-3 py-3">
                             <div class="float-end align-items-center experience">
-                                <a href="#" class="btn border px-3 p-1 add-experience">
+                                <button type="button" class="btn border px-3 p-1" data-bs-toggle="modal" data-bs-target="#loadProductsModal">
                                     <i class="fa fa-plus"></i>&nbsp;
                                     Załaduj listę produktów
-                                </a>
+                                </button>
                             </div>
                             <div class="d-flex justify-content-between align-items-center mb-1">
                                 <h5 class="text-right">Dodawanie produktów</h5>
@@ -100,6 +100,25 @@
                     <div class="mt-5 text-center">
                         <button id="createOrder" class="btn btn-primary profile-button" type="submit">Utwórz zamówienie</button>
                     </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="loadProductsModal" tabindex="-1" aria-labelledby="loadProductsModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <form method="post" action="/orders/create/import" class="modal-content" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loadProductsModal">Ładowanie listy z produktami</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="file" class="border form-control form-control-sm" name="csv_file" accept=".csv">
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Załaduj</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
                 </div>
             </form>
         </div>

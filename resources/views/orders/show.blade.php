@@ -75,7 +75,7 @@
                         <div class="companyServe overflow-auto border border-2 p-1" style="height: 30rem; overflow-x: hidden !important; overflow-y: auto !important;">
                             @foreach($order->orderItem as $item)
                                 <div class="border company-link my-1">
-                                    <p class="name-and-brand pt-2 px-2">
+                                    <p class="name-and-brand pt-2 p-1 px-2 text-center">
                                         {{ $item['name'].' '.$item['brand'] }}
                                     </p>
                                     <div class="row pb-2 px-2">

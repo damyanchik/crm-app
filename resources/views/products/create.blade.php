@@ -27,8 +27,18 @@
                         <span class="labels">Kategoria produktu</span>
                         <select name="category_id" id="prodCatSelect" class="form-control" style="width: 100%;"></select>
                     </div>
-                    <div class="col-6 col-md-3 mt-2">
-                        <span class="labels">Stan magazynowy</span>
+
+                    <div class="col-12 col-md-4 mt-2">
+                        <span class="labels">Kod produktu</span>
+                        <input name="code" placeholder="Wpisz kod" type="text" class="form-control">
+                        @error('code')
+                        <span class="flash-message__alert" role="alert">
+                                {{ $message }}
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="col-6 col-md-2 mt-2">
+                        <span class="labels">Stan</span>
                         <input name="quantity" placeholder="Wpisz ilość" type="number" class="form-control">
                         @error('quantity')
                         <span class="flash-message__alert" role="alert">
@@ -36,7 +46,7 @@
                             </span>
                         @enderror
                     </div>
-                    <div class="col-6 col-md-3 mt-2">
+                    <div class="col-6 col-md-2 mt-2">
                         <span class="labels">Cena</span>
                         <input name="price" placeholder="Wpisz cenę" type="number" step="0.01" class="form-control">
                         @error('price')
@@ -45,10 +55,10 @@
                             </span>
                         @enderror
                     </div>
-                    <div class="col-6 col-md-3 mt-2">
+                    <div class="col-6 col-md-2 mt-2">
                         <span class="labels">Jednostka</span>
                         <select name="unit" class="form-control">
-                            <option value="" disabled selected>Wybierz jednostkę</option>
+                            <option value="" disabled selected>Wybierz</option>
                             @foreach(app('ProductUnitEnum')->getAllUnits() as $id => $name)
                                 <option value="{{ $id }}">{{ $name }}</option>
                             @endforeach
@@ -59,7 +69,7 @@
                             </span>
                         @enderror
                     </div>
-                    <div class="col-6 col-md-3 mt-2">
+                    <div class="col-6 col-md-2 mt-2">
                         <span class="labels">Status</span>
                         <select name="status" class="form-control">
                             <option value="" disabled selected>Wybierz status</option>

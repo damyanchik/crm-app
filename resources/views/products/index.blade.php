@@ -9,7 +9,8 @@
                 <th data-column="name">Nazwa produktu</th>
                 <th data-column="brand">Marka</th>
                 <th data-column="category">Kategoria</th>
-                <th data-column="quantity">Na stanie</th>
+                <th data-column="code">Kod</th>
+                <th data-column="quantity">Stan</th>
                 <th data-column="price">Cena</th>
                 <th data-column="status">Status</th>
                 <th style="width: 6rem">Akcje</th>
@@ -43,6 +44,11 @@
                     <td>
                         @if (!empty($product['category']))
                             <p class="text-muted mb-1">{{ $product['category'] }}</p>
+                        @endif
+                    </td>
+                    <td>
+                        @if (!empty($product['code']))
+                            <p class="text-muted mb-1">{{ $product['code'] }}</p>
                         @endif
                     </td>
                     <td>

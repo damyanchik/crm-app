@@ -105,6 +105,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/orders', [OrdersController::class, 'store']);
     //Show Single
     Route::get('/orders/{order}', [OrdersController::class, 'show']);
+    //Import
+    Route::post('/orders/create/import', [OrdersController::class, 'import']);
 
 
     //Client List

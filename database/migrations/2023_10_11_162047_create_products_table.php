@@ -21,7 +21,7 @@ return new class extends Migration
             $table->longText('description')->nullable();
             $table->bigInteger('quantity');
             $table->float('price');
-            $table->string('code')->nullable();
+            $table->string('code')->unique();
             $table->tinyInteger('unit');
             $table->tinyInteger('status');
             $table->string('photo')->nullable();

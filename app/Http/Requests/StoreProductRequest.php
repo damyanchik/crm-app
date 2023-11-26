@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreProductRequest extends FormRequest
 {
@@ -16,7 +17,16 @@ class StoreProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required',
+            'name' => [
+                'required',
+                Rule::unique('products')->where(function ($query) {
+                }),
+            ],
+            'code' => [
+                'required',
+                Rule::unique('products')->where(function ($query) {
+                }),
+            ],
             'brand_id' => 'nullable',
             'category_id' => 'nullable',
             'quantity' => 'required',
