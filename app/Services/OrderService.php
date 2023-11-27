@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Helpers\CsvHelper;
 use App\Models\Order;
 use App\Models\OrderItem;
-use App\Models\Product;
 use App\Strategies\OrderCsvStrategy;
-use App\Validators\OrderCsvValidator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\DB;
 
@@ -38,23 +35,8 @@ class OrderService
         }
     }
 
-    public function validateAndImportCsv(FormRequest $request): object
+    public function importCsv(array $csvData): object
     {
-        $request->validated();
-
-        $csvFile = $request->file('csv_file');
-
-        $csvData = CsvHelper::readToArray(
-            $csvFile->getPathname(),
-            ['code', 'quantity', 'price']
-        );
-
-        $validator = OrderCsvValidator::validate($csvData);
-        $errors = $validator->errors();
-
-        if (!empty($errors->all()))
-            return back()->with('message', 'Wykryto błąd w przesłanym pliku CSV, sprawdź poprawność kolumn.');
-
         $orderImport = new CsvImportService();
         $orderImport->setCsvImportStrategy(new OrderCsvStrategy());
 

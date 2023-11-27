@@ -38,7 +38,8 @@
                             </span>
                             @enderror
                         </div>
-                        <div class="col-md-4 mt-2"><span class="labels">Liczba produktów</span>
+                        <div class="col-md-4 mt-2">
+                            <span class="labels">Liczba produktów</span>
                             <input name="total_quantity" id="totalQuantity" value="0" type="number" class="form-control" readonly>
                         </div>
                         <div class="col-md-4 mt-2">
@@ -48,8 +49,8 @@
                     </div>
                     <div class="col-md-12 border border-2 mt-5">
                         <div class="p-3 py-3">
-                            <div class="float-end align-items-center experience">
-                                <button type="button" class="btn border px-3 p-1" data-bs-toggle="modal" data-bs-target="#loadProductsModal">
+                            <div class="float-end align-items-center experience" {{ (request()->is('orders/create/import')) ? 'hidden' : '' }}>
+                                <button type="button" class="btn btn-primary border px-3 p-1" data-bs-toggle="modal" data-bs-target="#loadProductsModal">
                                     <i class="fa fa-plus"></i>&nbsp;
                                     Załaduj listę produktów
                                 </button>
@@ -65,16 +66,16 @@
                             <div class="row">
                                 <div class="col-12 col-md-4 mt-2">
                                     <span class="labels">Kod produktu</span>
-                                    <input name="newProductCode" value="" type="text" class="form-control" readonly>
+                                    <input name="newProductCode" id="newProductCode" value="" type="text" class="form-control" readonly>
                                 </div>
                                 <div class="col-6 col-md-4 mt-2">
                                     <span class="labels">Ilość <small class="show-quantity"></small></span>
-                                    <input name="newQuantity" value="" placeholder="Wpisz ilość" type="number" class="form-control">
+                                    <input name="newQuantity" value="" placeholder="Wpisz ilość" min="0" type="number" class="form-control">
                                     <input name="newUnit" value="" type="number" class="form-control" hidden>
                                 </div>
                                 <div class="col-6 col-md-4 mt-2">
                                     <span class="labels">Cena <small class="show-price"></small></span>
-                                    <input name="newPrice" value="" placeholder="Wpisz cenę" type="number" step="0.01" class="form-control">
+                                    <input name="newPrice" value="" placeholder="Wpisz cenę" type="number" step="0.01" min="0" class="form-control">
                                 </div>
                             </div>
                                 <div class="mt-3 mb-2 text-end">
@@ -87,14 +88,59 @@
                             <thead>
                             <tr>
                                 <th scope="col">Pozycja</th>
-                                <th scope="col">Nazwa produktu</th>
-                                <th scope="col">Ilość produktu</th>
-                                <th scope="col">Cena jednostkowa</th>
+                                <th scope="col">Produkt</th>
+                                <th scope="col">Kod</th>
+                                <th scope="col">Ilość</th>
+                                <th scope="col">Cena</th>
                                 <th scope="col">Suma</th>
                                 <th scope="col"></th>
                             </tr>
                             </thead>
-                            <tbody id="productList"></tbody>
+                            <tbody id="productList">
+                                @isset($productsFromCsv)
+                                    @forelse($productsFromCsv as $product)
+                                        <tr class="product">
+                                            <th scope="row" class="productIndex">{{ $loop->index + 1 }}</th>
+                                            <td>{{ $product['name'] }}</td>
+                                            <input name="products[{{ $loop->index }}][name]" value="{{ $product['name'] }}" type="hidden">
+                                            <input name="products[{{ $loop->index }}][code]" value="{{ $product['code'] }}" class="product-code" type="hidden">
+                                            <td>{{ $product['code'] }}</td>
+                                            <td>
+                                                {{ $product['quantity'] }} {{ app('ProductUnitEnum')->getUnit($product['unit']) }}
+                                                @if(!empty($product['changes']['quantity']))
+                                                    <small class="d-block mt-1 flash-message__alert" style="font-size: 12px">
+                                                        <i class="fa-solid fa-battery-half" style="cursor: help;" title="Zabrakło! Niepełna ilość pozycji w bazie."></i>
+                                                        {{ $product['changes']['quantity'] - $product['quantity'] }}
+                                                    </small>
+                                                @endif
+                                            </td>
+                                            <input name="products[{{ $loop->index }}][quantity]" class="product-quantity" value="{{ $product['quantity'] }}" type="hidden">
+                                            <input name="products[{{ $loop->index }}][unit]" value="{{ $product['unit'] }}" type="hidden">
+                                            <td>
+                                                {{ $product['price'] }} PLN / {{ app('ProductUnitEnum')->getUnit($product['unit']) }}
+                                                @if(!empty($product['changes']['price']))
+                                                    <small class="d-block mt-1" style="font-size: 12px">
+                                                        @if($product['changes']['price'] > $product['price'])
+                                                            <i class="fa-solid fa-turn-up" style="cursor: help;" title="Cena jest niższa niż określona w bazie."></i>
+                                                        @else
+                                                            <i class="fa-solid fa-turn-down" style="cursor: help" title="Cena jest wyższa niż określona w bazie."></i>
+                                                        @endif
+                                                        {{ $product['changes']['price'] }} PLN
+                                                    </small>
+                                                @endif
+                                            </td>
+                                            <td>{{ $product['price'] * $product['quantity'] }} PLN</td>
+                                            <input name="products[{{ $loop->index }}][price]" class="product-price" value="{{ $product['price'] }}" type="hidden">
+                                            <input name="products[{{ $loop->index }}][product_price]" value="{{ $product['price'] * $product['quantity'] }}" type="hidden">
+                                            <td><button type="button" class="btn btn-danger remove-product">X</button></td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="7">Brak produktów do wyświetlenia.</td>
+                                        </tr>
+                                    @endforelse
+                                @endif
+                            </tbody>
                         </table>
                     </div>
                     <div class="mt-5 text-center">

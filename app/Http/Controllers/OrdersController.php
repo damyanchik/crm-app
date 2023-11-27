@@ -8,13 +8,10 @@ use App\Enum\ProductUnitEnum;
 use App\Helpers\CsvHelper;
 use App\Http\Requests\ImportOrderCsvRequest;
 use App\Models\Order;
-use App\Models\Product;
 use App\Services\OrderService;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\StoreOrdersItemsRequest;
 use App\Validators\OrderCsvValidator;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class OrdersController extends Controller
 {
@@ -59,10 +56,23 @@ class OrdersController extends Controller
 
     public function import(ImportOrderCsvRequest $request): object
     {
+        $request->validated();
+        $csvFile = $request->file('csv_file');
+
+        $csvData = CsvHelper::readToArray(
+            $csvFile->getPathname(),
+            ['code', 'quantity', 'price']
+        );
+
+        $validator = OrderCsvValidator::validate($csvData);
+        $errors = $validator->errors();
+
+        if (!empty($errors->messages()))
+            return back()->with('message', 'Wykryto błąd w przesłanym pliku CSV, sprawdź poprawność kolumn.');
+
         return view('orders.create', [
             'jsonUnits' => json_encode(ProductUnitEnum::getAllUnits()),
-            'csvData' => $this->orderService->validateAndImportCsv($request),
+            'productsFromCsv' => $this->orderService->importCsv($csvData),
         ]);
     }
-
 }
