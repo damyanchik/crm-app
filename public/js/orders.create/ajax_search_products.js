@@ -50,9 +50,21 @@ $('#productSelect').select2({
     allowClear: true
 });
 
-var selectedOption = '';
+var selectedOption = null;
 
 $('#productSelect').on('select2:select', function (e) {
+    selectedOption = null;
+    $("input[name='newProductCode']").attr('value', '');
+    $(".show-quantity").text('');
+    $("input[name='newQuantity']").attr('max', 0);
+    $("input[name='newQuantity']").val(0);
+    $(".show-price").text('');
+    $("input[name='newPrice']").attr('max', '');
+    $("input[name='newPrice']").val(0);
+    $("input[name='newUnit']").attr('value', '');
+    $("input[name='newUnit']").val(0);
+
+
     selectedOption = e.params.data;
 
     var totalQuantityByCode = 0;
@@ -69,6 +81,7 @@ $('#productSelect').on('select2:select', function (e) {
     selectedOption.quantity = selectedOption.quantity - totalQuantityByCode;
 
     $("input[name='newProductCode']").attr('value', selectedOption.code);
+    $("input[name='newProductCode']").val(selectedOption.code);
     $(".show-quantity").text('(Dostępne '+ selectedOption.quantity +' '+ unitsArray[selectedOption.unit] +')');
     $("input[name='newQuantity']").attr('max', selectedOption.quantity);
     $(".show-price").text('(Ustalono '+ selectedOption.price +' '+ ' PLN' +')');

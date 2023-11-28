@@ -45,7 +45,7 @@ function addProduct() {
             <th scope="row" class="productIndex">${productCount}</th>
             <td>${newProduct}</td>
             <input name="products[${productCount}][name]" value="${newProduct}" type="hidden">
-            <input name="products[${productCount}][code]" value="${newProductCode}" type="hidden">
+            <input name="products[${productCount}][code]" class="product-code" value="${newProductCode}" type="hidden">
             <td>${newProductCode}</td>
             <td>${newQuantity} ${unitsArray[newUnit]}</td>
             <input name="products[${productCount}][quantity]" class="product-quantity" value="${newQuantity}" type="hidden">
@@ -57,12 +57,15 @@ function addProduct() {
             <td><button type="button" class="btn btn-danger remove-product">X</button></td>
         </tr>`;
 
+    $("input[name='newProductCode']").attr('value', '');
     $("select[name='newProduct']").val('');
     $("select[name='newProduct']").trigger('change');
     $("input[name='newProductCode']").val('');
     $("input[name='newUnit']").val('');
     $("input[name='newQuantity']").val('');
     $("input[name='newPrice']").val('');
+    $(".show-quantity").text('');
+    $(".show-price").text('');
 
     productCount++
 
