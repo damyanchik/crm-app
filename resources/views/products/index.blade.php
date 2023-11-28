@@ -32,7 +32,7 @@
                                 class="rounded-circle"
                             />
                             <div class="ms-3 mt-2">
-                                <p>{{ $product['name'] }}</p>
+                                <p>{{ strtoupper($product['name']) }}</p>
                             </div>
                         </div>
                     </td>
@@ -47,18 +47,16 @@
                         @endif
                     </td>
                     <td>
-                        @if (!empty($product['code']))
-                            <p class="text-muted mb-1">{{ $product['code'] }}</p>
-                        @endif
+                        <p class="text-muted mb-1">{{ $product['code'] }}</p>
                     </td>
                     <td>
-                        <p class="text-muted mb-1">{{ $product['quantity'] .' '. app('ProductUnitEnum')->getUnit($product['unit']) }}</p>
+                        <p class="mb-0">{{ $product['quantity'] .' '. app('ProductUnitEnum')->getUnit($product['unit']) }}</p>
                     </td>
                     <td>
                         <p class="mb-0">{{ number_format($product['price'], 2) }} PLN</p>
                     </td>
                     <td>
-                        <p class="mb-0">{{ app('ProductStatusEnum')->getStatus($product['status']) }}</p>
+                        <p class="mb-0 badge rounded-pill bg-{{ app('ProductStatusEnum')->getStatusColor($product['status']) }}">{{ app('ProductStatusEnum')->getStatus($product['status']) }}</p>
                     </td>
                     <td>
                         <a href="products/{{ $product['id'] }}/edit" class="btn btn-link btn-sm btn-rounded">

@@ -6,11 +6,11 @@
         <table id="table-breakpoint" class="table align-middle mb-0 bg-white border">
             <thead class="bg-light">
                 <tr>
-                    <th data-column="id">Nr zamówienia</th>
+                    <th data-column="id">Nr</th>
                     <th data-column="invoice_num">Nr faktury</th>
                     <th data-column="client.company">Zamawiający</th>
                     <th data-column="total_price">Wartość</th>
-                    <th data-column="users.surname">Sprzedający</th>
+                    <th data-column="users.surname">Wystawiający</th>
                     <th data-column="created_at">Data</th>
                     <th data-column="status">Status</th>
                     <th>Akcje</th>
@@ -28,8 +28,8 @@
                         {{ $order['invoice_num'] }}
                     </td>
                     <td>
-                        <div>{{ $order->client->name }} {{ $order->client->surname }}</div>
-                        <div>{{ $order->client->company }}</div>
+                        <div>{{ strtoupper($order->client->name) }} {{ strtoupper($order->client->surname) }}</div>
+                        <div>{{ strtoupper($order->client->company) }}</div>
                     </td>
                     <td>
                         {{ number_format($order['total_price'], 2) }} PLN
@@ -37,11 +37,11 @@
                     <td>
                         {{ $order->user->name }} {{ $order->user->surname }}
                     </td>
-                    <td>
+                    <td class="text-muted">
                         {{ $order['created_at'] }}
                     </td>
                     <td>
-                        {{ app('OrderStatusEnum')->getStatus($order->status) }}
+                        <span class="badge rounded-pill bg-{{ app('OrderStatusEnum')->getStatusColor($order->status) }}">{{ app('OrderStatusEnum')->getStatus($order->status) }}</span>
                     </td>
                     <td>
                         <a href="orders/{{ $order['id'] }}" class="btn btn-link btn-sm btn-rounded">

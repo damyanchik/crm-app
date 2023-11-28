@@ -2,6 +2,12 @@ $(document).ready(function() {
     var arrowImagePath = $('#listManager').data('arrow');
     var lastClickedTh = null;
 
+    $('th[data-column]').each(function() {
+        var columnData = $(this).data('column');
+
+        $(this).filter('[data-column="' + columnData + '"]').addClass('highlight');
+    });
+
     $('th[data-column]')
         .css('cursor', 'pointer')
         .click(function () {

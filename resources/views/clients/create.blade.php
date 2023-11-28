@@ -47,7 +47,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="row mt-3">
+                    <div class="row">
                         <div class="col-md-6 mt-2">
                             <span class="labels">Email</span>
                             <input name="email" type="email" class="form-control">

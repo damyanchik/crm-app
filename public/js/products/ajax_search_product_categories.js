@@ -1,4 +1,9 @@
 $('#prodCatSelect').select2({
+    language: {
+        inputTooShort: function(args) {
+            return "Wprowadź minimum 2 znaki.";
+        }
+    },
     ajax: {
         url: ajaxSearchProductCategoriesLink,
         dataType: 'json',

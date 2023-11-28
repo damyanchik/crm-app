@@ -17,8 +17,8 @@
                 <tr>
                     <td>
                         <div class="ms-3">
-                            <p class="fw-bold mb-1">{{ $client['company'] }}</p>
-                            <p class="fw-bold mb-1">{{ $client['name'] }} {{ $client['surname'] }}</p>
+                            <p class="fw-bold mb-1">{{ strtoupper($client['company']) }}</p>
+                            <p class="fw-bold mb-1">{{ strtoupper($client['name']) }} {{ strtoupper($client['surname']) }}</p>
                             <p class="text-muted mb-0">{{ $client['tax'] }}</p>
                         </div>
                     </td>

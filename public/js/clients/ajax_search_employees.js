@@ -1,4 +1,9 @@
 $('#userSelect').select2({
+    language: {
+        inputTooShort: function(args) {
+            return "Wprowadź minimum 3 znaki.";
+        }
+    },
     ajax: {
         url: ajaxSearchUsersLink,
         dataType: 'json',

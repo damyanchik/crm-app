@@ -6,12 +6,15 @@ body {
     font-family: 'Roboto Condensed', sans-serif;
 }
 
+.container {
+    cursor: default !important;
+}
+
 @media (min-width: 991.98px) {
     main {
         padding-left: 240px;
     }
 }
-
 
 /* NAVBAR */
 .navbar-brand, #navbarDropdownMenuLink, #navbarDropdown {
@@ -104,6 +107,21 @@ body {
     color: #05489b;
 }
 
+/* SELECT2 */
+
+.select2-selection__rendered {
+    line-height: 35.5px !important;
+    border-color: #ced4da !important;
+}
+.select2-container .select2-selection--single {
+    height: 37.6px !important;
+    border-color: #ced4da !important;
+}
+.select2-selection__arrow {
+    height: 37.6px !important;
+    border-color: #ced4da !important;
+}
+
 /* BEM */
 .pageSearch__input {
     width: 15rem;
@@ -157,6 +175,15 @@ body {
     font-weight: bold;
     color: #c90707;
     padding: 1px;
+}
+
+.form_readonly__grey {
+    background-color: #f1efef;
+}
+
+th[data-column].highlight {
+    font-weight: bold;
+    color: #05489b; /* Kolor dla TH z atrybutem data-column */
 }
 
 /* CALENDAR */

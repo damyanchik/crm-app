@@ -4,7 +4,17 @@ $('#productSelect').select2({
             return "Wprowadź minimum 3 znaki.";
         }
     },
+    templateResult: function(data) {
+        if (!data.id) {
+            return data.text; // Element placeholder, nie zmieniaj
+        }
 
+        // Zastosowanie strtoupper do tekstu opcji
+        var modifiedText = data.text.toUpperCase();
+
+        // Zwróć zmodyfikowany tekst
+        return $('<span>' + modifiedText + '</span>');
+    },
     ajax: {
         url: ajaxSearchProductsLink,
         dataType: 'json',
