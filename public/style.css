@@ -99,6 +99,21 @@ body {
     color: white;
 }
 
+.btn-warning, .bg-warning {
+    background-color: #d7a305 !important;
+    color: white;
+}
+
+.btn-danger, .bg-danger {
+    background-color: #c90707 !important;
+    color: white;
+}
+
+.btn-success, .bg-success {
+    background-color: #136c13 !important;
+    color: white;
+}
+
 .border-primary {
     border-color: #05489b !important;
 }

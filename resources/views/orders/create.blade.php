@@ -101,8 +101,8 @@
                                     @forelse($productsFromCsv as $product)
                                         <tr class="product">
                                             <th scope="row" class="productIndex">{{ $loop->index + 1 }}</th>
-                                            <td>{{ strtoupper($product['name']) }}</td>
-                                            <input name="products[{{ $loop->index }}][name]" value="{{ $product['name'] }}" type="hidden">
+                                            <td>{{ strtoupper($product['name'].' '.$product['brand']) }}</td>
+                                            <input name="products[{{ $loop->index }}][name]" value="{{ $product['name'].' '.$product['brand'] }}" type="hidden">
                                             <input name="products[{{ $loop->index }}][code]" value="{{ $product['code'] }}" class="product-code" type="hidden">
                                             <td>{{ $product['code'] }}</td>
                                             <td>
@@ -132,7 +132,9 @@
                                             <td>{{ $product['price'] * $product['quantity'] }} PLN</td>
                                             <input name="products[{{ $loop->index }}][price]" class="product-price" value="{{ $product['price'] }}" type="hidden">
                                             <input name="products[{{ $loop->index }}][product_price]" value="{{ $product['price'] * $product['quantity'] }}" type="hidden">
-                                            <td><button type="button" class="btn btn-danger remove-product">X</button></td>
+                                            <td>
+                                                <button type="button" class="btn btn-danger remove-product">X</button>
+                                            </td>
                                         </tr>
                                     @empty
                                         <tr>
@@ -156,7 +158,7 @@
             <form method="post" action="/orders/create/import" class="modal-content" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-header">
-                    <h5 class="modal-title" id="loadProductsModal">Ładowanie listy z produktami</h5>
+                    <h5 class="modal-title" id="loadProductsModal">Ładowanie listy produktów z pliku .csv</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">

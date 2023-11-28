@@ -32,6 +32,7 @@ class OrderCsvStrategy implements CsvImportStrategyInterface
     {
         $item['name'] = $existingProducts[$item['code']]['name'];
         $item['unit'] = $existingProducts[$item['code']]['unit'];
+        $item['brand'] = $existingProducts[$item['code']]['brand'];
 
         $this->updatePrice($item, $existingProducts);
         $this->updateQuantity($item, $existingProducts);
@@ -67,10 +68,20 @@ class OrderCsvStrategy implements CsvImportStrategyInterface
         $codesFromCsv = array_column($csvData, 'code');
 
         return Product::whereIn('code', $codesFromCsv)
-            ->select('name', 'code', 'quantity', 'price', 'unit')
+            ->with('brand')
+            ->select('name', 'code', 'quantity', 'price', 'unit', 'brand_id')
             ->get()
             ->map(function ($product) {
-                return $product->toArray();
+                $productArray = $product->toArray();
+
+                return [
+                        'name' => $productArray['name'],
+                        'code' => $productArray['code'],
+                        'quantity' => $productArray['quantity'],
+                        'price' => $productArray['price'],
+                        'unit' => $productArray['unit'],
+                        'brand' => $product->brand->name ?? '',
+                    ] + $productArray;
             })
             ->keyBy('code')
             ->toArray();

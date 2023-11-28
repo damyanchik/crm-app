@@ -6,14 +6,21 @@ $('#productSelect').select2({
     },
     templateResult: function(data) {
         if (!data.id) {
-            return data.text; // Element placeholder, nie zmieniaj
+            return data.text;
         }
 
-        // Zastosowanie strtoupper do tekstu opcji
         var modifiedText = data.text.toUpperCase();
 
-        // Zwróć zmodyfikowany tekst
         return $('<span>' + modifiedText + '</span>');
+    },
+    templateSelection: function(selection) {
+        if (!selection.id) {
+            return selection.text;
+        }
+
+        var modifiedSelection = selection.text.toUpperCase();
+
+        return $('<span>' + modifiedSelection + '</span>');
     },
     ajax: {
         url: ajaxSearchProductsLink,
@@ -37,7 +44,7 @@ $('#productSelect').select2({
 
             return {
                 results: data.products.map(function (product) {
-                    var displayName = product.name;
+                    var displayName = product.name.toUpperCase();
                     if (product.brand && product.brand.name) {
                         displayName += ' ' + product.brand.name;
                     }
