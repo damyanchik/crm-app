@@ -4,28 +4,24 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Enum\ProductUnitEnum;
-use App\Helpers\CsvHelper;
-use App\Http\Requests\ImportOrderCsvRequest;
+use App\Enum\OrderStatusEnum;
 use App\Models\Order;
-use App\Services\OrderService;
-use App\Http\Requests\StoreOrderRequest;
-use App\Http\Requests\StoreOrdersItemsRequest;
-use App\Validators\OrderCsvValidator;
 
 class OrdersController extends Controller
 {
-    protected OrderService $orderService;
-
-    public function __construct(OrderService $orderService)
-    {
-        $this->orderService = $orderService;
-    }
-
     public function index(): object
     {
         $orders = Order::search(request('search'))
-            ->sortBy(request('column') ?? 'id', request('order') ?? 'asc')
+            ->where(function ($query) {
+                $query->whereIn('status', [
+                    OrderStatusEnum::PENDING['id'],
+                    OrderStatusEnum::READY['id']
+                ]);
+            })
+            ->sortBy(
+                request('column') ?? 'id',
+                request('order') ?? 'asc'
+            )
             ->paginate(request('display'));
 
         return view('orders.index', [
@@ -40,39 +36,33 @@ class OrdersController extends Controller
         ]);
     }
 
-    public function create(): object
+    public function ready(Order $order): object
     {
-        return view('orders.create', [
-            'jsonUnits' => json_encode(ProductUnitEnum::getAllUnits())
-        ]);
-    }
+        $order->setAttribute('status', OrderStatusEnum::READY['id']);
+        $order->save();
 
-    public function store(StoreOrderRequest $orderRequest, StoreOrdersItemsRequest $ordersItemsRequest): object
-    {
-        $this->orderService->validateAndStoreOrder($orderRequest, $ordersItemsRequest);
-
-        return redirect('/orders')->with('message', 'Utworzono zamówienie.');
-    }
-
-    public function import(ImportOrderCsvRequest $request): object
-    {
-        $request->validated();
-        $csvFile = $request->file('csv_file');
-
-        $csvData = CsvHelper::readToArray(
-            $csvFile->getPathname(),
-            ['code', 'quantity', 'price']
+        return redirect('/orders')->with(
+            'Potwierdzono gotowość zamówienia o nr '.$order->invoice_num.'.'
         );
+    }
 
-        $validator = OrderCsvValidator::validate($csvData);
-        $errors = $validator->errors();
+    public function close(Order $order): object
+    {
+        $order->setAttribute('status', OrderStatusEnum::CLOSED['id']);
+        $order->save();
 
-        if (!empty($errors->messages()))
-            return back()->with('message', 'Wykryto błąd w przesłanym pliku CSV, sprawdź poprawność kolumn.');
+        return redirect('/orders/archive')->with(
+            'Zamknięto zamówienie o nr '.$order->invoice_num.'.'
+        );
+    }
 
-        return view('orders.create', [
-            'jsonUnits' => json_encode(ProductUnitEnum::getAllUnits()),
-            'productsFromCsv' => $this->orderService->importCsv($csvData),
-        ]);
+    public function reject(Order $order): object
+    {
+        $order->setAttribute('status', OrderStatusEnum::REJECTED['id']);
+        $order->save();
+
+        return redirect('/orders/archive')->with(
+            'Odrzucono zamówienie o nr '.$order->invoice_num.'.'
+        );
     }
 }

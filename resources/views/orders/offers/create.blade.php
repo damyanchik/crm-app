@@ -3,11 +3,11 @@
 @section('content')
     <div class="container rounded bg-white mb-5">
         <div class="row">
-            <form method="post" action="/orders/" class="col-md-12 border-right">
+            <form method="post" action="/offers/" class="col-md-12 border-right">
                 @csrf
                 <div class="p-3 py-2">
                     <div class="align-items-center mb-3">
-                        <h4>Tworzenie nowego zamówienia</h4>
+                        <h4>Tworzenie nowej oferty</h4>
                     </div>
                     <div class="row">
                         <div class="col-md-12 mt-2">
@@ -20,15 +20,18 @@
                             @enderror
                         </div>
                         <div class="col-md-12 mt-2">
-                            <span class="labels">Sprzedawca</span>
+                            <span class="labels">Wystawiający</span>
                             <input value="{{ Auth::user()->name }} {{ Auth::user()->surname }}" type="text" class="form-control form_readonly__grey" readonly>
                             <input name="user_id" type="hidden" value="{{ Auth::user()->id }}">
                         </div>
                         <div class="col-md-4 mt-2">
-                            <span class="labels">Status zamówienia</span>
+                            <span class="labels">Status</span>
                             <select name="status" class="form-control">
                                 <option value="" disabled selected>Wybierz status</option>
                                 @foreach(app('OrderStatusEnum')->getAllStatuses() as $id => $name)
+                                    @if($id !== 0 && $id !== 1)
+                                        @continue
+                                    @endif
                                     <option value="{{ $id }}">{{ $name }}</option>
                                 @endforeach
                             </select>
@@ -49,7 +52,7 @@
                     </div>
                     <div class="col-md-12 border border-2 mt-5">
                         <div class="p-3 py-3">
-                            <div class="float-end align-items-center experience" {{ (request()->is('orders/create/import')) ? 'hidden' : '' }}>
+                            <div class="float-end align-items-center experience" {{ (request()->is('offers/create/import')) ? 'hidden' : '' }}>
                                 <button type="button" class="btn btn-primary border px-3 p-1" data-bs-toggle="modal" data-bs-target="#loadProductsModal">
                                     <i class="fa fa-plus"></i>&nbsp;
                                     Załaduj listę produktów
@@ -155,7 +158,7 @@
     <!-- Modal -->
     <div class="modal fade" id="loadProductsModal" tabindex="-1" aria-labelledby="loadProductsModal" aria-hidden="true">
         <div class="modal-dialog">
-            <form method="post" action="/orders/create/import" class="modal-content" enctype="multipart/form-data">
+            <form method="post" action="/offers/create/import" class="modal-content" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-header">
                     <h5 class="modal-title" id="loadProductsModal">Ładowanie listy produktów z pliku .csv</h5>

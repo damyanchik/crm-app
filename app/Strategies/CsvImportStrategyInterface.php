@@ -6,5 +6,6 @@ namespace App\Strategies;
 
 interface CsvImportStrategyInterface
 {
-    public function performOperation($csvData);
+    public function validate(array $csvData): bool;
+    public function performOperation(array $csvData): object;
 }

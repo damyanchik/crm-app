@@ -114,12 +114,39 @@ body {
     color: white;
 }
 
+.btn-info, .bg-info {
+    background-color: rgba(59, 76, 187, 0.62) !important;
+    color: white;
+}
+
 .border-primary {
     border-color: #05489b !important;
 }
 
 .page-link {
     color: #05489b;
+}
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar {
+    width: 7px;
+    cursor: grab !important;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    cursor: grab !important;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c4c4c4;
+    cursor: grab !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #c4c4c4;
+    cursor: grab !important;
 }
 
 /* SELECT2 */

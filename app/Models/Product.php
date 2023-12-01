@@ -33,6 +33,7 @@ class Product extends Model
             ->leftJoin('product_categories', 'products.category_id', '=', 'product_categories.id')
             ->where(function ($query) use ($searchTerm) {
                 $query->orWhere('products.name', 'like', '%' . $searchTerm . '%')
+                    ->orWhere('products.code', 'like', '%' . $searchTerm . '%')
                     ->orWhere('brands.name', 'like', '%' . $searchTerm . '%')
                     ->orWhere('product_categories.name', 'like', '%' . $searchTerm . '%');
             })

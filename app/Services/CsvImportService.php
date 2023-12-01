@@ -8,7 +8,7 @@ use App\Strategies\CsvImportStrategyInterface;
 
 class CsvImportService
 {
-    private $csvImportStrategy;
+    private CsvImportStrategyInterface $csvImportStrategy;
 
     public function setCsvImportStrategy(CsvImportStrategyInterface $csvImportStrategy)
     {
@@ -17,10 +17,19 @@ class CsvImportService
 
     public function importDataFromCsv(array $csvData)
     {
+        $this->validateStrategy();
+
+        if ($this->csvImportStrategy->validate($csvData)) {
+            return $this->csvImportStrategy->performOperation($csvData);
+        } else {
+            return;
+        }
+    }
+
+    private function validateStrategy(): void
+    {
         if ($this->csvImportStrategy === null) {
             throw new \Exception("CsvImportStrategy nie zostało ustawione.");
         }
-
-        return $this->csvImportStrategy->performOperation($csvData);
     }
 }

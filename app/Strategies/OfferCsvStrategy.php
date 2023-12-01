@@ -5,9 +5,18 @@ declare(strict_types=1);
 namespace App\Strategies;
 
 use App\Models\Product;
+use App\Validators\OrderCsvValidator;
 
-class OrderCsvStrategy implements CsvImportStrategyInterface
+class OfferCsvStrategy implements CsvImportStrategyInterface
 {
+    public function validate(array $csvData): bool
+    {
+        $validator = OrderCsvValidator::validate($csvData);
+        $errors = $validator->errors();
+
+        return empty($errors->messages()) || !empty($csvData);
+    }
+
     public function performOperation($csvData): object
     {
         $existingProducts = $this->getExistingProducts($csvData);

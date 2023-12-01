@@ -6,7 +6,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ImportOrderCsvRequest extends FormRequest
+class ImportOfferCsvRequest extends FormRequest
 {
     public function authorize()
     {

@@ -6,42 +6,60 @@ namespace App\Enum;
 
 class OrderStatusEnum
 {
-    public const ACCEPTED = ['status' => 'Przyjęte', 'color' => 'secondary'];
-    public const PENDING = ['status' => 'Oczekiwanie', 'color' => 'warning'];
-    public const READY = ['status' => 'Gotowy', 'color' => 'success'];
-    public const REJECTED = ['status' => 'Odrzucony', 'color' => 'success'];
-    public const CLOSED = ['status' => 'Zamknięte', 'color' => 'dark'];
+    public const OFFER = [
+        'id' => 0,
+        'status' => 'Oferta',
+        'color' => 'info'
+    ];
+    public const ACCEPTED = [
+        'id' => 1,
+        'status' => 'Przyjęte',
+        'color' => 'success'
+    ];
+    public const PENDING = [
+        'id' => 2,
+        'status' => 'Oczekiwanie',
+        'color' => 'warning'
+    ];
+    public const READY = [
+        'id' => 3,
+        'status' => 'Gotowy',
+        'color' => 'success'
+    ];
+    public const REJECTED = [
+        'id' => 4,
+        'status' => 'Odrzucony',
+        'color' => 'danger'
+    ];
+    public const CLOSED = [
+        'id' => 5,
+        'status' => 'Zamknięte',
+        'color' => 'dark'
+    ];
+
+    public const STATUSES = [
+        self::OFFER,
+        self::ACCEPTED,
+        self::PENDING,
+        self::READY,
+        self::REJECTED,
+        self::CLOSED
+    ];
 
     public static function getStatus(int $statusId): string
     {
-        $statuses = [
-            self::ACCEPTED,
-            self::PENDING,
-            self::READY,
-            self::REJECTED,
-            self::CLOSED,
-        ];
-
-        return $statuses[$statusId]['status'] ?? 'Nieznany';
+        return self::STATUSES[$statusId]['status'] ?? 'Nieznany';
     }
 
     public static function getStatusColor(int $statusId): string
     {
-        $statuses = [
-            self::ACCEPTED,
-            self::PENDING,
-            self::READY,
-            self::REJECTED,
-            self::CLOSED,
-        ];
-
-        return $statuses[$statusId]['color'] ?? '';
+        return self::STATUSES[$statusId]['color'] ?? '';
     }
-
 
     public static function getAllStatuses(): array
     {
         return [
+            self::OFFER['status'],
             self::ACCEPTED['status'],
             self::PENDING['status'],
             self::READY['status'],

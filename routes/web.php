@@ -14,6 +14,9 @@ use App\Http\Controllers\PusherController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\OffersController;
+use App\Http\Controllers\ArchiveController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -97,17 +100,36 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/product-categories/{productCategory}', [ProductCategoriesController::class, 'destroy']);
 
 
+    //Offers
+    Route::get('/offers', [OffersController::class, 'index']);
+    //Create
+    Route::get('/offers/create', [OffersController::class, 'create']);
+    //Store
+    Route::post('/offers', [OffersController::class, 'store']);
+    //Import
+    Route::post('/offers/create/import', [OffersController::class, 'import']);
+    //edit single
+    Route::get('/offers/{offer}/edit', [OffersController::class, 'edit']);
+    //delete
+    Route::delete('/offers/{offer}', [OffersController::class, 'destroy']);
+    //Update offer
+    Route::put('/offers/{offer}', [OffersController::class, 'update']);
+    //makeOrder
+    Route::put('/offers/make-order/{offer}', [OffersController::class, 'makeOrder']);
+
+    //Archive List
+    Route::get('/orders/archive', [ArchiveController::class, 'index']);
+
     //Order List
     Route::get('/orders', [OrdersController::class, 'index']);
-    //Create
-    Route::get('/orders/create', [OrdersController::class, 'create']);
-    //Store
-    Route::post('/orders', [OrdersController::class, 'store']);
     //Show Single
     Route::get('/orders/{order}', [OrdersController::class, 'show']);
-    //Import
-    Route::post('/orders/create/import', [OrdersController::class, 'import']);
-
+    //Ready
+    Route::put('/orders/{order}/ready', [OrdersController::class, 'ready']);
+    //Reject
+    Route::put('/orders/{order}/reject', [OrdersController::class, 'reject']);
+    //Close
+    Route::put('/orders/{order}/close', [OrdersController::class, 'close']);
 
     //Client List
     Route::get('/clients', [ClientsController::class, 'index']);

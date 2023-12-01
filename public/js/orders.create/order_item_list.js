@@ -1,4 +1,4 @@
-let productCount = 1;
+let productCount = $('tr.product').length > 0 ? $('tr.product').length : 1;
 
 updateProductNumbers();
 
@@ -25,12 +25,15 @@ $(document).on('change', '#clientSelect, [name="status"]', function() {
     var isClientSelectChanged = $('#clientSelect').data('originalValue') !== $('#clientSelect').val();
     var isStatusChanged = $('[name="status"]').data('originalValue') !== $('[name="status"]').val();
 
-    var isProductExist = $('.product').length > 0;
-
-    if (isClientSelectChanged && isStatusChanged && isProductExist) {
+    if (isClientSelectChanged && isStatusChanged) {
         $("#createOrder").prop("disabled", false);
+    } else {
+        $("#createOrder").prop("disabled", true);
     }
 });
+
+if ($('#clientSelect').val() && $('[name="status"]').val())
+    $("#createOrder").prop("disabled", false);
 
 function addProduct() {
     const newProduct = $("select[name='newProduct']").find(":selected").text();
@@ -39,6 +42,8 @@ function addProduct() {
     const newQuantity = $("input[name='newQuantity']").val();
     const newPrice = $("input[name='newPrice']").val();
     const newTotalPrice = newQuantity * newPrice;
+
+    productCount = $('tr.product').length;
 
     const productDiv = `
         <tr class="product">
@@ -67,8 +72,6 @@ function addProduct() {
     $(".show-quantity").text('');
     $(".show-price").text('');
 
-    productCount++
-
     $("#productList").append(productDiv);
     updateProductNumbers();
 }
@@ -83,6 +86,11 @@ function updateProductNumbers() {
 
         totalQuantity += quantity;
         totalPrice += price * quantity;
+
+        $(this).find('input[name^="products"]').each(function(subIndex) {
+            var newName = $(this).attr('name').replace(/\[\d+\]/, '[' + (index + 1) + ']');
+            $(this).attr('name', newName);
+        });
 
         $(this).find(".productIndex").text(index + 1);
     });

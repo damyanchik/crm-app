@@ -1,5 +1,5 @@
 <button class="list-group-item list-group-item-action py-1 sidebar__button sidebar_btn_{{ $category }}" type="button" data-bs-toggle="collapse" data-bs-target="#{{ $category }}" aria-expanded="false">
-    <i class="{{ $icon }}"></i>
+    <i class="{{ $icon }} d-inline-block" style="width: 1.3rem"></i>
     <span class="h5">{{ $category }}</span>
     <div class="float-end sidebar__button--circle_block">
         <i class="sidebar__button--arrow fa-solid fa-angle-down"></i>

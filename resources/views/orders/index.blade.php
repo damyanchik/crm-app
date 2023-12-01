@@ -11,7 +11,7 @@
                     <th data-column="client.company">Zamawiający</th>
                     <th data-column="total_price">Wartość</th>
                     <th data-column="users.surname">Wystawiający</th>
-                    <th data-column="created_at">Data</th>
+                    <th data-column="updated_at">Data</th>
                     <th data-column="status">Status</th>
                     <th>Akcje</th>
                 </tr>
@@ -38,13 +38,13 @@
                         {{ $order->user->name }} {{ $order->user->surname }}
                     </td>
                     <td class="text-muted">
-                        {{ $order['created_at'] }}
+                        {{ $order['updated_at'] }}
                     </td>
                     <td>
                         <span class="badge rounded-pill bg-{{ app('OrderStatusEnum')->getStatusColor($order->status) }}">{{ app('OrderStatusEnum')->getStatus($order->status) }}</span>
                     </td>
                     <td>
-                        <a href="orders/{{ $order['id'] }}" class="btn btn-link btn-sm btn-rounded">
+                        <a href="/orders/{{ $order['id'] }}" class="btn btn-link btn-sm btn-rounded">
                             <i class="fa-solid fa-magnifying-glass" style="color: #707070;"></i>
                         </a>
                     </td>

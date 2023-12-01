@@ -115,8 +115,6 @@ $('input[name=\'newQuantity\']').on('input', function() {
     }
 });
 
-//zbierz kod ktory jest wybierany, przelicz ilosc i odejmij
-
 // $("input[name='newPrice']").on('input', function() {
 //     var inputValue = parseInt($(this).val(), 10);
 //     var maxValue = selectedOption.price;
