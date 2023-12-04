@@ -134,10 +134,10 @@
                                         <input name="products[{{ $loop->index }}][unit]" value="{{ $item['unit'] }}"
                                                type="hidden">
                                         <td>
-                                            {{ $item['price'] }} PLN
+                                            {{ app('PriceHelper')->formatPrice($item['price']) }}
                                             / {{ app('ProductUnitEnum')->getUnit($item['unit']) }}
                                         </td>
-                                        <td>{{ $item['price'] * $item['quantity'] }} PLN</td>
+                                        <td>{{  app('PriceHelper')->formatPrice($item['price'] * $item['quantity']) }}</td>
                                         <input name="products[{{ $loop->index }}][price]" class="product-price"
                                                value="{{ $item['price'] }}" type="hidden">
                                         <input name="products[{{ $loop->index }}][product_price]"

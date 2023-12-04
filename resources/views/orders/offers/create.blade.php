@@ -120,7 +120,7 @@
                                             <input name="products[{{ $loop->index }}][quantity]" class="product-quantity" value="{{ $product['quantity'] }}" type="hidden">
                                             <input name="products[{{ $loop->index }}][unit]" value="{{ $product['unit'] }}" type="hidden">
                                             <td>
-                                                {{ $product['price'] }} PLN / {{ app('ProductUnitEnum')->getUnit($product['unit']) }}
+                                                {{ app('PriceHelper')->formatPrice($offer['price']) }} / {{ app('ProductUnitEnum')->getUnit($product['unit']) }}
                                                 @if(!empty($product['changes']['price']))
                                                     <small class="d-block mt-1" style="font-size: 12px">
                                                         @if($product['changes']['price'] > $product['price'])
@@ -128,11 +128,12 @@
                                                         @else
                                                             <i class="fa-solid fa-turn-down" style="cursor: help" title="Cena jest wyższa niż określona w bazie."></i>
                                                         @endif
-                                                        {{ $product['changes']['price'] }} PLN
+                                                            {{ app('PriceHelper')->formatPrice($product['changes']['price']) }}
                                                     </small>
                                                 @endif
                                             </td>
-                                            <td>{{ $product['price'] * $product['quantity'] }} PLN</td>
+                                            <td>
+                                                {{ app('PriceHelper')->formatPrice($product['price'] * $product['quantity']) }}
                                             <input name="products[{{ $loop->index }}][price]" class="product-price" value="{{ $product['price'] }}" type="hidden">
                                             <input name="products[{{ $loop->index }}][product_price]" value="{{ $product['price'] * $product['quantity'] }}" type="hidden">
                                             <td>

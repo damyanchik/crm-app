@@ -53,7 +53,7 @@
                         <p class="mb-0">{{ $product['quantity'] .' '. app('ProductUnitEnum')->getUnit($product['unit']) }}</p>
                     </td>
                     <td>
-                        <p class="mb-0">{{ number_format($product['price'], 2) }} PLN</p>
+                        <p class="mb-0">{{ app('PriceHelper')->formatPrice($product['price']) }}</p>
                     </td>
                     <td>
                         <p class="mb-0 badge rounded-pill bg-{{ app('ProductStatusEnum')->getStatusColor($product['status']) }}">{{ app('ProductStatusEnum')->getStatus($product['status']) }}</p>

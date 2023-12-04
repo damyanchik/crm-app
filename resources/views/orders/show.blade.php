@@ -92,7 +92,7 @@
                                             <span class="d-block fw-bold">
                                                 <i class="fa-regular fa-money-bill-1"></i>
                                             </span>
-                                            {{ $item['price'].' PLN / '.app('ProductUnitEnum')->getUnit($item['unit']) }}
+                                            {{ app('PriceHelper')->formatPrice($item['price']).' / '.app('ProductUnitEnum')->getUnit($item['unit']) }}
                                         </div>
                                         <div class="col-4 text-center small">
                                             <span class="d-block fw-bold">
@@ -104,7 +104,7 @@
                                             <span class="d-block fw-bold">
                                                 <i class="fa-solid fa-equals"></i>
                                             </span>
-                                            {{ $item['product_price'].' PLN'}}
+                                            {{ app('PriceHelper')->formatPrice($item['product_price']) }}
                                         </div>
                                     </div>
                                 </div>

@@ -82,8 +82,8 @@
     <tr>
         <td>{{ $item->name }}</td>
         <td>{{ $item->quantity.' '.app('ProductUnitEnum')->getUnit($item->unit) }}</td>
-        <td>{{ $item->price }} PLN</td>
-        <td>{{ $item->product_price }} PLN</td>
+        <td>{{ app('PriceHelper')->formatPrice($item->price) }}</td>
+        <td>{{ app('PriceHelper')->formatPrice($item->product_price) }}</td>
     </tr>
     @endforeach
 
@@ -95,7 +95,7 @@
     </tr>
     <tr>
         <td colspan="3" class="text-end" style="border: none; font-size: 12px; font-weight: bold;">SUMA ZAMÓWIENIA</td>
-        <td colspan="1" class="text-end" style="border: none; font-size: 12px; font-weight: bold;">{{ $totalPrice }} PLN</td>
+        <td colspan="1" class="text-end" style="border: none; font-size: 12px; font-weight: bold;">{{ app('PriceHelper')->formatPrice($totalPrice) }}</td>
     </tr>
     </tfoot>
 </table>

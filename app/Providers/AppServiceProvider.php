@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Enum\OrderStatusEnum;
 use App\Enum\ProductStatusEnum;
 use App\Enum\ProductUnitEnum;
+use App\Helpers\PriceHelper;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 use App\Enum\CalendarColorEnum;
@@ -31,6 +32,10 @@ class AppServiceProvider extends ServiceProvider
 
         app()->bind('CalendarColorEnum', function () {
             return new CalendarColorEnum();
+        });
+
+        app()->bind('PriceHelper', function () {
+            return new PriceHelper();
         });
 
         app()->bind(ProductService::class);
