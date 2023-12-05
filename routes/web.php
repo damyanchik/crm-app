@@ -16,6 +16,7 @@ use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\OffersController;
 use App\Http\Controllers\ArchiveController;
+use App\Http\Controllers\CompanyDetailsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -162,7 +163,11 @@ Route::middleware(['auth'])->group(function () {
     //delete avatar
     Route::put('/employees/{user}/delete-avatar', [EmployeesController::class, 'deleteAvatar']);
 
+
     Route::get('/invoice/{order}', [InvoiceController::class, 'generateInvoice']);
+
+    Route::get('/admin/company-details', [CompanyDetailsController::class, 'edit']);
+    Route::put('/admin/company-details/update', [CompanyDetailsController::class, 'update']);
 });
 
 Route::middleware(['guest'])->group(function () {

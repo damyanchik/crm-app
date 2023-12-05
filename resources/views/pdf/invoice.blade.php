@@ -53,9 +53,13 @@
 
 <div class="details small text-end">
     <h3>Dostawca</h3>
-    <p>Firma: John Doe</p>
-    <p>Adres: ul. Przykładowa 123, 00-000 Miasto</p>
-    <p>Email: john@example.com</p>
+    <p>{{ $CRMCompany }}</p>
+    <p>{{ $CRMTax }}</p>
+    <p>{{ $CRMAddress }}</p>
+    <p>{{ $CRMCityAndPostalCode }}</p>
+    <p>{{ $CRMCountry }}</p>
+    <p>{{ $CRMPhone }}</p>
+    <p>{{ $CRMEmail }}</p>
 </div>
 <div class="details small text-start mb-3">
     <h3>Odbiorca</h3>
