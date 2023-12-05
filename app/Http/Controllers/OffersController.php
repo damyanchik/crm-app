@@ -7,6 +7,7 @@ namespace App\Http\Controllers;
 use App\Enum\OrderStatusEnum;
 use App\Enum\ProductUnitEnum;
 use App\Helpers\CsvHelper;
+use App\Helpers\StockHelper;
 use App\Http\Requests\ImportOfferCsvRequest;
 use App\Http\Requests\StoreAndUpdateOfferRequest;
 use App\Http\Requests\StoreAndUpdateOfferItemsRequest;
@@ -53,7 +54,7 @@ class OffersController extends Controller
     {
         $this->offerService->validateAndStoreOffer($offerRequest, $itemsRequest);
 
-        return back();
+        return redirect('/offers')->with('test');
     }
 
     public function import(ImportOfferCsvRequest $request): object
@@ -80,7 +81,7 @@ class OffersController extends Controller
         ]);
     }
 
-    public function update(StoreAndUpdateOfferRequest $offerRequest, StoreAndUpdateOfferItemsRequest $itemsRequest, Order $offer)
+    public function update(StoreAndUpdateOfferRequest $offerRequest, StoreAndUpdateOfferItemsRequest $itemsRequest, Order $offer): object
     {
         $this->offerService->validateAndUpdateOffer($offerRequest, $itemsRequest, $offer);
 
@@ -92,6 +93,7 @@ class OffersController extends Controller
 
     public function destroy(Order $offer): object
     {
+        StockHelper::removeAllQuantityToProducts($offer);
         $offer->delete();
 
         return redirect('/offers');

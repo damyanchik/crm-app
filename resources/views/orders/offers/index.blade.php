@@ -29,7 +29,7 @@
                         <div>{{ strtoupper($offer->client->company) }}</div>
                     </td>
                     <td>
-                        {{ number_format($offer['total_price'], 2) }} PLN
+                        {{ app('PriceHelper')->formatPrice($offer['total_price']) }}
                     </td>
                     <td>
                         {{ $offer['total_quantity'] }}

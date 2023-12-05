@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Strategies;
+namespace App\Patterns\Strategies;
 
 interface CsvImportStrategyInterface
 {

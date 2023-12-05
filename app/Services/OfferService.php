@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Helpers\StockHelper;
 use App\Models\Order;
 use App\Models\OrderItem;
-use App\Strategies\OfferCsvStrategy;
+use App\Patterns\Strategies\OfferCsvStrategy;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -20,12 +21,12 @@ class OfferService
         try {
             $offerValidated = $offerForm->validated();
             $offerItemsValidated = $offerItemsForm->validated();
-            $offerValidated['invoice_num'] = 'test';
             $newOrder = Order::create($offerValidated);
 
             foreach ($offerItemsValidated['products'] as $orderItem) {
                 $orderItem['user_id'] = $offerValidated['user_id'];
                 $orderItem['order_id'] = $newOrder->id;
+                StockHelper::takeQuantityFromProductByCode($orderItem['code'], $orderItem['quantity']);
                 OrderItem::create($orderItem);
             }
 
@@ -48,11 +49,14 @@ class OfferService
 
             $order->update($offerValidated);
 
+            StockHelper::removeAllQuantityToProducts($order);
+
             $order->orderItem()->delete();
 
             foreach ($offersItemsValidated['products'] as $offerItem) {
                 $offerItem['user_id'] = $offerValidated['user_id'];
                 $offerItem['order_id'] = $order->id;
+                StockHelper::takeQuantityFromProductByCode($offerItem['code'], $offerItem['quantity']);
                 OrderItem::create($offerItem);
             }
 

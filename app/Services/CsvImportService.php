@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Strategies\CsvImportStrategyInterface;
+use App\Patterns\Strategies\CsvImportStrategyInterface;
 
 class CsvImportService
 {

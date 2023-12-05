@@ -3,7 +3,7 @@
 @section('content')
     <div class="container rounded bg-white mb-5">
         <div class="row">
-            <form method="post" action="/offers/" class="col-md-12 border-right">
+            <form method="post" action="/offers" class="col-md-12 border-right">
                 @csrf
                 <div class="p-3 py-2">
                     <div class="align-items-center mb-3">
@@ -120,7 +120,7 @@
                                             <input name="products[{{ $loop->index }}][quantity]" class="product-quantity" value="{{ $product['quantity'] }}" type="hidden">
                                             <input name="products[{{ $loop->index }}][unit]" value="{{ $product['unit'] }}" type="hidden">
                                             <td>
-                                                {{ app('PriceHelper')->formatPrice($offer['price']) }} / {{ app('ProductUnitEnum')->getUnit($product['unit']) }}
+                                                {{ app('PriceHelper')->formatPrice($product['price']) }} / {{ app('ProductUnitEnum')->getUnit($product['unit']) }}
                                                 @if(!empty($product['changes']['price']))
                                                     <small class="d-block mt-1" style="font-size: 12px">
                                                         @if($product['changes']['price'] > $product['price'])

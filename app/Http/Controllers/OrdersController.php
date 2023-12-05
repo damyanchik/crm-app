@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Enum\OrderStatusEnum;
+use App\Helpers\StockHelper;
 use App\Models\Order;
 
 class OrdersController extends Controller
@@ -58,6 +59,7 @@ class OrdersController extends Controller
 
     public function reject(Order $order): object
     {
+        StockHelper::removeAllQuantityToProducts($order);
         $order->setAttribute('status', OrderStatusEnum::REJECTED['id']);
         $order->save();
 

@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace App\Strategies;
+namespace App\Patterns\Strategies;
 
 use App\Models\Product;
-use App\Validators\OrderCsvValidator;
+use App\Validators\OfferCsvValidator;
 
 class OfferCsvStrategy implements CsvImportStrategyInterface
 {
     public function validate(array $csvData): bool
     {
-        $validator = OrderCsvValidator::validate($csvData);
+        $validator = OfferCsvValidator::validate($csvData);
         $errors = $validator->errors();
 
         return empty($errors->messages()) || !empty($csvData);

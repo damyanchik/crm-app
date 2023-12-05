@@ -6,7 +6,7 @@ namespace App\Validators;
 
 use Illuminate\Support\Facades\Validator;
 
-class OrderCsvValidator
+class OfferCsvValidator
 {
     public static function validate(array $csvData)
     {
