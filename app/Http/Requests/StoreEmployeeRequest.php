@@ -6,7 +6,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateEmployeeRequest extends FormRequest
+class StoreEmployeeRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -18,7 +18,8 @@ class UpdateEmployeeRequest extends FormRequest
         return [
             'name' => 'required',
             'surname' => 'required',
-            'email' => ['required', 'email', 'unique:employees,email'],
+            'password' => 'required|min:8|confirmed',
+            'email' => ['required', 'email', 'unique:users,email'],
             'phone' => 'nullable',
             'address' => 'nullable',
             'postal_code' => 'nullable',

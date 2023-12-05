@@ -17,6 +17,7 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\OffersController;
 use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\CompanyDetailsController;
+use App\Http\Controllers\EmployeeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -168,6 +169,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/admin/company-details', [CompanyDetailsController::class, 'edit']);
     Route::put('/admin/company-details/update', [CompanyDetailsController::class, 'update']);
+
+    Route::get('/admin/new-employee', [EmployeeController::class, 'create']);
+    Route::post('/admin/new-employee', [EmployeeController::class, 'store']);
 });
 
 Route::middleware(['guest'])->group(function () {
