@@ -10,6 +10,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 use App\Enum\CalendarColorEnum;
 use App\Services\ProductService;
+use App\Enum\RolesPermissionsEnum;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -36,6 +37,10 @@ class AppServiceProvider extends ServiceProvider
 
         app()->bind('PriceHelper', function () {
             return new PriceHelper();
+        });
+
+        app()->bind('RolesPermissionsEnum', function () {
+            return new RolesPermissionsEnum();
         });
 
         app()->bind(ProductService::class);

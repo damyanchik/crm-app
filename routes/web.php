@@ -18,7 +18,8 @@ use App\Http\Controllers\OffersController;
 use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\CompanyDetailsController;
 use App\Http\Controllers\EmployeeController;
-
+use App\Http\Controllers\RolesController;
+use App\Http\Controllers\SettingsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -170,8 +171,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/company-details', [CompanyDetailsController::class, 'edit']);
     Route::put('/admin/company-details/update', [CompanyDetailsController::class, 'update']);
 
-    Route::get('/admin/new-employee', [EmployeeController::class, 'create']);
-    Route::post('/admin/new-employee', [EmployeeController::class, 'store']);
+    Route::get('/admin/employee-manager', [EmployeeController::class, 'create']);
+    Route::post('/admin/employee-manager', [EmployeeController::class, 'store']);
+
+    Route::get('/admin/roles-permissions', [RolesController::class, 'index'])->middleware(['permission:publish articles|edit articles']);
+    Route::post('/admin/roles', [RolesController::class, 'storeRole']);
+    Route::post('/admin/permissions', [RolesController::class, 'storePermission']);
+    Route::delete('/admin/roles/{role}', [RolesController::class, 'destroyRole']);
+
+    Route::get('/admin/settings', [SettingsController::class, 'index']);
 });
 
 Route::middleware(['guest'])->group(function () {

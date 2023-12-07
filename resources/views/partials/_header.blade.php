@@ -48,8 +48,8 @@
                     :category="'Admin'"
                     :pages="[
                     'admin/company-details'=>'Dane firmy',
-                    'admin/new-employee' => 'Nowy pracownik',
-                    'admin/roles'=>'Uprawnienia',
+                    'admin/employee-manager' => 'Nowy pracownik',
+                    'admin/roles-permissions'=>'Uprawnienia',
                     'admin/settings' => 'Ustawienia CRM'
                     ]"
                 ></x-sidebar-nav>

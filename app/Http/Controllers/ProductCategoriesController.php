@@ -31,7 +31,7 @@ class ProductCategoriesController extends Controller
     public function store(Request $request): object
     {
         $formFields = $request->validate([
-            'name' => 'required'
+            'name' => 'unique:product_categories,name'
         ]);
 
         ProductCategory::create($formFields);

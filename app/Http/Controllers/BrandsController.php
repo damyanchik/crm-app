@@ -35,7 +35,7 @@ class BrandsController extends Controller
     public function store(Request $request): object
     {
         $formFields = $request->validate([
-            'name' => 'required'
+            'name' => 'unique:brands,name'
         ]);
 
         Brand::create($formFields);
