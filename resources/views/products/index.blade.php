@@ -59,7 +59,7 @@
                         <p class="mb-0 badge rounded-pill bg-{{ app('ProductStatusEnum')->getStatusColor($product['status']) }}">{{ app('ProductStatusEnum')->getStatus($product['status']) }}</p>
                     </td>
                     <td>
-                        <a href="products/{{ $product['id'] }}/edit" class="btn btn-link btn-sm btn-rounded">
+                        <a href="{{ route('editProduct', $product['id']) }}" class="btn btn-link btn-sm btn-rounded">
                             <i class="fa-solid fa-pen-to-square" style="color: #707070;"></i>
                         </a>
                     </td>

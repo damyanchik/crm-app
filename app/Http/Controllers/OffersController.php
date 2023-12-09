@@ -6,7 +6,6 @@ namespace App\Http\Controllers;
 
 use App\Enum\OrderStatusEnum;
 use App\Enum\ProductUnitEnum;
-use App\Helpers\CsvHelper;
 use App\Helpers\StockHelper;
 use App\Http\Requests\ImportOfferCsvRequest;
 use App\Http\Requests\StoreAndUpdateOfferRequest;
@@ -46,7 +45,8 @@ class OffersController extends Controller
     public function create(): object
     {
         return view('orders.offers.create', [
-            'jsonUnits' => json_encode(ProductUnitEnum::getAllUnits())
+            'jsonUnits' => json_encode(ProductUnitEnum::getAllUnits()),
+            'products' => [],
         ]);
     }
 
@@ -54,23 +54,14 @@ class OffersController extends Controller
     {
         $this->offerService->validateAndStoreOffer($offerRequest, $itemsRequest);
 
-        return redirect('/offers')->with('test');
+        return redirect('/offers');
     }
 
     public function import(ImportOfferCsvRequest $request): object
     {
-        $request->validated();
-        $csvData = $request->file('csv_file');
-
-        $csvData = CsvHelper::readToArray(
-            $csvData->getPathname(),
-            ['code', 'quantity', 'price']
-        );
-
-        return view('orders.offers.create', [
+        return view('orders.offers.create',[
             'jsonUnits' => json_encode(ProductUnitEnum::getAllUnits()),
-            'productsFromCsv' => $this->offerService->importCsv($csvData),
-        ]);
+            'products' => $this->offerService->validateAndImportCsv($request)]);
     }
 
     public function edit(Order $offer): object

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Helpers\CsvHelper;
 use App\Helpers\StockHelper;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -69,8 +70,16 @@ class OfferService
         }
     }
 
-    public function importCsv(array $csvData): object
+    public function validateAndImportCsv(FormRequest $request): object
     {
+        $request->validated();
+        $csvData = $request->file('csv_file');
+
+        $csvData = CsvHelper::readToArray(
+            $csvData->getPathname(),
+            ['code', 'quantity', 'price']
+        );
+
         $orderImport = new CsvImportService();
         $orderImport->setCsvImportStrategy(new OfferCsvStrategy());
 

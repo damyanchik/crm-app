@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="float-end align-items-center experience">
-        <a href="/product-categories/create" class="btn btn-primary border px-3 p-1">
+        <a href="{{ route('createProdCat') }}" class="btn btn-primary border px-3 p-1">
             <i class="fa fa-plus"></i>
             Dodaj nową kategorię
         </a>
@@ -23,7 +23,7 @@
                         {{ $productCategory['name'] }}
                     </td>
                     <td class="">
-                        <a href="product-categories/{{ $productCategory['id'] }}/edit" class="btn btn-link btn-sm btn-rounded">
+                        <a href="{{ route('editProdCat', $productCategory['id']) }}" class="btn btn-link btn-sm btn-rounded">
                             <i class="fa-solid fa-pen-to-square" style="color: #707070;"></i>
                         </a>
                     </td>

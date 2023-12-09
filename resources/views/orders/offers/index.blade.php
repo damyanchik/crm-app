@@ -46,7 +46,7 @@
                         </span>
                     </td>
                     <td>
-                        <a href="offers/{{ $offer['id'] }}/edit" class="btn btn-link btn-sm btn-rounded">
+                        <a href="{{ route('editOffer', $offer['id']) }}" class="btn btn-link btn-sm btn-rounded">
                             <i class="fa-solid fa-magnifying-glass" style="color: #707070;"></i>
                         </a>
                     </td>

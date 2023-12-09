@@ -3,7 +3,7 @@
 @section('content')
     <div class="container rounded bg-white mb-5">
         <div class="row">
-            <form method="post" action="/brands/" class="col-md-12 border-right">
+            <form method="post" action="{{ route('storeBrand') }}" class="col-md-12 border-right">
                 @csrf
                 <div class="p-3 py-2">
                     <div class="align-items-center mb-3">
@@ -22,7 +22,7 @@
                     </div>
                     <div class="mt-5 text-center">
                         <button class="btn btn-primary profile-button" type="submit">Dodaj markę</button>
-                        <a href="/brands" class="btn btn-primary profile-button" type="button">Powrót do listy</a>
+                        <a href="{{ route('brands') }}" class="btn btn-primary profile-button" type="button">Powrót do listy</a>
                     </div>
                 </div>
             </form>

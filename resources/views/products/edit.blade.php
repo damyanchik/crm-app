@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-12 px-4 pt-2">
                 <h4 class="d-inline">Edycja produktu</h4>
-                <form method="post" action="/products/{{$product['id']}}" class="float-end align-items-center">
+                <form method="post" action="{{ route('destroyProduct', $product['id']) }}" class="float-end align-items-center">
                     @csrf
                     @method('DELETE')
                     <button class="btn btn-danger border px-3 p-1">
@@ -23,7 +23,7 @@
                     @endif
                 >
                 @if(!empty($product['photo']))
-                    <form method="post" action="/products/{{$product['id']}}/delete-product-photo" class="text-center my-2">
+                    <form method="post" action="{{ route('destroyProductPhoto', $product['id']) }}" class="text-center my-2">
                         @csrf
                         @method('PUT')
                         <button class="btn btn-danger border px-3 p-0">
@@ -33,7 +33,7 @@
                 @endif
             </div>
 
-            <form method="post" action="/products/{{$product['id']}}" class="col-md-12" enctype="multipart/form-data">
+            <form method="post" action="{{ route('updateProduct', $product['id']) }}" class="col-md-12" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="col-12 p-3 py-2">

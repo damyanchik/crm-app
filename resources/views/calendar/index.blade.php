@@ -2,7 +2,7 @@
 
 @section('content')
     @can('storeCalendar')
-    <form method="post" action="/calendar/" class="row">
+    <form method="post" action="{{ route('storeCalendar') }}" class="row">
         @csrf
         <div class="col-md-2 mt-2">
             <label>Tytuł wydarzenia</label>

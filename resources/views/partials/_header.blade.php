@@ -3,7 +3,7 @@
     <nav id="sidebarMenu" style="font-family: 'Roboto Condensed', sans-serif;" class="d-lg-block sidebar collapse bg-white overflow-auto">
         <div class="position-sticky">
             <div class="list-group list-group-flush mx-3 mt-4">
-                <a href="/" class="list-group-item list-group-item-action py-1 ripple
+                <a href="{{ route('dashboard') }}" class="list-group-item list-group-item-action py-1 ripple
                             {{ (request()->is('/')) ? 'active' : '' }}" aria-current="true"><i
                         class="fas fa-tachometer-alt fa-fw me-3"></i>
                     <span class="h5"> Dashboard</span>
@@ -71,7 +71,7 @@
             </button>
 
             <!-- Brand -->
-            <a class="navbar-brand mx-4" href="/">
+            <a class="navbar-brand mx-4" href="{{ route('dashboard') }}">
                 <div style="width: 5rem">
                 <img src="{{ asset('/images/logo.png') }}" class="img-fluid">
                 </div>
@@ -153,7 +153,7 @@
                             <a class="dropdown-item" href="/employees/{{ Auth::user()->id }}/edit">Ustawienia</a>
                         </li>
                         <li>
-                            <form method="post" action="/logout">
+                            <form method="post" action="{{ route('logout') }}">
                                 @csrf
                                 <button class="dropdown-item">Wyloguj</button>
                             </form>

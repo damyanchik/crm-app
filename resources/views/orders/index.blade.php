@@ -44,7 +44,7 @@
                         <span class="badge rounded-pill bg-{{ app('OrderStatusEnum')->getStatusColor($order->status) }}">{{ app('OrderStatusEnum')->getStatus($order->status) }}</span>
                     </td>
                     <td>
-                        <a href="/orders/{{ $order['id'] }}" class="btn btn-link btn-sm btn-rounded">
+                        <a href="{{ route('showOrder', $order['id']) }}" class="btn btn-link btn-sm btn-rounded">
                             <i class="fa-solid fa-magnifying-glass" style="color: #707070;"></i>
                         </a>
                     </td>

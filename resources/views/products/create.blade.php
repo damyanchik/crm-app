@@ -3,7 +3,7 @@
 @section('content')
 <div class="container rounded bg-white mb-5">
     <div class="row">
-        <form method="post" action="/products/" class="col-md-12 border-right" enctype="multipart/form-data">
+        <form method="post" action="{{ route('storeProduct') }}" class="col-md-12 border-right" enctype="multipart/form-data">
             @csrf
             <div class="p-3 py-2">
                 <div class="align-items-center mb-3">

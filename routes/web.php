@@ -33,161 +33,113 @@ use App\Http\Controllers\SettingsController;
 
 Route::middleware(['auth'])->group(function () {
     //Logout
-    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    //Search user
+    //Ajax Search
     Route::get('/ajax/search-users', [AjaxController::class, 'searchUsers'])->name('ajax.searchUsers');
-    //Search client
     Route::get('/ajax/search-clients', [AjaxController::class, 'searchClients'])->name('ajax.searchClients');
-    //Search brand
     Route::get('/ajax/search-brands', [AjaxController::class, 'searchBrands'])->name('ajax.searchBrands');
-    //Search product category
     Route::get('/ajax/search-product-categories', [AjaxController::class, 'searchProductCategories'])->name('ajax.searchProductCategories');
-    //search products
     Route::get('/ajax/search-products', [AjaxController::class, 'searchProducts'])->name('ajax.searchProducts');
 
-
     //Dashboard
-    Route::get('/', [DashboardController::class, 'index']);
-
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
     //Chat
-    Route::get('/chat', [ChatController::class, 'index']);
+    Route::get('/chat', [ChatController::class, 'index'])->name('chat');
     Route::get('/chat/ajax/load-messages', [ChatController::class, 'loadMessages'])->name('ajax.loadMessages');
     Route::post('/chat/broadcast', [PusherController::class, 'broadcast']);
     Route::post('/chat/receive', [PusherController::class, 'receive']);
 
+    //Calendar
     Route::get('/calendar', [CalendarController::class, 'index']);
-    Route::post('/calendar', [CalendarController::class, 'store'])->middleware(['permission:storeCalendar']);
+    Route::post('/calendar', [CalendarController::class, 'store'])->middleware(['permission:storeCalendar'])->name('storeCalendar');
     Route::delete('/calendar/{event}', [CalendarController::class, 'destroy'])->middleware(['permission:destroyCalendar']);
 
-    //Product list
+    //Product
     Route::get('/products', [ProductsController::class, 'index']);
-    //Create
     Route::get('/products/create', [ProductsController::class, 'create'])->middleware(['permission:storeProduct']);
-    //Store
-    Route::post('/products', [ProductsController::class, 'store'])->middleware(['permission:storeProduct']);
-    //Edit
-    Route::get('/products/{product}/edit', [ProductsController::class, 'edit'])->middleware(['permission:updateProduct']);
-    //Update
-    Route::put('/products/{product}', [ProductsController::class, 'update'])->middleware(['permission:updateProduct']);
-    //Delete
-    Route::delete('/products/{product}', [ProductsController::class, 'destroy'])->middleware(['permission:destroyProduct']);
-    //Del photo
-    Route::put('/products/{product}/delete-product-photo', [ProductsController::class, 'deletePhoto'])->middleware(['permission:destroyProduct']);
+    Route::post('/products', [ProductsController::class, 'store'])->middleware(['permission:storeProduct'])->name('storeProduct');
+    Route::get('/products/{product}/edit', [ProductsController::class, 'edit'])->middleware(['permission:updateProduct'])->name('editProduct');
+    Route::put('/products/{product}', [ProductsController::class, 'update'])->middleware(['permission:updateProduct'])->name('updateProduct');
+    Route::delete('/products/{product}', [ProductsController::class, 'destroy'])->middleware(['permission:destroyProduct'])->name('destroyProduct');
+    Route::put('/products/{product}/delete-product-photo', [ProductsController::class, 'deletePhoto'])->middleware(['permission:destroyProduct'])->name('destroyProductPhoto');
 
-    //Brand List
-    Route::get('/brands', [BrandsController::class, 'index']);
-    //Create
-    Route::get('/brands/create', [BrandsController::class, 'create'])->middleware(['permission:storeBrand']);
-    //Store
-    Route::post('/brands', [BrandsController::class, 'store'])->middleware(['permission:storeBrand']);
-    //Edit
-    Route::get('/brands/{brand}/edit', [BrandsController::class, 'edit'])->middleware(['permission:updateBrand']);
-    //Update
-    Route::put('/brands/{brand}', [BrandsController::class, 'update'])->middleware(['permission:updateBrand']);
-    //Delete
-    Route::delete('/brands/{brand}', [BrandsController::class, 'destroy'])->middleware(['permission:destroyBrand']);
+    //Brand
+    Route::get('/brands', [BrandsController::class, 'index'])->name('brands');
+    Route::get('/brands/create', [BrandsController::class, 'create'])->middleware(['permission:storeBrand'])->name('createBrand');
+    Route::post('/brands', [BrandsController::class, 'store'])->middleware(['permission:storeBrand'])->name('storeBrand');
+    Route::get('/brands/{brand}/edit', [BrandsController::class, 'edit'])->middleware(['permission:updateBrand'])->name('editBrand');
+    Route::put('/brands/{brand}', [BrandsController::class, 'update'])->middleware(['permission:updateBrand'])->name('updateBrand');
+    Route::delete('/brands/{brand}', [BrandsController::class, 'destroy'])->middleware(['permission:destroyBrand'])->name('destroyBrand');
 
-    //Product Categories List
-    Route::get('/product-categories', [ProductCategoriesController::class, 'index']);
-    //Create
-    Route::get('/product-categories/create', [ProductCategoriesController::class, 'create'])->middleware(['permission:storeProductCategory']);
-    //Store
-    Route::post('/product-categories', [ProductCategoriesController::class, 'store'])->middleware(['permission:storeProductCategory']);
-    //Edit
-    Route::get('/product-categories/{productCategory}/edit', [ProductCategoriesController::class, 'edit'])->middleware(['permission:updateProductCategory']);
-    //Update
-    Route::put('/product-categories/{productCategory}', [ProductCategoriesController::class, 'update'])->middleware(['permission:updateProductCategory']);
-    //Delete
-    Route::delete('/product-categories/{productCategory}', [ProductCategoriesController::class, 'destroy'])->middleware(['permission:destroyProductCategory']);
-
+    //Product Categories
+    Route::get('/product-categories', [ProductCategoriesController::class, 'index'])->name('prodCats');
+    Route::get('/product-categories/create', [ProductCategoriesController::class, 'create'])->middleware(['permission:storeProductCategory'])->name('createProdCat');
+    Route::post('/product-categories', [ProductCategoriesController::class, 'store'])->middleware(['permission:storeProductCategory'])->name('storeProdCat');;
+    Route::get('/product-categories/{productCategory}/edit', [ProductCategoriesController::class, 'edit'])->middleware(['permission:updateProductCategory'])->name('editProdCat');;
+    Route::put('/product-categories/{productCategory}', [ProductCategoriesController::class, 'update'])->middleware(['permission:updateProductCategory'])->name('updateProdCat');;
+    Route::delete('/product-categories/{productCategory}', [ProductCategoriesController::class, 'destroy'])->middleware(['permission:destroyProductCategory'])->name('destroyProdCat');;
 
     //Offers
-    Route::get('/offers', [OffersController::class, 'index']);
-    //Create
-    Route::get('/offers/create', [OffersController::class, 'create'])->middleware(['permission:storeOffer']);
-    //Store
-    Route::post('/offers', [OffersController::class, 'store'])->middleware(['permission:storeOffer']);
-    //Import
-    Route::post('/offers/create/import', [OffersController::class, 'import'])->middleware(['permission:storeOffer']);
-    //edit single
-    Route::get('/offers/{offer}/edit', [OffersController::class, 'edit'])->middleware(['permission:updateOffer']);
-    //delete
-    Route::delete('/offers/{offer}', [OffersController::class, 'destroy'])->middleware(['permission:destroyOffer']);
-    //Update offer
-    Route::put('/offers/{offer}', [OffersController::class, 'update'])->middleware(['permission:updateOffer']);
-    //makeOrder
-    Route::put('/offers/make-order/{offer}', [OffersController::class, 'makeOrder'])->middleware(['permission:makeOrder']);
+    Route::get('/offers', [OffersController::class, 'index'])->name('offers');
+    Route::get('/offers/create', [OffersController::class, 'create'])->middleware(['permission:storeOffer'])->name('createOffer');
+    Route::post('/offers', [OffersController::class, 'store'])->middleware(['permission:storeOffer'])->name('storeOffer');
+    Route::post('/offers/create', [OffersController::class, 'import'])->middleware(['permission:storeOffer'])->name('importOffer');
+    Route::get('/offers/{offer}/edit', [OffersController::class, 'edit'])->middleware(['permission:updateOffer'])->name('editOffer');
+    Route::delete('/offers/{offer}', [OffersController::class, 'destroy'])->middleware(['permission:destroyOffer'])->name('destroyOffer');
+    Route::put('/offers/{offer}', [OffersController::class, 'update'])->middleware(['permission:updateOffer'])->name('updateOffer');
+    Route::put('/offers/make-order/{offer}', [OffersController::class, 'makeOrder'])->middleware(['permission:makeOrder'])->name('makeOrder');
 
-    //Archive List
-    Route::get('/orders/archive', [ArchiveController::class, 'index']);
+    //Archive
+    Route::get('/orders/archive', [ArchiveController::class, 'index'])->name('orderArchives');
 
-    //Order List
-    Route::get('/orders', [OrdersController::class, 'index']);
-    //Show Single
-    Route::get('/orders/{order}', [OrdersController::class, 'show']);
-    //Ready
-    Route::put('/orders/{order}/ready', [OrdersController::class, 'ready'])->middleware(['permission:readyOrder']);
-    //Reject
-    Route::put('/orders/{order}/reject', [OrdersController::class, 'reject'])->middleware(['permission:rejectOrder']);
-    //Close
-    Route::put('/orders/{order}/close', [OrdersController::class, 'close'])->middleware(['permission:closeOrder']);
+    //Order
+    Route::get('/orders', [OrdersController::class, 'index'])->name('orders');
+    Route::get('/orders/{order}', [OrdersController::class, 'show'])->name('showOrder');
+    Route::put('/orders/{order}/ready', [OrdersController::class, 'ready'])->middleware(['permission:readyOrder'])->name('readyOrder');
+    Route::put('/orders/{order}/reject', [OrdersController::class, 'reject'])->middleware(['permission:rejectOrder'])->name('rejectOrder');
+    Route::put('/orders/{order}/close', [OrdersController::class, 'close'])->middleware(['permission:closeOrder'])->name('closeOrder');
 
-    //Client List
-    Route::get('/clients', [ClientsController::class, 'index']);
-    //Create
-    Route::get('/clients/create', [ClientsController::class, 'create'])->middleware(['permission:storeClient']);
-    //Show Single Client
-    Route::get('/clients/{client}', [ClientsController::class, 'show']);
-    //Edit
-    Route::get('/clients/{client}/edit', [ClientsController::class, 'edit'])->middleware(['permission:updateClient']);
-    //Update client
-    Route::put('/clients/{client}', [ClientsController::class, 'update'])->middleware(['permission:updateClient']);
-    //delete client
-    Route::delete('/clients/{client}', [ClientsController::class, 'destroy'])->middleware(['permission:destroyClient']);
-    //store client
-    Route::post('/clients', [ClientsController::class, 'store'])->middleware(['permission:storeClient']);
+    //Clients
+    Route::get('/clients', [ClientsController::class, 'index'])->name('clients');
+    Route::get('/clients/create', [ClientsController::class, 'create'])->middleware(['permission:storeClient'])->name('createClient');
+    Route::get('/clients/{client}', [ClientsController::class, 'show'])->name('showClient');
+    Route::get('/clients/{client}/edit', [ClientsController::class, 'edit'])->middleware(['permission:updateClient'])->name('editClient');
+    Route::put('/clients/{client}', [ClientsController::class, 'update'])->middleware(['permission:updateClient'])->name('updateClient');
+    Route::delete('/clients/{client}', [ClientsController::class, 'destroy'])->middleware(['permission:destroyClient'])->name('destroyClient');
+    Route::post('/clients', [ClientsController::class, 'store'])->middleware(['permission:storeClient'])->name('storeClient');
 
+    //Employees
+    Route::get('/employees', [EmployeesController::class, 'index'])->name('employees');
+    Route::get('/employees/{user}', [EmployeesController::class, 'show'])->name('showEmployee');
+    Route::get('/employees/{user}/edit', [EmployeesController::class, 'edit'])->middleware(['permission:updateUser'])->name('editEmployee');
+    Route::put('/employees/{user}', [EmployeesController::class, 'update'])->middleware(['permission:updateUser'])->name('updateEmployee');
+    Route::post('/employees/{user}/block', [EmployeesController::class, 'block'])->middleware(['permission:blockUser'])->name('blockEmployee');
+    Route::put('/employees/{user}/change-role', [EmployeesController::class, 'changeRole'])->middleware(['permission:rolesPermissionsAdmin'])->name('changeRoleEmployee');
+    Route::put('/employees/{user}/change-pass', [EmployeesController::class, 'changePassword'])->middleware(['permission:changePasswordUser'])->name('changePasswordEmployee');
+    Route::put('/employees/{user}/delete-avatar', [EmployeesController::class, 'deleteAvatar'])->middleware(['permission:deleteAvatarUser'])->name('deleteAvatarEmployee');
 
-    //Employees List
-    Route::get('/employees', [EmployeesController::class, 'index']);
-    //Show
-    Route::get('/employees/{user}', [EmployeesController::class, 'show']);
-    //Edit
-    Route::get('/employees/{user}/edit', [EmployeesController::class, 'edit'])->middleware(['permission:updateUser']);
-    //Update
-    Route::put('/employees/{user}', [EmployeesController::class, 'update'])->middleware(['permission:updateUser']);
-    //Block
-    Route::post('/employees/{user}/block', [EmployeesController::class, 'block'])->middleware(['permission:blockUser']);
-    //Change role
-    Route::put('/employees/{user}/change-role', [EmployeesController::class, 'changeRole'])->middleware(['permission:rolesPermissionsAdmin']);
-    //Change password
-    Route::put('/employees/{user}/change-pass', [EmployeesController::class, 'changePassword'])->middleware(['permission:changePasswordUser']);
-    //delete avatar
-    Route::put('/employees/{user}/delete-avatar', [EmployeesController::class, 'deleteAvatar'])->middleware(['permission:deleteAvatarUser']);
+    //Invoice
+    Route::get('/invoice/{order}', [InvoiceController::class, 'generateInvoice'])->middleware(['permission:closeOrder|rejectOrder|readyOrder'])->name('generateInvoice');
 
+    //Admin
+    Route::get('/admin/company-details', [CompanyDetailsController::class, 'edit'])->middleware(['permission:companyDetailsAdmin'])->name('companyDetailsAdmin');
+    Route::put('/admin/company-details/update', [CompanyDetailsController::class, 'update'])->middleware(['permission:companyDetailsAdmin'])->name('updateCompanyDetailsAdmin');
 
-    Route::get('/invoice/{order}', [InvoiceController::class, 'generateInvoice'])->middleware(['permission:closeOrder|rejectOrder|readyOrder']);
+    Route::get('/admin/employee-manager', [EmployeeController::class, 'create'])->middleware(['permission:employeeAdmin'])->name('employeeManagerAdmin');
+    Route::post('/admin/employee-manager', [EmployeeController::class, 'store'])->middleware(['permission:employeeAdmin'])->name('storeEmployeeAdmin');
 
-    Route::get('/admin/company-details', [CompanyDetailsController::class, 'edit'])->middleware(['permission:companyDetailsAdmin']);
-    Route::put('/admin/company-details/update', [CompanyDetailsController::class, 'update'])->middleware(['permission:companyDetailsAdmin']);
+    Route::get('/admin/roles-permissions', [RolesController::class, 'index'])->middleware(['permission:rolesPermissionsAdmin'])->name('rolesPermissionsAdmin');
+    Route::post('/admin/roles', [RolesController::class, 'storeRole'])->middleware(['permission:rolesPermissionsAdmin'])->name('storeRoleAdmin');
+    Route::post('/admin/permissions', [RolesController::class, 'storePermission'])->middleware(['permission:rolesPermissionsAdmin'])->name('storePermissionAdmin');
+    Route::delete('/admin/roles/{role}', [RolesController::class, 'destroyRole'])->middleware(['permission:rolesPermissionsAdmin'])->name('destroyRoleAdmin');
 
-    Route::get('/admin/employee-manager', [EmployeeController::class, 'create'])->middleware(['permission:employeeAdmin']);
-    Route::post('/admin/employee-manager', [EmployeeController::class, 'store'])->middleware(['permission:employeeAdmin']);
-
-    Route::get('/admin/roles-permissions', [RolesController::class, 'index'])->middleware(['permission:rolesPermissionsAdmin']);
-    Route::post('/admin/roles', [RolesController::class, 'storeRole'])->middleware(['permission:rolesPermissionsAdmin']);
-    Route::post('/admin/permissions', [RolesController::class, 'storePermission'])->middleware(['permission:rolesPermissionsAdmin']);
-    Route::delete('/admin/roles/{role}', [RolesController::class, 'destroyRole'])->middleware(['permission:rolesPermissionsAdmin']);
-
-    Route::get('/admin/settings', [SettingsController::class, 'index'])->middleware(['permission:settingsAdmin']);
+    Route::get('/admin/settings', [SettingsController::class, 'index'])->middleware(['permission:settingsAdmin'])->name('settingsAdmin');
 });
 
 Route::middleware(['guest'])->group(function () {
-    //Show Login Form
+    //Login
     Route::get('/login', [AuthController::class, 'login'])->name('login')->middleware('guest');
-
-    //Show Login Form
-    Route::post('/authenticate', [AuthController::class, 'authenticate'])->middleware('guest');
+    Route::post('/authenticate', [AuthController::class, 'authenticate'])->middleware('guest')->name('authenticate');
 });

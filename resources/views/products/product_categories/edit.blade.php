@@ -5,7 +5,7 @@
         <div class="row">
             <div class="align-items-center mb-3">
                 <div class="float-end">
-                    <form method="post" action="/product-categories/{{$productCategory['id']}}">
+                    <form method="post" action="{{ route('destroyProdCat', $productCategory['id']) }}">
                         @csrf
                         @method('DELETE')
                         <button class="btn btn-danger border px-3 p-1">
@@ -17,7 +17,7 @@
             </div>
         </div>
         <div class="row">
-            <form method="post" action="/product-categories/{{$productCategory['id']}}" class="col-md-12 border-right">
+            <form method="post" action="{{ route('updateProdCat', $productCategory['id']) }}" class="col-md-12 border-right">
                 @csrf
                 @method('PUT')
                 <div class="p-3 py-2">
@@ -34,7 +34,7 @@
                     </div>
                     <div class="mt-5 text-center">
                         <button class="btn btn-primary profile-button" type="submit">Zapisz zmiany</button>
-                        <a href="/product-categories" class="btn btn-primary profile-button" type="button">Powrót do listy</a>
+                        <a href="{{ route('prodCats') }}" class="btn btn-primary profile-button" type="button">Powrót do listy</a>
                     </div>
                 </div>
             </form>

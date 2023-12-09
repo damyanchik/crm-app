@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="float-end align-items-center experience">
-        <a href="/brands/create" class="btn btn-primary border px-3 p-1">
+        <a href="{{ route('createBrand') }}" class="btn btn-primary border px-3 p-1">
             <i class="fa fa-plus"></i>
             Dodaj nową markę
         </a>
@@ -23,7 +23,7 @@
                         {{ $brand['name'] }}
                     </td>
                     <td class="">
-                        <a href="brands/{{ $brand['id'] }}/edit" class="btn btn-link btn-sm btn-rounded">
+                        <a href="{{ route('editBrand', $brand['id']) }}" class="btn btn-link btn-sm btn-rounded">
                             <i class="fa-solid fa-pen-to-square" style="color: #707070;"></i>
                         </a>
                     </td>
