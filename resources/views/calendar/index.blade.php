@@ -1,6 +1,7 @@
 @extends('layout')
 
 @section('content')
+    @can('storeCalendar')
     <form method="post" action="/calendar/" class="row">
         @csrf
         <div class="col-md-2 mt-2">
@@ -56,7 +57,7 @@
             <button type="submit" class="btn-primary btn">Dodaj wydarzenie</button>
         </div>
     </form>
-
+    @endcan
     <hr class="my-4">
 
     <div id="calendar"></div>

@@ -18,10 +18,12 @@ class PermissionService
         unset($rolesAndPermissions['_token']);
 
         DB::beginTransaction();
-
         try {
             foreach ($rolesAndPermissions as $role => $permission) {
                 $currentRole = Role::findById($role);
+                if ($currentRole->name == 'admin')
+                    continue;
+
                 $currentRole->syncPermissions($permission);
                 $currentRole->setUpdatedAt(now());
             }

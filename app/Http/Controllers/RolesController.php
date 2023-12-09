@@ -42,14 +42,17 @@ class RolesController extends Controller
     {
         $this->permissionService->assignPermissionsToRole($request);
 
-        return back()->with('Wprowadzono zmiany w uprawnieniach.');
+        return back()->with('Wprowadzono zmiany w uprawnieniach ról.');
     }
 
     public function destroyRole(Role $role): object
     {
+        if($role->name == 'admin')
+            return back()->with('Brak możliwości usunięcia tej roli.');
+
         $role->syncPermissions([]);
         $role->delete();
 
-        return back()->with('Usunięto rolę.');
+        return back()->with('Usunięto rolę i jej uprawnienia.');
     }
 }

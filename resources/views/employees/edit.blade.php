@@ -5,6 +5,24 @@
         <div class="row">
                 <div class="col-md-3 border-right">
                     <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                        @can('rolesPermissionsAdmin')
+                        <form action="/employees/{{ $user['id'] }}/change-role" method="post">
+                            @csrf
+                            @method('PUT')
+                            <select name="id" class="form-control" style="width: 100%;" onchange="$(this).closest('form').submit();">
+                                    <option value="">Brak przypisanej roli</option>
+                                @if (!empty($roles))
+                                    @foreach($roles as $role)
+                                    <option value="{{ $role['id'] }}"
+                                        {{ !empty($user->getRoleNames()[0]) && $user->getRoleNames()[0] == $role['name'] ? 'selected' : '' }}>
+                                        {{ $role['name'] }}
+                                    </option>
+                                    @endforeach
+                                @endif
+                            </select>
+                            <small style="color: grey">Wybierz rolę użytkownika</small>
+                        </form>
+                        @endcan
                         <img class="rounded-circle mt-5" width="150px"
                              @if(!empty($user['avatar']))
                                  src="{{ asset('storage/'.$user['avatar']) }}"

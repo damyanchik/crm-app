@@ -43,6 +43,7 @@
                         class="fas fa-calendar fa-fw me-3"></i>
                     <span class="h5"> Kalendarz</span>
                 </a>
+                @can('viewAdmin')
                 <x-sidebar-nav
                     :icon="'fas fa-screwdriver-wrench fa-fw me-3'"
                     :category="'Admin'"
@@ -53,6 +54,7 @@
                     'admin/settings' => 'Ustawienia CRM'
                     ]"
                 ></x-sidebar-nav>
+                @endcan
             </div>
         </div>
     </nav>

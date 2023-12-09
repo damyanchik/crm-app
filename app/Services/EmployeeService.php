@@ -8,6 +8,7 @@ use App\Helpers\PhotoHelper;
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class EmployeeService
 {
@@ -49,5 +50,16 @@ class EmployeeService
 
         $user->setAttribute('avatar', null);
         $user->save();
+    }
+
+    public function checkRoleAndChange(FormRequest $request, User $user): void
+    {
+        $role = Role::where('id', $request->id)->first();
+
+        if ($role !== null) {
+            $user->syncRoles([]);
+            $user->assignRole($role);
+        } else
+            $user->syncRoles([]);
     }
 }

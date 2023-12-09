@@ -51,6 +51,7 @@
                     <a href="employees/{{ $user['id'] }}/edit" class="btn btn-link btn-sm btn-rounded">
                         <i class="fa-solid fa-user-pen" style="color: #707070;"></i>
                     </a>
+                    @can('blockUser')
                     <form method="post" action="/employees/{{ $user['id'] }}/block" class="d-inline-block">
                         @csrf
                         <button type="submit" class="btn btn-link btn-sm btn-rounded">
@@ -61,6 +62,7 @@
                         @endif
                         </button>
                     </form>
+                    @endcan
                 </td>
             </tr>
             @endforeach

@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateEmployeeRequest;
 use App\Models\User;
 use App\Services\EmployeeService;
 use Illuminate\Foundation\Http\FormRequest;
+use Spatie\Permission\Models\Role;
 
 class EmployeesController extends Controller
 {
@@ -52,6 +53,7 @@ class EmployeesController extends Controller
     {
         return view('employees.edit', [
             'user' => $user,
+            'roles' => Role::get()
         ]);
     }
 
@@ -69,9 +71,19 @@ class EmployeesController extends Controller
     {
         $this->employeeService->validateAndChangePassword($request, $user);
 
-        return redirect()->route('home')->with(
+        return back()->with(
             'message',
-            'Nastąpiła zamiana hasła!'
+            'Zmieniono hasło użytkownika na nowe.'
+        );
+    }
+
+    public function changeRole(FormRequest $request, User $user): object
+    {
+        $this->employeeService->checkRoleAndChange($request, $user);
+
+        return back()->with(
+            'message',
+            'Zmieniono rolę użytkownika.'
         );
     }
 

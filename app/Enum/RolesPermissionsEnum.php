@@ -34,7 +34,6 @@ class RolesPermissionsEnum
     const VIEW_ADMIN = 'viewAdmin';
     const COMPANY_DETAILS_ADMIN = 'companyDetailsAdmin';
     const EMPLOYEE_ADMIN = 'employeeAdmin';
-
     const ROLES_PERMISSIONS_ADMIN = 'rolesPermissionsAdmin';
     const SETTINGS_ADMIN = 'settingsAdmin';
 

@@ -62,6 +62,7 @@ return array(
     "timezone"             => ":attribute musi być prawidłową strefą czasową.",
     "before_or_equal"      => "Niepoprawnie wprowadzone daty.",
     "after_or_equal"      => "Niepoprawnie wprowadzone daty.",
+    "dimensions" => "Niepoprawne wymiary zdjęcia, minimalnie - :min_width x :min_height px i maksymalnie - :max_width x :max_height px.",
 
     /*
     |--------------------------------------------------------------------------
