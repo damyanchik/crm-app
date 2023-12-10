@@ -56,7 +56,9 @@
                         <p class="mb-0">{{ app('PriceHelper')->formatPrice($product['price']) }}</p>
                     </td>
                     <td>
-                        <p class="mb-0 badge rounded-pill bg-{{ app('ProductStatusEnum')->getStatusColor($product['status']) }}">{{ app('ProductStatusEnum')->getStatus($product['status']) }}</p>
+                        <p class="mb-0 badge rounded-pill bg-{{ app('ProductStatusEnum')->getStatusColor($product['status']) }}">
+                            {{ app('ProductStatusEnum')->getStatus($product['status']) }}
+                        </p>
                     </td>
                     <td>
                         <a href="{{ route('editProduct', $product['id']) }}" class="btn btn-link btn-sm btn-rounded">

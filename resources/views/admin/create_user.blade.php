@@ -3,7 +3,7 @@
 @section('content')
     <div class="container rounded bg-white mb-5">
         <div class="row">
-            <form method="post" action="/admin/new-employee" class="d-flex" enctype="multipart/form-data">
+            <form method="post" action="{{ route('storeEmployeeAdmin') }}" class="d-flex" enctype="multipart/form-data">
                 @csrf
                 <div class="col-md-3 border-right">
                     <div class="d-flex flex-column align-items-center text-center p-3 py-5">

@@ -34,10 +34,10 @@
                         @endif
                     </td>
                     <td>
-                        <a href="clients/{{ $client['id'] }}" class="btn btn-link btn-sm btn-rounded">
+                        <a href="{{ route('showClient', $client['id']) }}" class="btn btn-link btn-sm btn-rounded">
                             <i class="fa-solid fa-user" style="color: #707070;"></i>
                         </a>
-                        <a href="clients/{{ $client['id'] }}/edit" class="btn btn-link btn-sm btn-rounded">
+                        <a href="{{ route('editClient', $client['id']) }}" class="btn btn-link btn-sm btn-rounded">
                             <i class="fa-solid fa-user-pen" style="color: #707070;"></i>
                         </a>
                     </td>

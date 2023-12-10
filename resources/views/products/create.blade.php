@@ -27,7 +27,6 @@
                         <span class="labels">Kategoria produktu</span>
                         <select name="category_id" id="prodCatSelect" class="form-control" style="width: 100%;"></select>
                     </div>
-
                     <div class="col-12 col-md-4 mt-2">
                         <span class="labels">Kod produktu</span>
                         <input name="code" placeholder="Wpisz kod" type="text" class="form-control">
@@ -97,9 +96,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="mt-5 text-center">
-                    <button class="btn btn-primary profile-button" type="submit">Dodaj nowy produkt</button>
-                </div>
+                @include('partials.products._products-down-buttons')
             </div>
         </form>
     </div>

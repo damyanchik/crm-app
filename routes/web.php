@@ -52,13 +52,13 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/chat/receive', [PusherController::class, 'receive']);
 
     //Calendar
-    Route::get('/calendar', [CalendarController::class, 'index']);
+    Route::get('/calendar', [CalendarController::class, 'index'])->name('calendar');
     Route::post('/calendar', [CalendarController::class, 'store'])->middleware(['permission:storeCalendar'])->name('storeCalendar');
-    Route::delete('/calendar/{event}', [CalendarController::class, 'destroy'])->middleware(['permission:destroyCalendar']);
+    Route::delete('/calendar/{event}', [CalendarController::class, 'destroy'])->middleware(['permission:destroyCalendar'])->name('destroyCalendar');
 
     //Product
-    Route::get('/products', [ProductsController::class, 'index']);
-    Route::get('/products/create', [ProductsController::class, 'create'])->middleware(['permission:storeProduct']);
+    Route::get('/products', [ProductsController::class, 'index'])->name('products');
+    Route::get('/products/create', [ProductsController::class, 'create'])->middleware(['permission:storeProduct'])->name('createProduct');
     Route::post('/products', [ProductsController::class, 'store'])->middleware(['permission:storeProduct'])->name('storeProduct');
     Route::get('/products/{product}/edit', [ProductsController::class, 'edit'])->middleware(['permission:updateProduct'])->name('editProduct');
     Route::put('/products/{product}', [ProductsController::class, 'update'])->middleware(['permission:updateProduct'])->name('updateProduct');
@@ -113,7 +113,7 @@ Route::middleware(['auth'])->group(function () {
     //Employees
     Route::get('/employees', [EmployeesController::class, 'index'])->name('employees');
     Route::get('/employees/{user}', [EmployeesController::class, 'show'])->name('showEmployee');
-    Route::get('/employees/{user}/edit', [EmployeesController::class, 'edit'])->middleware(['permission:updateUser'])->name('editEmployee');
+    Route::get('/employees/{user}/edit', [EmployeesController::class, 'edit'])->name('editEmployee');
     Route::put('/employees/{user}', [EmployeesController::class, 'update'])->middleware(['permission:updateUser'])->name('updateEmployee');
     Route::post('/employees/{user}/block', [EmployeesController::class, 'block'])->middleware(['permission:blockUser'])->name('blockEmployee');
     Route::put('/employees/{user}/change-role', [EmployeesController::class, 'changeRole'])->middleware(['permission:rolesPermissionsAdmin'])->name('changeRoleEmployee');

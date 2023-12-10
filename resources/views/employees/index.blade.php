@@ -45,14 +45,14 @@
                     @endif
                 </td>
                 <td>
-                    <a href="employees/{{ $user['id'] }}" class="btn btn-link btn-sm btn-rounded">
+                    <a href="{{ route('showEmployee', $user['id']) }}" class="btn btn-link btn-sm btn-rounded">
                         <i class="fa-solid fa-user" style="color: #707070;"></i>
                     </a>
-                    <a href="employees/{{ $user['id'] }}/edit" class="btn btn-link btn-sm btn-rounded">
+                    <a href="{{ route('editEmployee', $user['id']) }}" class="btn btn-link btn-sm btn-rounded">
                         <i class="fa-solid fa-user-pen" style="color: #707070;"></i>
                     </a>
                     @can('blockUser')
-                    <form method="post" action="/employees/{{ $user['id'] }}/block" class="d-inline-block">
+                    <form method="post" action="{{ route('blockEmployee', $user['id']) }}" class="d-inline-block">
                         @csrf
                         <button type="submit" class="btn btn-link btn-sm btn-rounded">
                         @if($user['block'])

@@ -83,23 +83,25 @@
     </thead>
     <tbody>
     @foreach($items as $item)
-    <tr>
-        <td>{{ $item->name }}</td>
-        <td>{{ $item->quantity.' '.app('ProductUnitEnum')->getUnit($item->unit) }}</td>
-        <td>{{ app('PriceHelper')->formatPrice($item->price) }}</td>
-        <td>{{ app('PriceHelper')->formatPrice($item->product_price) }}</td>
-    </tr>
+        <tr>
+            <td>{{ $item->name }}</td>
+            <td>{{ $item->quantity.' '.app('ProductUnitEnum')->getUnit($item->unit) }}</td>
+            <td>{{ app('PriceHelper')->formatPrice($item->price) }}</td>
+            <td>{{ app('PriceHelper')->formatPrice($item->product_price) }}</td>
+        </tr>
     @endforeach
 
     </tbody>
     <tfoot>
     <tr>
         <td colspan="3" class="text-end" style="border: none; font-size: 12px; font-weight: bold;">RAZEM PRODUKTÓW</td>
-        <td colspan="1"  class="text-end" style="border: none; font-size: 12px; font-weight: bold;">{{ $totalQuantity }}</td>
+        <td colspan="1" class="text-end"
+            style="border: none; font-size: 12px; font-weight: bold;">{{ $totalQuantity }}</td>
     </tr>
     <tr>
         <td colspan="3" class="text-end" style="border: none; font-size: 12px; font-weight: bold;">SUMA ZAMÓWIENIA</td>
-        <td colspan="1" class="text-end" style="border: none; font-size: 12px; font-weight: bold;">{{ app('PriceHelper')->formatPrice($totalPrice) }}</td>
+        <td colspan="1" class="text-end"
+            style="border: none; font-size: 12px; font-weight: bold;">{{ app('PriceHelper')->formatPrice($totalPrice) }}</td>
     </tr>
     </tfoot>
 </table>

@@ -5,15 +5,10 @@
         <div class="row">
             <div class="col-12 px-4 pt-2">
                 <h4 class="d-inline">Edycja produktu</h4>
-                <form method="post" action="{{ route('destroyProduct', $product['id']) }}" class="float-end align-items-center">
-                    @csrf
-                    @method('DELETE')
-                    <button class="btn btn-danger border px-3 p-1">
-                        <i class="fa fa-minus"></i>&nbsp;Usuń produkt
-                    </button>
-                </form>
+                @can('destroyProduct')
+                    @include('partials.products._destroy-product-form')
+                @endcan
             </div>
-
             <div class="col-3 px-4 pt-2 text-center">
                 <img class="rounded-circle my-4" width="150px"
                      @if(!empty($product['photo']))
@@ -23,13 +18,7 @@
                     @endif
                 >
                 @if(!empty($product['photo']))
-                    <form method="post" action="{{ route('destroyProductPhoto', $product['id']) }}" class="text-center my-2">
-                        @csrf
-                        @method('PUT')
-                        <button class="btn btn-danger border px-3 p-0">
-                            <i class="fa fa-minus"></i>&nbsp;Usuń zdjęcie
-                        </button>
-                    </form>
+                    @include('partials.products._destroy-photo-form')
                 @endif
             </div>
 
@@ -71,8 +60,17 @@
                                 @endif
                             </select>
                         </div>
-                        <div class="col-6 col-md-3 mt-2">
-                            <span class="labels">Stan magazynowy</span>
+                        <div class="col-12 col-md-4 mt-2">
+                            <span class="labels">Kod produktu</span>
+                            <input name="code" placeholder="Wpisz kod" type="text" class="form-control" value="{{ $product['code'] }}">
+                            @error('code')
+                            <span class="flash-message__alert" role="alert">
+                                {{ $message }}
+                            </span>
+                            @enderror
+                        </div>
+                        <div class="col-6 col-md-2 mt-2">
+                            <span class="labels">Stan</span>
                             <input value="{{ $product['quantity'] }}" name="quantity" type="text" class="form-control">
                             @error('quantity')
                             <span class="flash-message__alert" role="alert">
@@ -80,7 +78,7 @@
                             </span>
                             @enderror
                         </div>
-                        <div class="col-6 col-md-3 mt-2">
+                        <div class="col-6 col-md-2 mt-2">
                             <span class="labels">Cena</span>
                             <input value="{{ $product['price'] }}" name="price" type="text" class="form-control">
                             @error('price')
@@ -89,7 +87,7 @@
                             </span>
                             @enderror
                         </div>
-                        <div class="col-6 col-md-3 mt-2">
+                        <div class="col-6 col-md-2 mt-2">
                             <span class="labels">Jednostka</span>
                             <select name="unit" class="form-control">
                                 @foreach(app('ProductUnitEnum')->getAllUnits() as $id => $name)
@@ -97,7 +95,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-6 col-md-3 mt-2">
+                        <div class="col-6 col-md-2 mt-2">
                             <span class="labels">Status</span>
                             <select name="status" class="form-control">
                                 @foreach(app('ProductStatusEnum')->getAllStatuses() as $id => $name)
@@ -110,10 +108,7 @@
                             <textarea name="description" class="form-control" rows="5" style="resize: none;">{{ $product['description'] }}</textarea>
                         </div>
                     </div>
-                    <div class="mt-5 text-center">
-                        <button class="btn btn-primary profile-button" type="submit">Zapisz zmiany</button>
-                        <a href="/products" class="btn btn-primary profile-button" type="button">Powrót do listy</a>
-                    </div>
+                    @include('partials.products._products-down-buttons')
                 </div>
             </form>
         </div>

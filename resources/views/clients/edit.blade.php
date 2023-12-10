@@ -4,17 +4,13 @@
     <div class="row">
         <div class="col-12 px-4 mt-2">
             <h4 class="d-inline">Edycja danych klienta</h4>
-            <form method="post" action="/clients/{{$client->id}}" class="float-end align-items-center">
-                @csrf
-                @method('DELETE')
-                <button class="btn btn-danger border px-3 p-1">
-                    <i class="fa fa-minus"></i>&nbsp;Usuń klienta
-                </button>
-            </form>
+            @can('destroyClient')
+                @include('partials.clients._destroy-client-form')
+            @endcan
         </div>
-    <form method="post" action="/clients/{{$client->id}}" class="container rounded bg-white mb-5">
-        @csrf
-        @method('PUT')
+        <form method="post" action="{{ route('updateClient', $client->id) }}" class="container rounded bg-white mb-5">
+            @csrf
+            @method('PUT')
             <div class="col-md-12 mt-3">
                 <div class="px-3">
                     <div class="row">
@@ -80,7 +76,8 @@
                         </div>
                         <div class="col-md-6 mt-2">
                             <span class="labels">Kod pocztowy</span>
-                            <input name="postal_code" type="text" class="form-control" value="{{ $client['postal_code'] }}">
+                            <input name="postal_code" type="text" class="form-control"
+                                   value="{{ $client['postal_code'] }}">
                         </div>
                         <div class="col-md-6 mt-2">
                             <span class="labels">Miasto</span>
@@ -97,16 +94,17 @@
                         <div class="col-md-6 mt-2">
                             <span class="labels">Opiekun</span>
                             <select name="user_id" id="userSelect" class="form-control" style="width: 100%;">
-                                @if( $client['user_id'] )
-                                    <option value="{{ $client['user_id'] }}" selected>{{ $client->user->name }} {{ $client->user->surname }}</option>
+                                @if($client['user_id'])
+                                    <option value="{{ $client['user_id'] }}"
+                                            selected>{{ $client->user->name .' '. $client->user->surname }}</option>
                                 @endif
                             </select>
                         </div>
                     </div>
-                    <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="submit">Zapisz zmiany</button></div>
+                    @include('partials.clients._clients-down-buttons')
                 </div>
             </div>
-    </form>
+        </form>
     </div>
     <script>
         var ajaxSearchUsersLink = @json(route('ajax.searchUsers'));

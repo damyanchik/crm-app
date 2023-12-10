@@ -1,4 +1,8 @@
-<div class="d-flex justify-content-between mt-5">
+@if (!in_array($order['status'], [app('OrderStatusEnum')::PENDING['id'], app('OrderStatusEnum')::READY['id']]))
+        <div class="text-center mt-5">
+    @else
+        <div class="d-flex justify-content-between mt-5">
+    @endif
     <div class="d-inline-block">
         <a
             @if (in_array($order['status'], [app('OrderStatusEnum')::PENDING['id'], app('OrderStatusEnum')::READY['id']]))

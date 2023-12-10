@@ -1,7 +1,7 @@
 @extends('layout')
 
 @section('content')
-    <form method="post" action="/clients/" class="container rounded bg-white mb-5">
+    <form method="post" action="{{ route('storeClient') }}" class="container rounded bg-white mb-5">
         @csrf
         <div class="row">
             <div class="col-12 border-right">
@@ -91,9 +91,7 @@
                             <select name="user_id" id="userSelect" class="form-control" style="width: 100%;">></select>
                         </div>
                     </div>
-                    <div class="mt-5 text-center">
-                        <button class="btn btn-primary profile-button" type="submit">Utwórz klienta</button>
-                    </div>
+                    @include('partials.clients._clients-down-buttons')
                 </div>
             </div>
         </div>
