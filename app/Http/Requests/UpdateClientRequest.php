@@ -16,18 +16,18 @@ class UpdateClientRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'company' => 'required',
-            'name' => 'required',
-            'surname' => 'required',
-            'email' => ['required', 'email'],
-            'phone' => 'required',
-            'address' => 'nullable',
-            'postal_code' => 'nullable',
-            'city' => 'nullable',
-            'state' => 'nullable',
-            'country' => 'nullable',
-            'tax' => 'required',
-            'user_id' => 'nullable|exists:users,id'
+            'company' => 'required|string',
+            'name' => 'required|string',
+            'surname' => 'required|string',
+            'email' => 'required|email',
+            'phone' => 'required|string',
+            'address' => 'nullable|string',
+            'postal_code' => 'nullable|string',
+            'city' => 'nullable|string',
+            'state' => 'nullable|string',
+            'country' => 'nullable|string',
+            'tax' => 'required|unique:client,tax',
+            'user_id' => 'nullable|integer|exists:users,id'
         ];
     }
 }

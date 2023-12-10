@@ -16,11 +16,11 @@ class StoreAndUpdateOfferRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required',
-            'client_id' => 'required',
-            'status' => 'required',
-            'total_quantity' => 'required',
-            'total_price' => 'required'
+            'user_id' => 'required|integer',
+            'client_id' => 'required|integer',
+            'status' => 'required|integer',
+            'total_quantity' => 'required|numeric',
+            'total_price' => 'required|numeric'
         ];
     }
 }

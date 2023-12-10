@@ -1,15 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 
-class PermissionsTableSeeder extends Seeder
+class PermissionSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Seed the application's database.
      */
     public function run(): void
     {
@@ -37,7 +38,6 @@ class PermissionsTableSeeder extends Seeder
         Permission::create(['name' => 'storeClient']);
         Permission::create(['name' => 'updateClient']);
         Permission::create(['name' => 'destroyClient']);
-
 
         Permission::create(['name' => 'blockUser']);
         Permission::create(['name' => 'updateUser']);

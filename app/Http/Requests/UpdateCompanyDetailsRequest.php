@@ -16,15 +16,15 @@ class UpdateCompanyDetailsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'company' => 'required',
-            'tax' => 'required',
-            'email' => ['required', 'email'],
-            'phone' => ['required', 'integer'],
-            'address' => 'nullable',
-            'postal_code' => 'nullable',
-            'city' => 'nullable',
-            'state' => 'nullable',
-            'country' => 'nullable'
+            'company' => 'required|string',
+            'tax' => 'required|string',
+            'email' => 'required|email',
+            'phone' => 'required|integer',
+            'address' => 'nullable|string',
+            'postal_code' => 'nullable|string',
+            'city' => 'nullable|string',
+            'state' => 'nullable|string',
+            'country' => 'nullable|string'
         ];
     }
 }

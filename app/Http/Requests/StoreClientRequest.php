@@ -18,17 +18,17 @@ class StoreClientRequest extends FormRequest
     {
         return [
             'company' => ['required', Rule::unique('client', 'company')],
-            'name' => 'required',
-            'surname' => 'required',
-            'email' => ['required', 'email'],
-            'phone' => 'required',
-            'address' => 'nullable',
-            'postal_code' => 'nullable',
-            'city' => 'nullable',
-            'state' => 'nullable',
-            'country' => 'nullable',
-            'note'=> 'nullable',
-            'tax' => 'required',
+            'name' => 'required|string',
+            'surname' => 'required|string',
+            'email' => 'required|email',
+            'phone' => 'required|string',
+            'address' => 'nullable|string',
+            'postal_code' => 'nullable|string',
+            'city' => 'nullable|string',
+            'state' => 'nullable|string',
+            'country' => 'nullable|string',
+            'note'=> 'nullable|string',
+            'tax' => 'required|unique:client,tax',
             'user_id' => 'nullable|exists:users,id'
         ];
     }

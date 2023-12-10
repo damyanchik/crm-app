@@ -27,13 +27,13 @@ class StoreProductRequest extends FormRequest
                 Rule::unique('products')->where(function ($query) {
                 }),
             ],
-            'brand_id' => 'nullable',
-            'category_id' => 'nullable',
-            'quantity' => 'required',
-            'price' => 'required',
-            'unit' => 'required',
-            'status' => 'required',
-            'description' => 'nullable',
+            'brand_id' => 'nullable|integer',
+            'category_id' => 'nullable|integer',
+            'quantity' => 'required|numeric',
+            'price' => 'required|numeric',
+            'unit' => 'required|integer',
+            'status' => 'required|integer',
+            'description' => 'nullable|string',
             'photo' => 'nullable|image|max:5120|dimensions:min_width=200,min_height=200,max_width=800,max_height=800'
         ];
     }

@@ -31,7 +31,6 @@ return new class extends Migration
             $table->timestamps();
             $table->timestamp('last_activity')->nullable();
             $table->tinyInteger('block')->default(0);
-            $table->tinyInteger('admin')->default(0);
         });
     }
 

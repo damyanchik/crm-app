@@ -16,18 +16,18 @@ class StoreEmployeeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required',
-            'surname' => 'required',
+            'name' => 'required|string',
+            'surname' => 'required|string',
             'password' => 'required|min:8|confirmed',
-            'email' => ['required', 'email', 'unique:users,email'],
-            'phone' => 'nullable',
-            'address' => 'nullable',
-            'postal_code' => 'nullable',
-            'city' => 'nullable',
-            'state' => 'nullable',
-            'country' => 'nullable',
-            'position' => 'nullable',
-            'department' => 'nullable',
+            'email' => 'required|email|unique:users,email',
+            'phone' => 'nullable|string',
+            'address' => 'nullable|string',
+            'postal_code' => 'nullable|string',
+            'city' => 'nullable|string',
+            'state' => 'nullable|string',
+            'country' => 'nullable|string',
+            'position' => 'nullable|string',
+            'department' => 'nullable|string',
             'avatar' => 'nullable|image|max:5120|dimensions:min_width=200,min_height=200,max_width=800,max_height=800'
         ];
     }
