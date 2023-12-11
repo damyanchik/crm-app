@@ -2,26 +2,17 @@
 
 declare(strict_types=1);
 
-namespace App\Patterns\Strategies;
+namespace App\Patterns\AbstractFactories\FileDataImporter;
 
 use App\Models\Product;
-use App\Validators\OfferCsvValidator;
 
-class OfferCsvStrategy implements CsvImportStrategyInterface
+class ProductForOfferProcessor implements ProcessorInterface
 {
-    public function validate(array $csvData): bool
+    public function process(array $data): array
     {
-        $validator = OfferCsvValidator::validate($csvData);
-        $errors = $validator->errors();
+        $existingProducts = $this->getExistingProducts($data);
 
-        return empty($errors->messages()) || !empty($csvData);
-    }
-
-    public function performOperation($csvData): object
-    {
-        $existingProducts = $this->getExistingProducts($csvData);
-
-        $collection = collect($csvData);
+        $collection = collect($data);
 
         $collection->transform(function ($item) use (&$existingProducts) {
             if (empty($existingProducts[$item['code']]))
@@ -34,7 +25,7 @@ class OfferCsvStrategy implements CsvImportStrategyInterface
             return $item != null;
         });
 
-        return $filteredCollection;
+        return $filteredCollection->toArray();
     }
 
     private function processItem($item, &$existingProducts): mixed
@@ -72,11 +63,11 @@ class OfferCsvStrategy implements CsvImportStrategyInterface
         }
     }
 
-    private function getExistingProducts($csvData): array
+    private function getExistingProducts(array $data): array
     {
-        $codesFromCsv = array_column($csvData, 'code');
+        $codes = array_column($data, 'code');
 
-        return Product::whereIn('code', $codesFromCsv)
+        return Product::whereIn('code', $codes)
             ->with('brand')
             ->select('name', 'code', 'quantity', 'price', 'unit', 'brand_id')
             ->get()

@@ -3,7 +3,7 @@
         @can('updateUser')
         <button class="btn btn-primary profile-button" type="submit">Zapisz zmiany</button>
         @endcan
-    @elseif(request()->routeIs('createProduct')))
+    @elseif(request()->routeIs('createProduct'))
         <button class="btn btn-primary profile-button" type="submit">Dodaj nowy produkt</button>
     @endif
     <a href="{{ route('products') }}" class="btn btn-primary profile-button" type="button">Powrót do listy</a>

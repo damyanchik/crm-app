@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Enum\OrderStatusEnum;
 use App\Enum\ProductUnitEnum;
+use App\Helpers\InvoiceHelper;
 use App\Helpers\StockHelper;
 use App\Http\Requests\ImportOfferCsvRequest;
 use App\Http\Requests\StoreAndUpdateOfferRequest;
@@ -92,7 +93,7 @@ class OffersController extends Controller
 
     public function makeOrder(Order $offer): object
     {
-        $this->offerService->generateInvoiceNumber($offer);
+        $offer->setAttribute('invoice_num', InvoiceHelper::generateInvoiceNumber());
         $offer->setAttribute('status', OrderStatusEnum::PENDING['id']);
         $offer->setUpdatedAt(now());
         $offer->save();

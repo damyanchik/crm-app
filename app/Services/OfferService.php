@@ -8,7 +8,8 @@ use App\Helpers\CsvHelper;
 use App\Helpers\StockHelper;
 use App\Models\Order;
 use App\Models\OrderItem;
-use App\Patterns\Strategies\OfferCsvStrategy;
+use App\Patterns\AbstractFactories\FileDataImporter\FileDataImporter;
+use App\Patterns\AbstractFactories\FileDataImporter\ProductForOfferImporter;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -70,7 +71,7 @@ class OfferService
         }
     }
 
-    public function validateAndImportCsv(FormRequest $request): object
+    public function validateAndImportCsv(FormRequest $request): array
     {
         $request->validated();
         $csvData = $request->file('csv_file');
@@ -80,30 +81,8 @@ class OfferService
             ['code', 'quantity', 'price']
         );
 
-        $orderImport = new CsvImportService();
-        $orderImport->setCsvImportStrategy(new OfferCsvStrategy());
+        $fileImportProcessor = new FileDataImporter(new ProductForOfferImporter());
 
-        return $orderImport->importDataFromCsv($csvData);
-    }
-
-    public function generateInvoiceNumber(Order $offer): void
-    {
-        $orderMonthQuantity = DB::table('orders')
-            ->select(DB::raw('COUNT(*) as quantity'))
-            ->whereMonth('created_at', '=', date('m'))
-            ->first();
-
-        $invoiceNumber = $orderMonthQuantity->quantity+1;
-
-        $now = now();
-
-        $invoice = $invoiceNumber.'/FV/'.$now->month.'/'.$now->year;
-
-        while (Order::where('invoice_num', '=', $invoice)->exists()) {
-            $invoiceNumber = $invoiceNumber+1;
-            $invoice = $invoiceNumber.'/FV/'.$now->month.'/'.$now->year;
-        }
-
-        $offer->setAttribute('invoice_num', $invoiceNumber.'/FV/'.$now->month.'/'.$now->year);
+        return $fileImportProcessor->processData($csvData);
     }
 }
