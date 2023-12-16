@@ -2,12 +2,16 @@
 
 namespace App\Models;
 
+use App\Traits\InsertOrIgnoreRecordsTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class ProductCategory extends Model
 {
-    use HasFactory;
+    use HasFactory, InsertOrIgnoreRecordsTrait;
+
+    protected $table = 'product_categories';
 
     /**
      * The attributes that are mass assignable.

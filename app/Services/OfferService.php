@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Helpers\CsvHelper;
+use App\Helpers\CSVHelper;
 use App\Helpers\StockHelper;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Patterns\AbstractFactories\FileDataImporter\Factories\ProductForOfferFactory;
 use App\Patterns\AbstractFactories\FileDataImporter\FileDataImporter;
-use App\Patterns\AbstractFactories\FileDataImporter\ProductForOfferImporter;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -73,15 +73,11 @@ class OfferService
 
     public function validateAndImportCsv(FormRequest $request): array
     {
-        $request->validated();
-        $csvData = $request->file('csv_file');
+        $csvData = CSVHelper::validateFileAndReadToArray($request, [
+            'code', 'quantity', 'price'
+        ]);
 
-        $csvData = CsvHelper::readToArray(
-            $csvData->getPathname(),
-            ['code', 'quantity', 'price']
-        );
-
-        $fileImportProcessor = new FileDataImporter(new ProductForOfferImporter());
+        $fileImportProcessor = new FileDataImporter(new ProductForOfferFactory());
 
         return $fileImportProcessor->processData($csvData);
     }

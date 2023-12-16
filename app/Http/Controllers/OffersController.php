@@ -8,7 +8,7 @@ use App\Enum\OrderStatusEnum;
 use App\Enum\ProductUnitEnum;
 use App\Helpers\InvoiceHelper;
 use App\Helpers\StockHelper;
-use App\Http\Requests\ImportOfferCsvRequest;
+use App\Http\Requests\ImportCsvRequest;
 use App\Http\Requests\StoreAndUpdateOfferRequest;
 use App\Http\Requests\StoreAndUpdateOfferItemsRequest;
 use App\Models\Order;
@@ -58,7 +58,7 @@ class OffersController extends Controller
         return redirect('/offers');
     }
 
-    public function import(ImportOfferCsvRequest $request): object
+    public function import(ImportCsvRequest $request): object
     {
         return view('orders.offers.create',[
             'jsonUnits' => json_encode(ProductUnitEnum::getAllUnits()),

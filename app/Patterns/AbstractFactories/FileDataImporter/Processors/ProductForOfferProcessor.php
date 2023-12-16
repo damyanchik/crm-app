@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Patterns\AbstractFactories\FileDataImporter;
+namespace App\Patterns\AbstractFactories\FileDataImporter\Processors;
 
 use App\Models\Product;
 
@@ -11,7 +11,6 @@ class ProductForOfferProcessor implements ProcessorInterface
     public function process(array $data): array
     {
         $existingProducts = $this->getExistingProducts($data);
-
         $collection = collect($data);
 
         $collection->transform(function ($item) use (&$existingProducts) {

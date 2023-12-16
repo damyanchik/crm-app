@@ -64,6 +64,9 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/products/{product}', [ProductsController::class, 'update'])->middleware(['permission:updateProduct'])->name('updateProduct');
     Route::delete('/products/{product}', [ProductsController::class, 'destroy'])->middleware(['permission:destroyProduct'])->name('destroyProduct');
     Route::put('/products/{product}/delete-product-photo', [ProductsController::class, 'deletePhoto'])->middleware(['permission:destroyProduct'])->name('destroyProductPhoto');
+    Route::post('/products/import-new-product', [ProductsController::class, 'importNewProduct'])->middleware(['permission:storeProduct'])->name('importNewProduct');
+    Route::post('/products/import-update-product', [ProductsController::class, 'importStockAndPriceProduct'])->middleware(['permission:storeProduct'])->name('importUpdateProduct');
+
 
     //Brand
     Route::get('/brands', [BrandsController::class, 'index'])->name('brands');

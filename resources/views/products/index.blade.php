@@ -1,7 +1,21 @@
 @extends('layout')
 
 @section('content')
-    <h1>Lista produktów</h1>
+    <div>
+        <h1 class="d-md-inline-block">Lista produktów</h1>
+        <div class="float-md-end">
+            <button type="button" class="btn btn-primary px-3 p-1" data-bs-toggle="modal"
+                    data-bs-target="#addProductsModal">
+                <i class="fa fa-plus"></i>&nbsp;
+                Dodaj nowe produkty
+            </button>
+            <button type="button" class="btn btn-primary px-3 p-1" data-bs-toggle="modal"
+                    data-bs-target="#updateProductsModal">
+                <i class="fa fa-plus"></i>&nbsp;
+                Zaktualizuj produkty
+            </button>
+        </div>
+    </div>
     <x-list-search :list="$products">
         <table id="table-breakpoint" class="table align-middle mb-0 bg-white border">
             <thead class="bg-light">
@@ -70,4 +84,5 @@
             </tbody>
         </table>
     </x-list-search>
+    @include('partials.products._import-products-modal')
 @endsection

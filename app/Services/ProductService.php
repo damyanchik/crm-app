@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Helpers\CSVHelper;
 use App\Helpers\PhotoHelper;
 use App\Models\Product;
+use App\Patterns\AbstractFactories\FileDataImporter\Factories\ProductAdditionFactory;
+use App\Patterns\AbstractFactories\FileDataImporter\Factories\ProductUpdateFactory;
+use App\Patterns\AbstractFactories\FileDataImporter\FileDataImporter;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ProductService
@@ -32,5 +36,28 @@ class ProductService
         }
 
         $product->update($validatedData);
+    }
+
+    public function validateAndImportNewProduct(FormRequest $request): void
+    {
+        $csvData = CSVHelper::validateFileAndReadToArray($request, [
+            'name', 'code', 'quantity', 'unit', 'price', 'brand', 'category'
+        ]);
+
+        $fileImportProcessor = new FileDataImporter(new ProductAdditionFactory());
+        $fileImportProcessor->processData($csvData);
+
+        Product::insert($fileImportProcessor->processData($csvData));
+    }
+
+    public function validateAndImportUpdateProduct(FormRequest $request): void
+    {
+        $csvData = CSVHelper::validateFileAndReadToArray($request, [
+            'code', 'quantity', 'price'
+        ]);
+
+        $fileImportProcessor = new FileDataImporter(new ProductUpdateFactory());
+
+        Product::updateMany($fileImportProcessor->processData($csvData), 'code');
     }
 }
