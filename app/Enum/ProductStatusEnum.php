@@ -6,10 +6,10 @@ namespace App\Enum;
 
 class ProductStatusEnum
 {
-    public const AVAILABLE = ['status' => 'Dostępny', 'color' => 'success'];
-    public const MADE_TO_ORDER = ['status' => 'Na zamówienie', 'color' => 'warning '];
-    public const OUT_OF_STOCK = ['status' => 'Brak', 'color' => 'secondary'];
-    public const UNAVAILABLE = ['status' => 'Niedostępny', 'color' => 'danger'];
+    public const AVAILABLE = ['status' => 'Dostępny', 'color' => 'success', 'id' => 0];
+    public const MADE_TO_ORDER = ['status' => 'Na zamówienie', 'color' => 'warning', 'id' => 1];
+    public const OUT_OF_STOCK = ['status' => 'Brak', 'color' => 'secondary', 'id' => 2];
+    public const UNAVAILABLE = ['status' => 'Niedostępny', 'color' => 'danger', 'id' => 3];
 
     public static function getStatus(int $statusId): string
     {

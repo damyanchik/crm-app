@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use App\Traits\UpdateSelectedRecordsTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, UpdateSelectedRecordsTrait;
+
+    protected $table = 'products';
 
     /**
      * The attributes that are mass assignable.
