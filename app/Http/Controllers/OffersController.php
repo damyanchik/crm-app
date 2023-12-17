@@ -4,42 +4,23 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Enum\OrderStatusEnum;
 use App\Enum\ProductUnitEnum;
-use App\Helpers\InvoiceHelper;
-use App\Helpers\StockHelper;
-use App\Http\Requests\ImportCsvRequest;
 use App\Http\Requests\StoreAndUpdateOfferRequest;
 use App\Http\Requests\StoreAndUpdateOfferItemsRequest;
 use App\Models\Order;
 use App\Services\OfferService;
+use Illuminate\Support\Facades\DB;
 
 class OffersController extends Controller
 {
-    protected OfferService $offerService;
-
-    public function __construct(OfferService $offerService)
+    public function __construct(protected OfferService $offerService)
     {
-        $this->offerService = $offerService;
     }
 
     public function index(): object
     {
-        $offers = Order::search(request('search'))
-            ->where(function ($query) {
-                $query->whereIn('status', [
-                    OrderStatusEnum::OFFER['id'],
-                    OrderStatusEnum::ACCEPTED['id']
-                ]);
-            })
-            ->sortBy(
-                request('column') ?? 'id',
-                request('order') ?? 'asc'
-            )
-            ->paginate(request('display'));
-
         return view('orders.offers.index', [
-            'offers' => $offers
+            'offers' => $this->offerService->getOffers()
         ]);
     }
 
@@ -53,16 +34,19 @@ class OffersController extends Controller
 
     public function store(StoreAndUpdateOfferRequest $offerRequest, StoreAndUpdateOfferItemsRequest $itemsRequest): object
     {
-        $this->offerService->validateAndStoreOffer($offerRequest, $itemsRequest);
+        DB::beginTransaction();
 
-        return redirect('/offers');
-    }
+        try {
+            $offerValidated = $offerRequest->validated();
+            $offerItemsValidated = $itemsRequest->validated();
+            $this->offerService->store($offerValidated, $offerItemsValidated);
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Błąd w tworzeniu oferty, spróbuj ponownie!');
+        }
 
-    public function import(ImportCsvRequest $request): object
-    {
-        return view('orders.offers.create',[
-            'jsonUnits' => json_encode(ProductUnitEnum::getAllUnits()),
-            'products' => $this->offerService->validateAndImportCsv($request)]);
+        return redirect('/offers')-with('Utworzono nową ofertę.');
     }
 
     public function edit(Order $offer): object
@@ -75,28 +59,31 @@ class OffersController extends Controller
 
     public function update(StoreAndUpdateOfferRequest $offerRequest, StoreAndUpdateOfferItemsRequest $itemsRequest, Order $offer): object
     {
-        $this->offerService->validateAndUpdateOffer($offerRequest, $itemsRequest, $offer);
+        DB::beginTransaction();
 
-        return back()->with(
-            'message',
-            'Oferta została zaktualizowana.'
-        );
+        try {
+            $offerValidated = $offerRequest->validated();
+            $offersItemsValidated = $itemsRequest->validated();
+            $this->offerService->update($offerValidated, $offersItemsValidated, $offer);
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Błąd w tworzeniu oferty, spróbuj ponownie!');
+        }
+
+        return back()->with('message', 'Oferta została zaktualizowana.');
     }
 
     public function destroy(Order $offer): object
     {
-        StockHelper::removeAllQuantityToProducts($offer);
-        $offer->delete();
+        $this->offerService->destroy($offer);
 
         return redirect('/offers');
     }
 
     public function makeOrder(Order $offer): object
     {
-        $offer->setAttribute('invoice_num', InvoiceHelper::generateInvoiceNumber());
-        $offer->setAttribute('status', OrderStatusEnum::PENDING['id']);
-        $offer->setUpdatedAt(now());
-        $offer->save();
+        $this->offerService->transformToOrder($offer);
 
         return redirect('/orders')->with(
             'Utworzono nowe zamówienie o numerze '.$offer->invoice_num.'.'

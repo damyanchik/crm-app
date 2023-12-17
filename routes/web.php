@@ -20,6 +20,7 @@ use App\Http\Controllers\CompanyDetailsController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\CSVImportController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -64,9 +65,6 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/products/{product}', [ProductsController::class, 'update'])->middleware(['permission:updateProduct'])->name('updateProduct');
     Route::delete('/products/{product}', [ProductsController::class, 'destroy'])->middleware(['permission:destroyProduct'])->name('destroyProduct');
     Route::put('/products/{product}/delete-product-photo', [ProductsController::class, 'deletePhoto'])->middleware(['permission:destroyProduct'])->name('destroyProductPhoto');
-    Route::post('/products/import-new-product', [ProductsController::class, 'importNewProduct'])->middleware(['permission:storeProduct'])->name('importNewProduct');
-    Route::post('/products/import-update-product', [ProductsController::class, 'importStockAndPriceProduct'])->middleware(['permission:storeProduct'])->name('importUpdateProduct');
-
 
     //Brand
     Route::get('/brands', [BrandsController::class, 'index'])->name('brands');
@@ -88,11 +86,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/offers', [OffersController::class, 'index'])->name('offers');
     Route::get('/offers/create', [OffersController::class, 'create'])->middleware(['permission:storeOffer'])->name('createOffer');
     Route::post('/offers', [OffersController::class, 'store'])->middleware(['permission:storeOffer'])->name('storeOffer');
-    Route::post('/offers/create', [OffersController::class, 'import'])->middleware(['permission:storeOffer'])->name('importOffer');
     Route::get('/offers/{offer}/edit', [OffersController::class, 'edit'])->middleware(['permission:updateOffer'])->name('editOffer');
     Route::delete('/offers/{offer}', [OffersController::class, 'destroy'])->middleware(['permission:destroyOffer'])->name('destroyOffer');
     Route::put('/offers/{offer}', [OffersController::class, 'update'])->middleware(['permission:updateOffer'])->name('updateOffer');
     Route::put('/offers/make-order/{offer}', [OffersController::class, 'makeOrder'])->middleware(['permission:makeOrder'])->name('makeOrder');
+
+    //Import
+    Route::post('/offers/create', [CSVImportController::class, 'importToOffer'])->middleware(['permission:storeOffer'])->name('importOffer');
+    Route::post('/products/import-new-product', [CSVImportController::class, 'importToStoreProducts'])->middleware(['permission:storeProduct'])->name('importNewProduct');
+    Route::post('/products/import-update-product', [CSVImportController::class, 'importToUpdateQuantityAndPrice'])->middleware(['permission:storeProduct'])->name('importUpdateProduct');
 
     //Archive
     Route::get('/orders/archive', [ArchiveController::class, 'index'])->name('orderArchives');

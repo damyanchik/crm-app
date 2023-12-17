@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Helpers\PhotoHelper;
-use App\Http\Requests\ImportCsvRequest;
 use App\Models\Product;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
@@ -13,11 +12,8 @@ use App\Services\ProductService;
 
 class ProductsController extends Controller
 {
-    private ProductService $productService;
-
-    public function __construct(ProductService $productService)
+    public function __construct(protected ProductService $productService)
     {
-        $this->productService = $productService;
     }
 
     public function index(): object
@@ -87,18 +83,5 @@ class ProductsController extends Controller
             'message',
             'Usunięto zdjęcie produktu.'
         );
-    }
-
-    public function importNewProduct(ImportCsvRequest $request): object
-    {
-        $this->productService->validateAndImportNewProduct($request);
-
-        return back()->with('test');
-    }
-
-    public function importStockAndPriceProduct(ImportCsvRequest $request): object
-    {
-        $this->productService->validateAndImportUpdateProduct($request);
-        return back()->with('tes asdas das asd sd');
     }
 }

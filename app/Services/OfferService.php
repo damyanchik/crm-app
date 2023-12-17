@@ -4,71 +4,74 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Enum\OrderStatusEnum;
 use App\Helpers\CSVHelper;
+use App\Helpers\InvoiceHelper;
 use App\Helpers\StockHelper;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Patterns\AbstractFactories\FileDataImporter\Factories\ProductForOfferFactory;
 use App\Patterns\AbstractFactories\FileDataImporter\FileDataImporter;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
 
 class OfferService
 {
-    public function validateAndStoreOffer(FormRequest $offerForm, FormRequest $offerItemsForm): void
+    public function getOffers(): object
     {
-        DB::beginTransaction();
-
-        try {
-            $offerValidated = $offerForm->validated();
-            $offerItemsValidated = $offerItemsForm->validated();
-            $newOrder = Order::create($offerValidated);
-
-            foreach ($offerItemsValidated['products'] as $orderItem) {
-                $orderItem['user_id'] = $offerValidated['user_id'];
-                $orderItem['order_id'] = $newOrder->id;
-                StockHelper::takeQuantityFromProductByCode($orderItem['code'], $orderItem['quantity']);
-                OrderItem::create($orderItem);
-            }
-
-            DB::commit();
-            Session::flash('success', 'Oferta została utworzona.');
-
-        } catch (\Exception $e) {
-            DB::rollBack();
-            Session::flash('error', 'Błąd w tworzeniu oferty, spróbuj ponownie!.');
-        }
+        return Order::search(request('search'))
+            ->where(function ($query) {
+                $query->whereIn('status', [
+                    OrderStatusEnum::OFFER['id'],
+                    OrderStatusEnum::ACCEPTED['id']
+                ]);
+            })
+            ->sortBy(
+                request('column') ?? 'id',
+                request('order') ?? 'asc'
+            )
+            ->paginate(request('display'));
     }
 
-    public function validateAndUpdateOffer(FormRequest $offerForm, FormRequest $offerItemsForm, Order $order): void
+    public function store(array $validatedOffer, array $validatedOfferItems): void
     {
-        DB::beginTransaction();
+        $newOffer = Order::create($validatedOffer);
 
-        try {
-            $offerValidated = $offerForm->validated();
-            $offersItemsValidated = $offerItemsForm->validated();
+        OrderItem::insert(
+            $this->prepareOfferItems(
+                intval($newOffer->id),
+                $validatedOfferItems['products']
+            )
+        );
+    }
 
-            $order->update($offerValidated);
+    public function update(array $offerValidated, array $offersItemsValidated, Order $order): void
+    {
+        $order->update($offerValidated);
 
-            StockHelper::removeAllQuantityToProducts($order);
+        StockHelper::removeAllQuantityToProducts($order);
 
-            $order->orderItem()->delete();
+        $order->orderItem()->delete();
 
-            foreach ($offersItemsValidated['products'] as $offerItem) {
-                $offerItem['user_id'] = $offerValidated['user_id'];
-                $offerItem['order_id'] = $order->id;
-                StockHelper::takeQuantityFromProductByCode($offerItem['code'], $offerItem['quantity']);
-                OrderItem::create($offerItem);
-            }
+        OrderItem::insert(
+            $this->prepareOfferItems(
+                intval($order->id),
+                $offersItemsValidated['products']
+            )
+        );
+    }
 
-            DB::commit();
-            Session::flash('success', 'Oferta została zaktualizowana.');
+    public function transformToOrder(Order $offer): void
+    {
+        $offer->setAttribute('invoice_num', InvoiceHelper::generateInvoiceNumber());
+        $offer->setAttribute('status', OrderStatusEnum::PENDING['id']);
+        $offer->setUpdatedAt(now());
+        $offer->save();
+    }
 
-        } catch (\Exception $e) {
-            DB::rollBack();
-            Session::flash('error', 'Błąd w aktualizacji oferty, spróbuj ponownie.');
-        }
+    public function destroy(Order $offer): void
+    {
+        StockHelper::removeAllQuantityToProducts($offer);
+        $offer->delete();
     }
 
     public function validateAndImportCsv(FormRequest $request): array
@@ -80,5 +83,15 @@ class OfferService
         $fileImportProcessor = new FileDataImporter(new ProductForOfferFactory());
 
         return $fileImportProcessor->processData($csvData);
+    }
+
+    private function prepareOfferItems(int $offerId, array $offerItems): array
+    {
+        foreach ($offerItems as &$orderItem) {
+            $orderItem['order_id'] = $offerId;
+            StockHelper::takeQuantityFromProductByCode($orderItem['code'], $orderItem['quantity']);
+        }
+
+        return $offerItems;
     }
 }

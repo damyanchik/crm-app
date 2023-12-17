@@ -8,7 +8,7 @@ use App\Models\Product;
 
 class StockHelper
 {
-    public static function addQuantityToProductByCode($productCode, $quantity)
+    public static function addQuantityToProductByCode(string $productCode, $quantity): void
     {
         $product = Product::where('code', $productCode)->first();
 
@@ -19,7 +19,7 @@ class StockHelper
         }
     }
 
-    public static function takeQuantityFromProductByCode($productCode, $quantity)
+    public static function takeQuantityFromProductByCode(string $productCode, $quantity): void
     {
         $product = Product::where('code', $productCode)->first();
 
@@ -32,9 +32,10 @@ class StockHelper
         }
     }
 
-    public static function removeAllQuantityToProducts($offerOrOrder)
+    public static function removeAllQuantityToProducts(object|array $offerOrOrder): void
     {
-        foreach ($offerOrOrder->orderItem as $item)
+        $orderItems = $offerOrOrder->orderItem ?? $offerOrOrder;
+        foreach ($orderItems as $item)
             self::addQuantityToProductByCode($item['code'], $item['quantity']);
     }
 }

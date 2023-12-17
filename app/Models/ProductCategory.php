@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Traits\InsertOrIgnoreRecordsTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 class ProductCategory extends Model
 {
