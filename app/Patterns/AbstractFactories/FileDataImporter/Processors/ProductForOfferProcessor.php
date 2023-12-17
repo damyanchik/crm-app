@@ -29,9 +29,11 @@ class ProductForOfferProcessor implements ProcessorInterface
 
     private function processItem($item, &$existingProducts): mixed
     {
-        $item['name'] = $existingProducts[$item['code']]['name'];
-        $item['unit'] = $existingProducts[$item['code']]['unit'];
-        $item['brand'] = $existingProducts[$item['code']]['brand'];
+        $item += [
+            'name' => $existingProducts[$item['code']]['name'],
+            'unit' => $existingProducts[$item['code']]['unit'],
+            'brand' => $existingProducts[$item['code']]['brand']
+        ];
 
         $this->updatePrice($item, $existingProducts);
         $this->updateQuantity($item, $existingProducts);

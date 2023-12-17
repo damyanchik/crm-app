@@ -8,13 +8,15 @@ use App\Enum\ProductStatusEnum;
 
 class ProductStatusHelper
 {
-    public static function checkQuantityAndSetStatus(array &$products): void
+    public static function checkQuantityAndSetStatus(array $products): array
     {
-        foreach ($products as &$item) {
+        foreach ($products as $item) {
             if ($item['quantity'] > 0)
                 $item['status'] = ProductStatusEnum::AVAILABLE['id'];
             else
                 $item['status'] = ProductStatusEnum::OUT_OF_STOCK['id'];
         }
+
+        return $products;
     }
 }

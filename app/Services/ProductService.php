@@ -41,7 +41,7 @@ class ProductService
     public function validateAndImportNewProduct(FormRequest $request): void
     {
         $csvData = CSVHelper::validateFileAndReadToArray($request, [
-            'name', 'code', 'quantity', 'unit', 'price', 'brand', 'category'
+            'name', 'code', 'quantity', 'unit', 'price', 'brand_id', 'category_id'
         ]);
 
         $fileImportProcessor = new FileDataImporter(new ProductAdditionFactory());

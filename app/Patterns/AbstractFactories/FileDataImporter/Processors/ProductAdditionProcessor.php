@@ -4,100 +4,58 @@ declare(strict_types=1);
 
 namespace App\Patterns\AbstractFactories\FileDataImporter\Processors;
 
+use App\Helpers\ProductAttributesHelper;
+use App\Helpers\ProductHelper;
 use App\Helpers\ProductStatusHelper;
 use App\Models\Brand;
-use App\Models\Product;
 use App\Models\ProductCategory;
 
 class ProductAdditionProcessor implements ProcessorInterface
 {
     public function process(array $data): array
     {
-        $collection = collect($data);
+        $this->storeNotExistedAttributes($data);
 
-        $existingProducts = $this->getExistingProducts($data);
-
-        //wyfiltrowanie nowych
-        $filteredCollection = $collection->filter(function ($item) use ($existingProducts) {
+        $existingProductCodes = ProductHelper::getExistingByCodes($data);
+        $filteredCollection = collect($data)->filter(function ($item) use ($existingProductCodes) {
             return !in_array(
                 $item['code'],
-                array_column($existingProducts, 'code')
+                array_column($existingProductCodes, 'code')
             );
         })->unique('code');
 
+        $processedData = $this->processItemsWithAttributes(
+            $filteredCollection,
+            [
+                'brands' => Brand::all()->pluck('id', 'name')->toArray(),
+                'categories' => ProductCategory::all()->pluck('id', 'name')->toArray()
+            ]
+        );
 
-        // Usuń puste wartości CAT
-        $nonEmptyCategory = array_filter(array_column($data, 'category'));
-
-        // Przekształć każdą niepustą wartość na strukturę danych kategorii
-        $categoriesData = array_map(function ($value) {
-            return [
-                'name' => $value,
-                'updated_at' => now(),
-                'created_at' => now(),
-            ];
-        }, $nonEmptyCategory);
-
-        ProductCategory::createOrIgnoreMany($categoriesData);
-
-
-        // Usuń puste wartości BRA
-        $nonEmptyBrands = array_filter(array_column($data, 'brand'));
-
-        // Przekształć każdą niepustą wartość na strukturę danych kategorii
-        $brandsData = array_map(function ($value) {
-            return [
-                'name' => $value,
-                'updated_at' => now(),
-                'created_at' => now(),
-            ];
-        }, $nonEmptyBrands);
-
-        Brand::createOrIgnoreMany($brandsData);
-
-
-        $productBrandsAndCategories = [
-            'brands' => Brand::all()->pluck('id', 'name')->toArray(),
-            'categories' => ProductCategory::all()->pluck('id', 'name')->toArray()
-            ];
-
-        $processedData = $filteredCollection->transform(function ($item) use ($productBrandsAndCategories) {
-            return $this->checkAndBindToProduct($item, $productBrandsAndCategories);
-            })->toArray();
-
-        ProductStatusHelper::checkQuantityAndSetStatus($processedData);
-
-        return $processedData;
+        return ProductStatusHelper::checkQuantityAndSetStatus($processedData);
     }
 
-    private function checkAndBindToProduct(array $item, array $productBrandsAndCategories): array
+    private function storeNotExistedAttributes(array $data): void
     {
-        if (empty($item['brand'])) {
-            $item['brand_id'] = null;
-            unset($item['brand']);
-        } elseif (isset($productBrandsAndCategories['brands'][$item['brand']])) {
-            $item['brand_id'] = $productBrandsAndCategories['brands'][$item['brand']];
-            unset($item['brand']);
-        }
+        $processedCategories = ProductAttributesHelper::completeQueryParameters('category_id', $data);
+        ProductCategory::createOrIgnoreMany($processedCategories);
 
-        if (empty($item['category'])) {
-            $item['category_id'] = null;
-            unset($item['category']);
-        } elseif (isset($productBrandsAndCategories['categories'][$item['category']])) {
-            $item['category_id'] = $productBrandsAndCategories['categories'][$item['category']];
-            unset($item['category']);
-        }
-
-        return $item;
+        $processedBrands = ProductAttributesHelper::completeQueryParameters('brand_id', $data);
+        Brand::createOrIgnoreMany($processedBrands);
     }
 
-    private function getExistingProducts(array $data): array
+    private function processItemsWithAttributes(object $filteredCollection, array $attributesFromBase): array
     {
-        $codes = array_column($data, 'code');
-
-        return Product::whereIn('code', $codes)
-            ->select('code')
-            ->get()
-            ->toArray();
+        return $filteredCollection->transform(function ($item) use ($attributesFromBase) {
+            ProductAttributesHelper::checkAttributeAndBindIdToProduct(
+                $item['category_id'],
+                $attributesFromBase['categories']
+            );
+            ProductAttributesHelper::checkAttributeAndBindIdToProduct(
+                $item['brand_id'],
+                $attributesFromBase['brands']
+            );
+            return $item;
+        })->toArray();
     }
 }

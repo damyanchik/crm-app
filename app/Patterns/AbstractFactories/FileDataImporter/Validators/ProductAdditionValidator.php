@@ -17,8 +17,8 @@ class ProductAdditionValidator implements ValidatorInterface
             '*.quantity' => 'required|numeric',
             '*.unit' => 'required|integer|between:0,'.(count(ProductUnitEnum::getAllUnits())-1),
             '*.price' => 'required|numeric',
-            '*.brand' => 'nullable|string',
-            '*.product_category' => 'nullable|string'
+            '*.brand_id' => 'nullable|string',
+            '*.category_id' => 'nullable|string'
         ]);
         $errors = $validator->errors();
 
