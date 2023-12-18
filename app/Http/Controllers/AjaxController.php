@@ -4,27 +4,21 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Models\Brand;
-use App\Models\Client;
-use App\Models\Product;
-use App\Models\ProductCategory;
-use App\Models\User;
+use App\Services\AjaxService;
 use Illuminate\Http\Request;
 
 class AjaxController extends Controller
 {
+    public function __construct(protected AjaxService $ajaxService)
+    {
+    }
+
     public function searchUsers(Request $request): object
     {
         $searchTerm = $request->input('searchTerm');
 
-        $users = $this->searchItems(
-            User::query(),
-            $searchTerm,
-            ['name', 'surname', 'email']
-        );
-
         return response()->json([
-            'users' => $users
+            'users' => $this->ajaxService->getUsers($searchTerm)
         ]);
     }
 
@@ -32,14 +26,8 @@ class AjaxController extends Controller
     {
         $searchTerm = $request->input('searchTerm');
 
-        $clients = $this->searchItems(
-            Client::query(),
-            $searchTerm,
-            ['name', 'surname', 'company', 'tax', 'email']
-        );
-
         return response()->json([
-            'clients' => $clients
+            'clients' => $this->ajaxService->getClients($searchTerm)
         ]);
     }
 
@@ -47,14 +35,8 @@ class AjaxController extends Controller
     {
         $searchTerm = $request->input('searchTerm');
 
-        $brands = $this->searchItems(
-            Brand::query(),
-            $searchTerm,
-            ['name']
-        );
-
         return response()->json([
-            'brands' => $brands
+            'brands' => $this->ajaxService->getBrands($searchTerm)
         ]);
     }
 
@@ -62,14 +44,8 @@ class AjaxController extends Controller
     {
         $searchTerm = $request->input('searchTerm');
 
-        $productCategories = $this->searchItems(
-            ProductCategory::query(),
-            $searchTerm,
-            ['name']
-        );
-
         return response()->json([
-            'productCategories' => $productCategories
+            'productCategories' => $this->ajaxService->getProductCategories($searchTerm)
         ]);
     }
 
@@ -77,27 +53,8 @@ class AjaxController extends Controller
     {
         $searchTerm = $request->input('searchTerm');
 
-        $products = Product::with('brand')
-            ->where('name', 'like', "%$searchTerm%")
-            ->orWhere('code', 'like', "%$searchTerm%")
-            ->orWhereHas('brand', function ($brandQuery) use ($searchTerm) {
-                $brandQuery->where('name', 'like', "%$searchTerm%");
-            })
-            ->get();
-
         return response()->json([
-            'products' => $products
+            'products' => $this->ajaxService->getProducts($searchTerm)
         ]);
-    }
-
-    private function searchItems(object $query, string $searchTerm, array $columns): object
-    {
-        $items = $query;
-
-        foreach ($columns as $column) {
-            $items->orWhere($column, 'like', "%$searchTerm%");
-        }
-
-        return $items->get();
     }
 }
