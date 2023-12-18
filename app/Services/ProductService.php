@@ -14,6 +14,16 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class ProductService
 {
+    public function getProducts(): object
+    {
+        return Product::search(request('search'))
+            ->orderBy(
+                request('column') ?? 'id',
+                request('order') ?? 'ASC'
+            )
+            ->paginate(request('display'));
+    }
+
     public function validateAndStoreProduct(FormRequest $request): void
     {
         $validatedData = $request->validated();
@@ -59,5 +69,13 @@ class ProductService
         $fileImportProcessor = new FileDataImporter(new ProductUpdateFactory());
 
         Product::updateMany($fileImportProcessor->processData($csvData), 'code');
+    }
+
+    public function destroyPhoto(Product $product): void
+    {
+        PhotoHelper::deletePreviousPhoto($product->photo);
+
+        $product->setAttribute('photo', null);
+        $product->save();
     }
 }

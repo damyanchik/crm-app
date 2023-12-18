@@ -25,14 +25,14 @@ class ProductAdditionProcessor implements ProcessorInterface
         })->unique('code');
 
         $processedData = $this->processItemsWithAttributes(
-            $filteredCollection,
-            [
+            $filteredCollection, [
                 'brands' => Brand::all()->pluck('id', 'name')->toArray(),
                 'categories' => ProductCategory::all()->pluck('id', 'name')->toArray()
-            ]
-        );
+        ]);
 
-        return ProductStatusHelper::checkQuantityAndSetStatus($processedData);
+        ProductStatusHelper::checkAllQuantityAndSetStatus($processedData);
+
+        return $processedData;
     }
 
     private function storeNotExistedAttributes(array $data): void

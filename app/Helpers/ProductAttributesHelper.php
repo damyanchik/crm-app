@@ -6,17 +6,19 @@ namespace App\Helpers;
 
 class ProductAttributesHelper
 {
-    public static function completeQueryParameters($attributeColumn, $data): array
+    public static function completeQueryParameters(string $attributeColumn, array $data): array
     {
         $nonEmptyAttributes = array_filter(array_column($data, $attributeColumn));
 
-        return array_map(function ($value) {
+        $completedData = array_map(function ($value) {
             return [
                 'name' => $value,
                 'updated_at' => now(),
                 'created_at' => now(),
             ];
         }, $nonEmptyAttributes);
+
+        return $completedData;
     }
 
     public static function checkAttributeAndBindIdToProduct(string|null &$attributeFromCsv, array $recordsFromBase): void

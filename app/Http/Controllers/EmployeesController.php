@@ -8,27 +8,19 @@ use App\Http\Requests\UpdateEmployeeRequest;
 use App\Models\User;
 use App\Services\EmployeeService;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 
 class EmployeesController extends Controller
 {
-    private EmployeeService $employeeService;
-
-    public function __construct(EmployeeService $employeeService)
+    public function __construct(protected EmployeeService $employeeService)
     {
-        $this->employeeService = $employeeService;
     }
 
     public function index(): object
     {
-        $users = User::search(request('search'))
-            ->sortBy(
-                request('column') ?? 'id',
-                request('order') ?? 'asc'
-            )->paginate(request('display'));
-
         return view('employees.index', [
-            'users' => $users
+            'users' => $this->employeeService->getUsers()
         ]);
     }
 
@@ -59,8 +51,15 @@ class EmployeesController extends Controller
 
     public function update(UpdateEmployeeRequest $request, User $user): object
     {
-        $this->employeeService->validateAndUpdateEmployee($request, $user);
+        DB::beginTransaction();
 
+        try {
+            $this->employeeService->validateAndUpdate($request, $user);
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Nastąpił błąd w trakcie dodawania nowych produktów!');
+        }
         return back()->with(
             'message',
             'Użytkownik zaktualizowany!'

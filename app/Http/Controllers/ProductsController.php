@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Services\ProductService;
+use Illuminate\Support\Facades\DB;
 
 class ProductsController extends Controller
 {
@@ -18,15 +19,8 @@ class ProductsController extends Controller
 
     public function index(): object
     {
-        $products = Product::search(request('search'))
-            ->orderBy(
-                request('column') ?? 'id',
-                request('order') ?? 'ASC'
-            )
-            ->paginate(request('display'));
-
         return view('products.index', [
-            'products' => $products
+            'products' => $this->productService->getProducts()
         ]);
     }
 
@@ -37,8 +31,13 @@ class ProductsController extends Controller
 
     public function store(StoreProductRequest $request): object
     {
-        $this->productService->validateAndStoreProduct($request);
-
+        try {
+            $this->productService->validateAndStoreProduct($request);
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Nastąpił błąd w trakcie tworzenia produktu!');
+        }
         return redirect('/products')->with(
             'message',
             'Produkt został utworzony.'
@@ -54,7 +53,13 @@ class ProductsController extends Controller
 
     public function update(UpdateProductRequest $request, Product $product): object
     {
-        $this->productService->validateAndUpdateProduct($request, $product);
+        try {
+            $this->productService->validateAndUpdateProduct($request, $product);
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Nastąpił błąd w trakcie aktualizacji produktu!');
+        }
 
         return back()->with(
             'message',
@@ -74,10 +79,7 @@ class ProductsController extends Controller
 
     public function deletePhoto(Product $product): object
     {
-        PhotoHelper::deletePreviousPhoto($product->photo);
-
-        $product->setAttribute('photo', null);
-        $product->save();
+        $this->productService->destroyPhoto($product);
 
         return back()->with(
             'message',

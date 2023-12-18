@@ -12,7 +12,16 @@ use Spatie\Permission\Models\Role;
 
 class EmployeeService
 {
-    public function validateAndUpdateEmployee(FormRequest $request, User $user): void
+    public function getUsers(): object
+    {
+        return User::search(request('search'))
+            ->sortBy(
+                request('column') ?? 'id',
+                request('order') ?? 'asc'
+            )->paginate(request('display'));
+    }
+
+    public function validateAndUpdate(FormRequest $request, User $user): void
     {
         $validatedData = $request->validated();
 

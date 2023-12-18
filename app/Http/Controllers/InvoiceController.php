@@ -16,14 +16,22 @@ class InvoiceController extends Controller
         if (!in_array($order->status, [
                 OrderStatusEnum::READY['id'],
                 OrderStatusEnum::CLOSED['id']
-            ]))
+            ])
+        )
             return back()->with(
                 'message', 'Błąd w generowaniu faktury, spróbuj ponownie.'
             );
 
         $companyInfo = CompanyInfo::all()->first();
 
-        $data = [
+        $pdf = Pdf::loadView('pdf.invoice', $this->setData($order, $companyInfo));
+
+        return $pdf->download('invoice_'.$order->invoice_num.'.pdf');
+    }
+
+    private function setData($order, $companyInfo)
+    {
+        return [
             'invoiceNumber' => $order->invoice_num,
             'date' => $order->updated_at,
 
@@ -50,9 +58,5 @@ class InvoiceController extends Controller
 
             'seller' => $order->user->name.' '.$order->user->surname
         ];
-
-        $pdf = Pdf::loadView('pdf.invoice', $data);
-
-        return $pdf->download('invoice_'.$order->invoice_num.'.pdf');
     }
 }

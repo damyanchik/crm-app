@@ -10,7 +10,7 @@ class ProductHelper
 {
     public static function getExistingByCodes(array $data): array
     {
-        if (in_array(['code','codes'], $data))
+        if (isset($data[0]['code']) || isset($data['code']))
             $codes = array_column($data, 'code');
         else
             $codes = $data;

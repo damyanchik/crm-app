@@ -46,7 +46,7 @@ class ProductCategoriesController extends Controller
     {
         return view('products.product_categories.edit', [
             'productCategory' => $productCategory
-            ]);
+        ]);
     }
 
     public function update(Request $request, ProductCategory $productCategory): object

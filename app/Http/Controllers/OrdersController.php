@@ -4,29 +4,19 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Enum\OrderStatusEnum;
-use App\Helpers\StockHelper;
 use App\Models\Order;
+use App\Services\OrderService;
 
 class OrdersController extends Controller
 {
+    public function __construct(protected OrderService $orderService)
+    {
+    }
+
     public function index(): object
     {
-        $orders = Order::search(request('search'))
-            ->where(function ($query) {
-                $query->whereIn('status', [
-                    OrderStatusEnum::PENDING['id'],
-                    OrderStatusEnum::READY['id']
-                ]);
-            })
-            ->sortBy(
-                request('column') ?? 'id',
-                request('order') ?? 'asc'
-            )
-            ->paginate(request('display'));
-
         return view('orders.index', [
-            'orders' => $orders
+            'orders' => $this->orderService->getOrders()
         ]);
     }
 
@@ -39,31 +29,30 @@ class OrdersController extends Controller
 
     public function ready(Order $order): object
     {
-        $order->setAttribute('status', OrderStatusEnum::READY['id']);
-        $order->save();
+        $this->orderService->ready($order);
 
         return redirect('/orders')->with(
+            'message',
             'Potwierdzono gotowość zamówienia o nr '.$order->invoice_num.'.'
         );
     }
 
     public function close(Order $order): object
     {
-        $order->setAttribute('status', OrderStatusEnum::CLOSED['id']);
-        $order->save();
+        $this->orderService->close($order);
 
         return redirect('/orders/archive')->with(
+            'message',
             'Zamknięto zamówienie o nr '.$order->invoice_num.'.'
         );
     }
 
     public function reject(Order $order): object
     {
-        StockHelper::removeAllQuantityToProducts($order);
-        $order->setAttribute('status', OrderStatusEnum::REJECTED['id']);
-        $order->save();
+        $this->orderService->reject($order);
 
         return redirect('/orders/archive')->with(
+            'message',
             'Odrzucono zamówienie o nr '.$order->invoice_num.'.'
         );
     }

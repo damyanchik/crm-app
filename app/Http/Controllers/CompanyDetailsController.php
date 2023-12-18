@@ -11,9 +11,8 @@ class CompanyDetailsController extends Controller
 {
     public function edit(): object
     {
-        $companyDetails = CompanyInfo::all()->first();
         return view('admin.company_details', [
-            'companyDetails' => $companyDetails
+            'companyDetails' => CompanyInfo::all()->first()
         ]);
     }
 
@@ -26,6 +25,6 @@ class CompanyDetailsController extends Controller
             $formFields
         );
 
-        return back()->with('Dane zostały zaktualizowane');
+        return back()->with('message', 'Dane zostały zaktualizowane');
     }
 }

@@ -62,10 +62,11 @@ class OfferService
 
     public function transformToOrder(Order $offer): void
     {
-        $offer->setAttribute('invoice_num', InvoiceHelper::generateInvoiceNumber());
-        $offer->setAttribute('status', OrderStatusEnum::PENDING['id']);
-        $offer->setUpdatedAt(now());
-        $offer->save();
+        $offer->update([
+            'invoice_num', InvoiceHelper::generateInvoiceNumber(),
+            'status', OrderStatusEnum::PENDING['id'],
+            'updated_at', now()
+        ]);
     }
 
     public function destroy(Order $offer): void

@@ -7,17 +7,16 @@ namespace App\Http\Controllers;
 use App\Services\PermissionService;
 use App\Services\RoleService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 
 class RolesController extends Controller
 {
-    private RoleService $roleService;
-    private PermissionService $permissionService;
-
-    public function __construct(RoleService $roleService, PermissionService $permissionService)
+    public function __construct(
+        protected RoleService       $roleService,
+        protected PermissionService $permissionService
+    )
     {
-        $this->roleService = $roleService;
-        $this->permissionService = $permissionService;
     }
 
     public function index(): object
@@ -33,26 +32,37 @@ class RolesController extends Controller
 
     public function storeRole(Request $request): object
     {
-        $this->roleService->validateAndStore($request);
+        try {
+            $this->roleService->validateAndStore($request);
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Wystąpił błąd w trakcie tworzenia roli!');
+        }
 
-        return back()->with('Utworzono nową rolę.');
+        return back()->with('message', 'Utworzono nową rolę.');
     }
 
     public function storePermission(Request $request): object
     {
-        $this->permissionService->assignPermissionsToRole($request);
-
-        return back()->with('Wprowadzono zmiany w uprawnieniach ról.');
+        try {
+            $this->permissionService->assignPermissionsToRole($request);
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Wystąpił błąd w trakcie przypisywania uprawnień!');
+        }
+        return back()->with('message', 'Wprowadzono zmiany w uprawnieniach ról.');
     }
 
     public function destroyRole(Role $role): object
     {
-        if($role->name == 'admin')
-            return back()->with('Brak możliwości usunięcia tej roli.');
+        if ($role->name == 'admin')
+            return back()->with('message', 'Brak możliwości usunięcia tej roli.');
 
         $role->syncPermissions([]);
         $role->delete();
 
-        return back()->with('Usunięto rolę i jej uprawnienia.');
+        return back()->with('message', 'Usunięto rolę i jej uprawnienia.');
     }
 }

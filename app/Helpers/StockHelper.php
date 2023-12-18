@@ -13,9 +13,11 @@ class StockHelper
         $product = Product::where('code', $productCode)->first();
 
         if ($product) {
-            $product->update(['quantity' => $product->quantity + $quantity]);
-        } else {
-            throw new \Exception('Nie odnaleziono produktu.');
+            $status = ProductStatusHelper::checkSingleQuantityAndSetStatus($product->quantity + $quantity);
+            $product->update([
+                'quantity' => $product->quantity + $quantity,
+                'status' => $status
+            ]);
         }
     }
 
@@ -24,17 +26,17 @@ class StockHelper
         $product = Product::where('code', $productCode)->first();
 
         if ($product && $product->quantity >= $quantity) {
-            $product->update(['quantity' => $product->quantity - $quantity]);
-        } elseif (!$product) {
-            throw new \Exception('Nie odnaleziono produktu.');
-        } else {
-            throw new \Exception('Niewystarczająca ilość produktu.');
+            $status = ProductStatusHelper::checkSingleQuantityAndSetStatus($product->quantity - $quantity);
+            $product->update([
+                'quantity' => $product->quantity - $quantity,
+                'status' => $status
+            ]);
         }
     }
 
-    public static function removeAllQuantityToProducts(object|array $offerOrOrder): void
+    public static function removeAllQuantityToProducts(object $offerOrOrder): void
     {
-        $orderItems = $offerOrOrder->orderItem ?? $offerOrOrder;
+        $orderItems = $offerOrOrder->orderItem;
         foreach ($orderItems as $item)
             self::addQuantityToProductByCode($item['code'], $item['quantity']);
     }

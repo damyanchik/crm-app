@@ -46,7 +46,7 @@ class OffersController extends Controller
             return back()->with('error', 'Błąd w tworzeniu oferty, spróbuj ponownie!');
         }
 
-        return redirect('/offers')-with('Utworzono nową ofertę.');
+        return redirect('/offers')->with('message', 'Utworzono nową ofertę.');
     }
 
     public function edit(Order $offer): object
@@ -78,7 +78,7 @@ class OffersController extends Controller
     {
         $this->offerService->destroy($offer);
 
-        return redirect('/offers');
+        return redirect('/offers')->with('message', 'Oferta została usunięta.');
     }
 
     public function makeOrder(Order $offer): object
@@ -86,6 +86,7 @@ class OffersController extends Controller
         $this->offerService->transformToOrder($offer);
 
         return redirect('/orders')->with(
+            'message',
             'Utworzono nowe zamówienie o numerze '.$offer->invoice_num.'.'
         );
     }

@@ -32,7 +32,7 @@ class InvoiceHelper
             ->whereMonth('created_at', '=', now()->month)
             ->whereIntegerNotInRaw('status', [
                 OrderStatusEnum::OFFER['id'],
-                OrderStatusEnum::ACCEPTED['id']
+                OrderStatusEnum::ACCEPTED['id'],
             ])
             ->first();
 
