@@ -6,34 +6,26 @@ namespace App\Http\Controllers;
 
 use App\Models\Calendar;
 use App\Http\Requests\CalendarStoreRequest;
+use App\Services\CalendarService;
 use Illuminate\Support\Facades\Auth;
 use App\Enum\CalendarColorEnum;
 
 class CalendarController extends Controller
 {
+    public function __construct(protected CalendarService $calendarService)
+    {
+    }
+
     public function index(): object
     {
-        $events = Calendar::orderBy('id', 'ASC')
-            ->with('user:id,name,surname')
-            ->get();
-
-        $transformedEvents = $events->map(function ($event) {
-            return $this->transformEvent($event);
-        });
-
         return view('calendar.index', [
-            'events' => $transformedEvents
+            'events' => $this->calendarService->getCalendarData()
         ]);
     }
 
     public function store(CalendarStoreRequest $request): object
     {
-        $formFields = array_merge(
-            $request->validated(), [
-                'user_id' => Auth::id()
-            ]);
-
-        Calendar::create($formFields);
+        $this->calendarService->store($request);
 
         return redirect('/calendar')->with('message', 'Utworzono wydarzenie w kalendarzu.');
     }

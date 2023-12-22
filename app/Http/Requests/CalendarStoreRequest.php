@@ -17,7 +17,7 @@ class CalendarStoreRequest extends FormRequest
     {
         return [
             'title' => 'required|string|min:4|max:25',
-            'color' => 'nullabel|integer',
+            'color' => 'nullable|integer',
             'description' => 'required|string|min:10|max:100',
             'date_start' => 'required|date|before_or_equal:date_end',
             'date_end' => 'required|date|after_or_equal:date_start'

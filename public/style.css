@@ -245,3 +245,8 @@ th[data-column].highlight {
 .fc-today span {
     font-weight: bold;
 }
+
+.dashboard__calendar .fc-today {
+    background-color: #05489b !important;
+    color: #f3f3f3 !important;
+}
