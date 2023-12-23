@@ -19,6 +19,14 @@ class DashboardService
         return $this->prepareDashboardQuery($endDate, $startDateLastWeek, $endDateLastWeek)->first();
     }
 
+    private function prepareDashboardQueryLastYear($startDateLastYear, $endDate)
+    {
+        return DB::table('orders')
+            ->whereBetween('updated_at', [$startDateLastYear, $endDate])
+            ->where('status','=', OrderStatusEnum::CLOSED['id'])
+            ->get();
+    }
+
     private function prepareDashboardQuery(object $endDate, object $startDateLastWeek, object $endDateLastWeek): object
     {
         return DB::table('orders')

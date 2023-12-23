@@ -36,18 +36,4 @@ class CalendarController extends Controller
 
         return redirect('/calendar')->with('message', 'Wydarzenie z kalendarza zostało usunięte.');
     }
-
-    private function transformEvent(Calendar $event): array
-    {
-        return [
-            'id' => $event->id,
-            'title' => $event->title,
-            'name' => $event->user->name . ' ' . $event->user->surname,
-            'description' => $event->description,
-            'color' => CalendarColorEnum::getColor((int) $event->color),
-            'start' => $event->date_start,
-            'end' => $event->date_end,
-            'user_id' => $event->user_id
-        ];
-    }
 }

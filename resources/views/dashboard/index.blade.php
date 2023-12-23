@@ -2,7 +2,7 @@
 
 @section('content')
     <h1 class="col-12">Dashboard</h1>
-    <div class="col-12 text-center mt-5">
+    <div class="col-12 text-center mt-3">
         <small>STATYSTYKA OSTATNIEGO TYGODNIA I PORÓWNANIE Z TYGODNIEM POPRZEDZĄJĄCYM</small>
     </div>
     <div class="row mt-3 text-center">
