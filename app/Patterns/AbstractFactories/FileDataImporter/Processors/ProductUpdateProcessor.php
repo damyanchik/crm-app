@@ -20,7 +20,7 @@ class ProductUpdateProcessor implements ProcessorInterface
             );
         })->unique('code')->toArray();
 
-        ProductStatusHelper::checkAllQuantityAndSetStatus($filteredCollection);
+        ProductStatusHelper::checkAllQuantityAndSet($filteredCollection);
 
         return $filteredCollection;
     }

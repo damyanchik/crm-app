@@ -1,7 +1,7 @@
 <div class="col-md-12 border border-2 mt-5">
     <div class="p-3 py-3">
         <div class="float-end align-items-center experience">
-            <button type="button" class="btn btn-primary border px-3 p-1" data-bs-toggle="modal" data-bs-target="#loadProductsModal">
+            <button type="button" class="btn btn-primary border px-3 p-1 {{ $buttonClass ?? '' }}" data-bs-toggle="modal" data-bs-target="#loadProductsModal">
                 <i class="fa fa-plus"></i>&nbsp;
                 Załaduj listę produktów
             </button>

@@ -17,6 +17,7 @@ $("#addProduct").click(addProduct);
 
 $(document).on("click", ".remove-product", function () {
     $(this).closest(".product").remove();
+    $(".btn-success").prop("disabled", true);
 
     updateProductNumbers();
 });
@@ -30,6 +31,10 @@ $(document).on('change', '#clientSelect, [name="status"]', function() {
     } else {
         $("#createOrder").prop("disabled", true);
     }
+});
+
+$("select, input").on("change", function() {
+    $(".btn-success").prop("disabled", true);
 });
 
 if ($('#clientSelect').val() && $('[name="status"]').val())

@@ -3,7 +3,7 @@
 @section('content')
     <h1 class="col-12">Dashboard</h1>
     <div class="col-12 text-center mt-3">
-        <small>STATYSTYKA OSTATNIEGO TYGODNIA I PORÓWNANIE Z TYGODNIEM POPRZEDZĄJĄCYM</small>
+        <small>STATYSTYKA OSTATNIEGO TYGODNIA I PORÓWNANIE Z TYGODNIEM POPRZEDZAJĄCYM</small>
     </div>
     <div class="row mt-3 text-center">
         <div class="col-6 col-md-3">

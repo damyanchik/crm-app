@@ -13,7 +13,7 @@ class StockHelper
         $product = Product::where('code', $productCode)->first();
 
         if ($product) {
-            $status = ProductStatusHelper::checkSingleQuantityAndSetStatus($product->quantity + $quantity);
+            $status = ProductStatusHelper::checkQuantityAndReturnStatus($product->quantity + $quantity);
             $product->update([
                 'quantity' => $product->quantity + $quantity,
                 'status' => $status
@@ -26,7 +26,7 @@ class StockHelper
         $product = Product::where('code', $productCode)->first();
 
         if ($product && $product->quantity >= $quantity) {
-            $status = ProductStatusHelper::checkSingleQuantityAndSetStatus($product->quantity - $quantity);
+            $status = ProductStatusHelper::checkQuantityAndReturnStatus($product->quantity - $quantity);
             $product->update([
                 'quantity' => $product->quantity - $quantity,
                 'status' => $status

@@ -63,9 +63,9 @@ class OfferService
     public function transformToOrder(Order $offer): void
     {
         $offer->update([
-            'invoice_num', InvoiceHelper::generateInvoiceNumber(),
-            'status', OrderStatusEnum::PENDING['id'],
-            'updated_at', now()
+            'invoice_num' => InvoiceHelper::generateInvoiceNumber(),
+            'status' => OrderStatusEnum::PENDING['id'],
+            'updated_at' => now()
         ]);
     }
 

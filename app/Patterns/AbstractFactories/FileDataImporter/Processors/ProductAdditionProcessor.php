@@ -30,7 +30,7 @@ class ProductAdditionProcessor implements ProcessorInterface
                 'categories' => ProductCategory::all()->pluck('id', 'name')->toArray()
         ]);
 
-        ProductStatusHelper::checkAllQuantityAndSetStatus($processedData);
+        ProductStatusHelper::checkAllQuantityAndSet($processedData);
 
         return $processedData;
     }

@@ -8,7 +8,7 @@ use App\Enum\ProductStatusEnum;
 
 class ProductStatusHelper
 {
-    public static function checkAllQuantityAndSetStatus(array &$products): void
+    public static function checkAllQuantityAndSet(array &$products): void
     {
         foreach ($products as &$item) {
             if ($item['quantity'] > 0)
@@ -18,10 +18,20 @@ class ProductStatusHelper
         }
     }
 
-    public static function checkSingleQuantityAndSetStatus(array|object $product): int
+    public static function checkSingleQuantityAndSet(array|object $product): int
     {
         $quantity = $product->quantity ?? $product['quantity'];
 
+        return self::verifyStatus($quantity);
+    }
+
+    public static function checkQuantityAndReturnStatus(int $quantity): int
+    {
+        return self::verifyStatus($quantity);
+    }
+
+    private static function verifyStatus(int $quantity): int
+    {
         if ($quantity > 0)
             $status = ProductStatusEnum::AVAILABLE['id'];
         else

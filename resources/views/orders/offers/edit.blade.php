@@ -61,7 +61,7 @@
                                    class="form-control form_readonly__grey" readonly>
                         </div>
                     </div>
-                    <x-orders.add-product />
+                    <x-orders.add-product :buttonClass="'disabled'" />
                     <x-orders.products-data-table :products="$offer->orderItem" />
                     @include('partials.orders._offer-down-buttons')
                 </div>
@@ -71,7 +71,6 @@
 
     @include('partials.orders._make-order-modal')
     @include('partials.orders._delete-offer-modal')
-
     <script>
         var unitsArray = JSON.parse(@json($jsonUnits));
         var ajaxSearchProductsLink = @json(route('ajax.searchProducts'));
