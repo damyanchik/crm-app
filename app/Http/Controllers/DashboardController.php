@@ -9,16 +9,18 @@ use App\Services\DashboardService;
 
 class DashboardController extends Controller
 {
-    public function __construct(protected DashboardService $dashboardService)
+    public function __construct(
+        protected DashboardService $dashboardService,
+        protected CalendarService $calendarService
+    )
     {
     }
 
     public function index(): object
     {
-        $event = new CalendarService();
         return view('dashboard.index', [
             'dashboardData' => $this->dashboardService->getDashboardData(),
-            'events' => $event->getCalendarData()
+            'events' => $this->calendarService->getCalendarData()
         ]);
     }
 }
