@@ -33,6 +33,7 @@
                     >
                 </div>
                 @if(!empty($user['avatar']))
+                    @if (auth()->check() && (auth()->user()->can('deleteAvatarUser') || request()->route('user')->id == auth()->id()))
                     <form method="post" action="{{ route('deleteAvatarEmployee', $user['id']) }}"
                           class="text-center mb-2">
                         @csrf
@@ -41,20 +42,24 @@
                             <i class="fa fa-minus"></i>&nbsp;Usuń zdjęcie
                         </button>
                     </form>
+                    @endif
                 @endif
                 @error('avatar')
                 <span class="flash-message__alert" role="alert">
                         {{ $message }}
                     </span>
                 @enderror
+                @if (auth()->check() && (auth()->user()->can('deleteAvatarUser') || request()->route('user')->id == auth()->id()))
                 <form method="post" action="{{ route('updateEmployee', $user['id']) }}" class="d-flex"
                       enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <input type="file" class="form-control" name="avatar">
+                @endif
             </div>
             <div class="col-md-6 border-right">
                 <div class="p-3 py-5">
+                    @if (auth()->check() && (auth()->user()->can('deleteAvatarUser') || request()->route('user')->id == auth()->id()))
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <h4 class="text-right">Edytuj dane użytkownika</h4>
                         <button type="button" class="btn btn-primary profile-button" data-bs-toggle="modal"
@@ -62,12 +67,16 @@
                             Zmień hasło
                         </button>
                     </div>
+                    @endif
                     <x-employees.edit-employee-details :user="$user"/>
                     @include('partials.employees._employee-down-buttons')
                 </div>
             </div>
+
             </form>
         </div>
     </div>
-    @include('partials.employees._change-password-employee-modal')
+    @if (auth()->check() && (auth()->user()->can('deleteAvatarUser') || request()->route('user')->id == auth()->id()))
+        @include('partials.employees._change-password-employee-modal')
+    @endif
 @endsection

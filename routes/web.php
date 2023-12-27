@@ -119,11 +119,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/employees', [EmployeesController::class, 'index'])->name('employees');
     Route::get('/employees/{user}', [EmployeesController::class, 'show'])->name('showEmployee');
     Route::get('/employees/{user}/edit', [EmployeesController::class, 'edit'])->name('editEmployee');
-    Route::put('/employees/{user}', [EmployeesController::class, 'update'])->middleware(['permission:updateUser'])->name('updateEmployee');
+    Route::put('/employees/{user}', [EmployeesController::class, 'update'])->name('updateEmployee');
     Route::post('/employees/{user}/block', [EmployeesController::class, 'block'])->middleware(['permission:blockUser'])->name('blockEmployee');
     Route::put('/employees/{user}/change-role', [EmployeesController::class, 'changeRole'])->middleware(['permission:rolesPermissionsAdmin'])->name('changeRoleEmployee');
-    Route::put('/employees/{user}/change-pass', [EmployeesController::class, 'changePassword'])->middleware(['permission:changePasswordUser'])->name('changePasswordEmployee');
-    Route::put('/employees/{user}/delete-avatar', [EmployeesController::class, 'deleteAvatar'])->middleware(['permission:deleteAvatarUser'])->name('deleteAvatarEmployee');
+    Route::put('/employees/{user}/change-pass', [EmployeesController::class, 'changePassword'])->name('changePasswordEmployee');
+    Route::put('/employees/{user}/delete-avatar', [EmployeesController::class, 'deleteAvatar'])->name('deleteAvatarEmployee');
 
     //Invoice
     Route::get('/invoice/{order}', [InvoiceController::class, 'generateInvoice'])->middleware(['permission:closeOrder|rejectOrder|readyOrder'])->name('generateInvoice');
