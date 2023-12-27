@@ -4,6 +4,7 @@
     <div class="container rounded bg-white mb-5">
         <div class="row mb-2 mb-md-0 text-center">
             <h3 class="col-12 text-right fw-bold">Zamówienie nr {{ $order['id'] }}</h3>
+            <small>{{ $order['updated_at'] }}</small>
         </div>
         <div class="row">
             <x-orders.client-detail :order="$order"/>

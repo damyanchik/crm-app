@@ -88,7 +88,10 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuLink">
                         <li>
-                            <a class="dropdown-item" href="#">Some news</a>
+                            <a class="dropdown-item" href="#">Powiadomienia</a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider" />
                         </li>
                         <li>
                             <a class="dropdown-item" href="#">Another news</a>
@@ -99,7 +102,7 @@
                     </ul>
                 </li>
                 <!-- Icon dropdown -->
-                <li class="nav-item dropdown">
+                <li class="nav-item dropdown" hidden>
                     <a class="nav-link me-3 me-lg-0 dropdown-toggle hidden-arrow" href="#" id="navbarDropdown"
                        role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fa-solid fa-language"></i>

@@ -4,10 +4,16 @@
             <h5 class="text fw-bold">Dane zamawiającego</h5>
         </div>
         <x-client-detail :client="$order->client" />
+        <div class="row mt-2">
+            <small>Utworzenie oferty: {{ $order['created_at'] }}</small>
+        </div>
         <div class="row mt-4">
             <div class="col-6">
                 <h5 class="col-12 text fw-bold">Obsługujący zamówienie</h5>
                 <p>
+                    <a href="{{ route('showEmployee', $order['user_id']) }}" style=" text-decoration: none !important;">
+                        <i class="fa-solid fa-user" style="color: grey; font-size: 14px;"></i>
+                    </a>
                     {{ $order->user->name.' '.$order->user->surname }}
                 </p>
             </div>
