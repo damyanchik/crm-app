@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployeesController;
@@ -31,8 +32,9 @@ use App\Http\Controllers\CSVImportController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Auth::Routes(['verify' => 'true']);
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     //Logout
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
@@ -144,7 +146,10 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::middleware(['guest'])->group(function () {
-    //Login
     Route::get('/login', [AuthController::class, 'login'])->name('login')->middleware('guest');
     Route::post('/authenticate', [AuthController::class, 'authenticate'])->middleware('guest')->name('authenticate');
 });
+
+Route::get('/email/verify', [AuthController::class, 'show'])->name('verification.notice');
+Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verify'])->middleware(['signed'])->name('verification.verify');
+Route::post('/email/resend', [AuthController::class, 'resend'])->name('verification.resend');
