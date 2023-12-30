@@ -4,28 +4,19 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Enum\OrderStatusEnum;
 use App\Models\Order;
+use App\Services\ArchiveService;
 
 class ArchiveController extends Controller
 {
+    public function __construct(protected ArchiveService $archiveService)
+    {
+    }
+
     public function index(): object
     {
-        $orders = Order::search(request('search'))
-            ->where(function ($query) {
-                $query->whereIn('status', [
-                    OrderStatusEnum::REJECTED['id'],
-                    OrderStatusEnum::CLOSED['id'],
-                ]);
-            })
-            ->sortBy(
-                request('column') ?? 'id',
-                request('order') ?? 'asc'
-            )
-            ->paginate(request('display'));
-
         return view('orders.index', [
-            'orders' => $orders
+            'orders' => $this->archiveService->getArchives()
         ]);
     }
 
