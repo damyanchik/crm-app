@@ -4,35 +4,25 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Enum\OrderStatusEnum;
 use App\Models\CompanyInfo;
 use App\Models\Order;
 use Barryvdh\DomPDF\Facade\Pdf;
 
-class InvoiceController extends Controller
+class ProductListController extends Controller
 {
-    public function generateInvoice(Order $order): object
+    public function generateProductList(Order $order): object
     {
-        if (!in_array($order->status, [
-                OrderStatusEnum::READY['id'],
-                OrderStatusEnum::CLOSED['id']
-            ])
-        )
-            return back()->with(
-                'message', 'Błąd w generowaniu faktury, spróbuj ponownie.'
-            );
-
         $companyInfo = CompanyInfo::all()->first();
 
-        $pdf = Pdf::loadView('pdf.invoice', $this->setData($order, $companyInfo));
+        $pdf = Pdf::loadView('pdf.product_list', $this->setData($order, $companyInfo));
 
-        return $pdf->download('invoice_'.$order->invoice_num.'.pdf');
+        return $pdf->download('offer_'.$order->id.'.pdf');
     }
 
     private function setData($order, $companyInfo): array
     {
         return [
-            'invoiceNumber' => $order->invoice_num,
+            'offerNumber' => $order->id,
             'date' => $order->updated_at,
 
             'CRMCompany' => $companyInfo->company,

@@ -23,13 +23,14 @@
                     {{ app('OrderStatusEnum')->getStatus($order['status']) }}
                 </span>
             </div>
-            <div class="col-12">
+            <div class="col-12 mb-3 mb-md-0">
                 <div class="mt-3">
                     <a href="{{ route('generateInvoice', $order['id']) }}" class="btn btn-primary profile-button
                        @if (in_array($order['status'], [app('OrderStatusEnum')::PENDING['id'], app('OrderStatusEnum')::REJECTED['id']]))
                             disabled
                        @endif
                     ">Faktura</a>
+                    <a href="{{ route('generateProductList', $order['id']) }}" class="btn btn-primary profile-button">Lista produktów</a>
                 </div>
             </div>
         </div>

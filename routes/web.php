@@ -22,6 +22,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\CSVImportController;
+use App\Http\Controllers\ProductListController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -129,6 +130,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     //Invoice
     Route::get('/invoice/{order}', [InvoiceController::class, 'generateInvoice'])->middleware(['permission:closeOrder|rejectOrder|readyOrder'])->name('generateInvoice');
+    Route::get('/product-list/{order}', [ProductListController::class, 'generateProductList'])->middleware(['permission:makeOrder'])->name('generateProductList');
 
     //Admin
     Route::get('/admin/company-details', [CompanyDetailsController::class, 'edit'])->middleware(['permission:companyDetailsAdmin'])->name('companyDetailsAdmin');

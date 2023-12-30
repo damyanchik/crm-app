@@ -63,6 +63,7 @@
                     </div>
                     <x-orders.add-product :buttonClass="'disabled'" />
                     <x-orders.products-data-table :products="$offer->orderItem" />
+                    <a href="{{ route('generateProductList', $offer['id']) }}" class="btn btn-primary profile-button">Lista produktów</a>
                     @include('partials.orders._offer-down-buttons')
                 </div>
             </form>
