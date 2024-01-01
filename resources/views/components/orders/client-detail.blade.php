@@ -30,7 +30,7 @@
                             disabled
                        @endif
                     ">Faktura</a>
-                    <a href="{{ route('generateProductList', $order['id']) }}" class="btn btn-primary profile-button">Lista produktów</a>
+                    <a href="{{ route('generateProductList', $order['id']) }}" class="btn btn-primary profile-button">Oferta</a>
                 </div>
             </div>
         </div>

@@ -14,7 +14,7 @@ use App\Http\Controllers\ProductCategoriesController;
 use App\Http\Controllers\PusherController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\CalendarController;
-use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\OffersController;
 use App\Http\Controllers\ArchiveController;
 use App\Http\Controllers\CompanyDetailsController;
@@ -129,8 +129,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/employees/{user}/delete-avatar', [EmployeesController::class, 'deleteAvatar'])->name('deleteAvatarEmployee');
 
     //Invoice
-    Route::get('/invoice/{order}', [InvoiceController::class, 'generateInvoice'])->middleware(['permission:closeOrder|rejectOrder|readyOrder'])->name('generateInvoice');
-    Route::get('/product-list/{order}', [ProductListController::class, 'generateProductList'])->middleware(['permission:makeOrder'])->name('generateProductList');
+    Route::get('/invoice/{order}', [DocumentController::class, 'generateInvoice'])->middleware(['permission:closeOrder|rejectOrder|readyOrder'])->name('generateInvoice');
+    Route::get('/client-offer/{offer}', [DocumentController::class, 'getOffer'])->middleware(['permission:makeOrder'])->name('generateProductList');
 
     //Admin
     Route::get('/admin/company-details', [CompanyDetailsController::class, 'edit'])->middleware(['permission:companyDetailsAdmin'])->name('companyDetailsAdmin');
