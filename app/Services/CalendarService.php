@@ -32,6 +32,11 @@ class CalendarService
         Calendar::create($formFields);
     }
 
+    public function destroy(Calendar $event): void
+    {
+        $event->delete();
+    }
+
     private function transformEvent(Calendar $event): array
     {
         return [

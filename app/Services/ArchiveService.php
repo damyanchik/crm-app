@@ -9,7 +9,7 @@ use App\Models\Order;
 
 class ArchiveService
 {
-    public function getArchives(): object
+    public function getAll(): object
     {
         return Order::search(request('search'))
             ->where(function ($query) {

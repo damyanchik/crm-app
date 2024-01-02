@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Services\AjaxService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class AjaxController extends Controller
@@ -13,48 +14,38 @@ class AjaxController extends Controller
     {
     }
 
-    public function searchUsers(Request $request): object
+    public function searchUser(Request $request): JsonResponse
     {
-        $searchTerm = $request->input('searchTerm');
-
         return response()->json([
-            'users' => $this->ajaxService->getUsers($searchTerm)
+            'users' => $this->ajaxService->getUsers($request->input('searchTerm'))
         ]);
     }
 
-    public function searchClients(Request $request): object
+    public function searchClient(Request $request): JsonResponse
     {
-        $searchTerm = $request->input('searchTerm');
-
         return response()->json([
-            'clients' => $this->ajaxService->getClients($searchTerm)
+            'clients' => $this->ajaxService->getClients($request->input('searchTerm'))
         ]);
     }
 
-    public function searchBrands(Request $request): object
+    public function searchBrand(Request $request): JsonResponse
     {
-        $searchTerm = $request->input('searchTerm');
-
         return response()->json([
-            'brands' => $this->ajaxService->getBrands($searchTerm)
+            'brands' => $this->ajaxService->getBrands($request->input('searchTerm'))
         ]);
     }
 
-    public function searchProductCategories(Request $request): object
+    public function searchProductCategory(Request $request): JsonResponse
     {
-        $searchTerm = $request->input('searchTerm');
-
         return response()->json([
-            'productCategories' => $this->ajaxService->getProductCategories($searchTerm)
+            'productCategories' => $this->ajaxService->getProductCategories($request->input('searchTerm'))
         ]);
     }
 
-    public function searchProducts(Request $request): object
+    public function searchProduct(Request $request): JsonResponse
     {
-        $searchTerm = $request->input('searchTerm');
-
         return response()->json([
-            'products' => $this->ajaxService->getProducts($searchTerm)
+            'products' => $this->ajaxService->getProducts($request->input('searchTerm'))
         ]);
     }
 }

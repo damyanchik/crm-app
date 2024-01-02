@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Services\ArchiveService;
+use Illuminate\View\View;
 
 class ArchiveController extends Controller
 {
@@ -13,14 +14,14 @@ class ArchiveController extends Controller
     {
     }
 
-    public function index(): object
+    public function index(): View
     {
         return view('orders.index', [
-            'orders' => $this->archiveService->getArchives()
+            'orders' => $this->archiveService->getAll()
         ]);
     }
 
-    public function show(Order $order): object
+    public function show(Order $order): View
     {
         return view('orders.show', [
             'order' => $order,

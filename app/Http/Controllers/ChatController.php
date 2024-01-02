@@ -4,44 +4,28 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Models\ChatMessage;
-use App\Models\User;
+use App\Services\ChatService;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\View\View;
 
 class ChatController extends Controller
 {
-    public function index(): object
+    public function __construct(protected ChatService $chatService)
     {
-        $users = User::orderBy(
-            'surname',
-            'ASC'
-        )->get();
+    }
 
+    public function index(): View
+    {
         return view('chat.index', [
-            'users' => $users
+            'users' => $this->chatService->getAll()
         ]);
     }
 
-    public function loadMessages(Request $request): object
+    public function loadMessages(Request $request): JsonResponse
     {
-        $page = $request->input('page');
-        $perPage = 5;
-
-        $messages = ChatMessage::orderBy('created_at', 'DESC')
-            ->select(
-                'user_id',
-                'message',
-                'created_at as time',
-            )
-            ->with('user')
-            ->offset(
-                ($page - 1) * $perPage
-            )
-            ->limit($perPage)
-            ->get();
-
         return response()->json([
-            'messages' => $messages
+            'messages' => $this->chatService->getMessages($request->input('page'))
         ]);
     }
 }

@@ -12,7 +12,7 @@ use Spatie\Permission\Models\Role;
 
 class EmployeeService
 {
-    public function getUsers(): object
+    public function getAll(): object
     {
         return User::search(request('search'))
             ->sortBy(
@@ -70,5 +70,12 @@ class EmployeeService
             $user->assignRole($role);
         } else
             $user->syncRoles([]);
+    }
+
+    public function store(array $formFields): void
+    {
+        $formFields['password'] = Hash::make($formFields['password']);
+
+        User::create($formFields);
     }
 }

@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Services\CalendarService;
 use App\Services\DashboardService;
+use Illuminate\View\View;
 
 class DashboardController extends Controller
 {
@@ -16,7 +17,7 @@ class DashboardController extends Controller
     {
     }
 
-    public function index(): object
+    public function index(): View
     {
         return view('dashboard.index', [
             'dashboardData' => $this->dashboardService->getDashboardData(),

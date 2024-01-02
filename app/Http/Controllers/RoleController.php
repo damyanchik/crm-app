@@ -6,11 +6,13 @@ namespace App\Http\Controllers;
 
 use App\Services\PermissionService;
 use App\Services\RoleService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
 use Spatie\Permission\Models\Role;
 
-class RolesController extends Controller
+class RoleController extends Controller
 {
     public function __construct(
         protected RoleService       $roleService,
@@ -19,50 +21,48 @@ class RolesController extends Controller
     {
     }
 
-    public function index(): object
+    public function index(): View
     {
-        $roles = Role::get();
-        $groupedPermissions = $this->permissionService->groupPermissionNamesBySuffixForView();
-
         return view('admin.roles_permissions', [
-            'roles' => $roles,
-            'permissions' => $groupedPermissions
+            'roles' => Role::get(),
+            'permissions' => $this->permissionService->groupPermissionNamesBySuffixForView()
         ]);
     }
 
-    public function storeRole(Request $request): object
+    public function storeRole(Request $request): RedirectResponse
     {
         try {
-            $this->roleService->validateAndStore($request);
+            $this->roleService->store($request->validate(['name' => 'required|unique:roles,name']));
             DB::commit();
+            return back()->with('message', 'Utworzono nową rolę.');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Wystąpił błąd w trakcie tworzenia roli!');
         }
-
-        return back()->with('message', 'Utworzono nową rolę.');
     }
 
-    public function storePermission(Request $request): object
+    public function storePermission(Request $request): RedirectResponse
     {
         try {
             $this->permissionService->assignPermissionsToRole($request);
             DB::commit();
+            return back()->with('message', 'Wprowadzono zmiany w uprawnieniach ról.');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Wystąpił błąd w trakcie przypisywania uprawnień!');
         }
-        return back()->with('message', 'Wprowadzono zmiany w uprawnieniach ról.');
     }
 
-    public function destroyRole(Role $role): object
+    public function destroyRole(Role $role): RedirectResponse
     {
         if ($role->name == 'admin')
             return back()->with('message', 'Brak możliwości usunięcia tej roli.');
 
-        $role->syncPermissions([]);
-        $role->delete();
-
-        return back()->with('message', 'Usunięto rolę i jej uprawnienia.');
+        try {
+            $this->roleService->destroy($role);
+            return back()->with('message', 'Usunięto rolę i jej uprawnienia.');
+        } catch (\Exception $e) {
+            return back()->with('message', 'Wystąpił błąd w trakcie usuwania roli i uprawnień.');
+        }
     }
 }

@@ -78,4 +78,10 @@ class ProductService
         $product->setAttribute('photo', null);
         $product->save();
     }
+
+    public function destroy(Product $product): void
+    {
+        PhotoHelper::deletePreviousPhoto($product->photo);
+        $product->delete();
+    }
 }

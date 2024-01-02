@@ -17,13 +17,10 @@ class DocumentController extends Controller
     public function generateInvoice(Order $order): object
     {
         if (!in_array($order->status, [
-                OrderStatusEnum::READY['id'],
-                OrderStatusEnum::CLOSED['id']
-            ]))
-        {
-            return back()->with(
-                'message', 'Błąd w trakcie generowania faktury.'
-            );
+            OrderStatusEnum::READY['id'],
+            OrderStatusEnum::CLOSED['id']
+        ])) {
+            return back()->with('message', 'Błąd w trakcie generowania faktury.');
         }
 
         try {

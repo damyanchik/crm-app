@@ -9,12 +9,14 @@ use Spatie\Permission\Models\Role;
 
 class RoleService
 {
-    public function validateAndStore(Request $request): void
+    public function store(array $formField): void
     {
-        $request->validate([
-            'name' => 'required|unique:roles,name',
-        ]);
+        Role::create(['name' => $formField['name']]);
+    }
 
-        Role::create(['name' => $request->name]);
+    public function destroy(Role $role): void
+    {
+        $role->syncPermissions([]);
+        $role->delete();
     }
 }

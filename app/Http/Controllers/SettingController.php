@@ -6,7 +6,7 @@ namespace App\Http\Controllers;
 
 use Spatie\Permission\Models\Role;
 
-class SettingsController extends Controller
+class SettingController extends Controller
 {
     public function index()
     {
