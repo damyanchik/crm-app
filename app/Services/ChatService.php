@@ -7,6 +7,7 @@ namespace App\Services;
 use App\Models\ChatMessage;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Request;
 
 class ChatService
 {
@@ -18,7 +19,7 @@ class ChatService
         )->get();
     }
 
-    public function getMessages($page): Collection
+    public function getMessages(Request $request): Collection
     {
         $perPage = 5;
 
@@ -30,7 +31,7 @@ class ChatService
             )
             ->with('user')
             ->offset(
-                ($page - 1) * $perPage
+                ($request->input('page') - 1) * $perPage
             )
             ->limit($perPage)
             ->get();

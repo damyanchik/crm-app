@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
+use App\Http\Requests\UpdatePasswordEmployeeRequest;
 use App\Models\User;
 use App\Services\EmployeeService;
 use Illuminate\Foundation\Http\FormRequest;
@@ -48,26 +49,26 @@ class EmployeeController extends Controller
         ]);
     }
 
-    public function update(UpdateEmployeeRequest $request, User $user): RedirectResponse
+    public function update(User $user, UpdateEmployeeRequest $request): RedirectResponse
     {
         try {
-            $this->employeeService->validateAndUpdate($request, $user);
+            $this->employeeService->update($user, $request);
             return back()->with('message', 'Użytkownik zaktualizowany!');
         } catch (\Exception $e) {
             return back()->with('error', 'Nastąpił błąd w trakcie dodawania nowych produktów!');
         }
     }
 
-    public function changePassword(FormRequest $request, User $user): RedirectResponse
+    public function changePassword(User $user, UpdatePasswordEmployeeRequest $request): RedirectResponse
     {
-        $this->employeeService->validateAndChangePassword($request, $user);
+        $this->employeeService->changePassword($user, $request);
 
         return back()->with('message', 'Zmieniono hasło użytkownika na nowe.');
     }
 
-    public function changeRole(FormRequest $request, User $user): RedirectResponse
+    public function changeRole(User $user, FormRequest $request): RedirectResponse
     {
-        $this->employeeService->checkRoleAndChange($request, $user);
+        $this->employeeService->checkRoleAndChange($user, $request);
 
         return back()->with('message', 'Zmieniono rolę użytkownika.');
     }
@@ -84,10 +85,10 @@ class EmployeeController extends Controller
         return view('admin.create_user');
     }
 
-    public function store(StoreEmployeeRequest $employeeRequest): RedirectResponse
+    public function store(StoreEmployeeRequest $request): RedirectResponse
     {
         try {
-            $this->employeeService->store($employeeRequest->validated());
+            $this->employeeService->store($request);
             return redirect()->route('storeEmployeeAdmin')->with('message', 'Nowy pracownik został założony.');
         } catch (\Exception $e) {
             return back()->with('message', 'Nastąpił błąd w trakcie zapisu.');

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Models\Brand;
+use Illuminate\Foundation\Http\FormRequest;
 
 class BrandService
 {
@@ -22,14 +23,14 @@ class BrandService
         );
     }
 
-    public function store(array $formFields): void
+    public function store(FormRequest $request): void
     {
-        Brand::create($formFields);
+        Brand::create($request->validated());
     }
 
-    public function update(Brand $brand, array $formFields): void
+    public function update(Brand $brand, FormRequest $request): void
     {
-        $brand->update($formFields);
+        $brand->update($request->validated());
     }
 
     public function destroy(Brand $brand): void

@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use Illuminate\Http\Request;
+use Illuminate\Foundation\Http\FormRequest;
 use Spatie\Permission\Models\Role;
 
 class RoleService
 {
-    public function store(array $formField): void
+    public function store(FormRequest $formField): void
     {
-        Role::create(['name' => $formField['name']]);
+        Role::create($formField->validated());
     }
 
     public function destroy(Role $role): void

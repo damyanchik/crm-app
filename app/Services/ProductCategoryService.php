@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Models\ProductCategory;
+use Illuminate\Foundation\Http\FormRequest;
 
 class ProductCategoryService
 {
@@ -18,14 +19,14 @@ class ProductCategoryService
         )->paginate(request('display'));
     }
 
-    public function store(array $formFields): void
+    public function store(FormRequest $request): void
     {
-        ProductCategory::create($formFields);
+        ProductCategory::create($request->validated());
     }
 
-    public function update(ProductCategory $productCategory, array $formFields): void
+    public function update(ProductCategory $productCategory, FormRequest $request): void
     {
-        $productCategory->update($formFields);
+        $productCategory->update($request->validated());
     }
 
     public function destroy(ProductCategory $productCategory): void

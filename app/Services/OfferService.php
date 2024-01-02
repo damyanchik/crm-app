@@ -16,6 +16,10 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class OfferService
 {
+    public function __construct(protected FileDataImporter $fileDataImporter)
+    {
+    }
+
     public function getOffers(): object
     {
         return Order::search(request('search'))
@@ -32,25 +36,25 @@ class OfferService
             ->paginate(request('display'));
     }
 
-    public function store(array $validatedOffer, array $validatedOfferItems): void
+    public function store(FormRequest $offerRequest, FormRequest $itemsRequest): void
     {
-        $newOffer = Order::create($validatedOffer);
+        $newOffer = Order::create($offerRequest->validated());
+        $offersItemsValidated = $itemsRequest->validated();
 
         OrderItem::insert(
             $this->prepareOfferItems(
                 intval($newOffer->id),
-                $validatedOfferItems['products']
+                $offersItemsValidated['products']
             )
         );
     }
 
-    public function update(array $offerValidated, array $offersItemsValidated, Order $order): void
+    public function update(Order $order, FormRequest $offerRequest, FormRequest $offersItemsRequest): void
     {
-        $order->update($offerValidated);
-
+        $order->update($offerRequest->validated());
         StockHelper::removeAllQuantityToProducts($order);
-
         $order->orderItem()->delete();
+        $offersItemsValidated = $offersItemsRequest->validated();
 
         OrderItem::insert(
             $this->prepareOfferItems(
@@ -81,9 +85,9 @@ class OfferService
             'code', 'quantity', 'price'
         ]);
 
-        $fileImportProcessor = new FileDataImporter(new ProductForOfferFactory());
+        $this->fileDataImporter->setFactory(new ProductForOfferFactory());
 
-        return $fileImportProcessor->processData($csvData);
+        return $this->fileDataImporter->processData($csvData);
     }
 
     private function prepareOfferItems(int $offerId, array $offerItems): array

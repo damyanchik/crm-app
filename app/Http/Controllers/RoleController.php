@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreRoleRequest;
 use App\Services\PermissionService;
 use App\Services\RoleService;
 use Illuminate\Http\RedirectResponse;
@@ -29,10 +30,10 @@ class RoleController extends Controller
         ]);
     }
 
-    public function storeRole(Request $request): RedirectResponse
+    public function storeRole(StoreRoleRequest $request): RedirectResponse
     {
         try {
-            $this->roleService->store($request->validate(['name' => 'required|unique:roles,name']));
+            $this->roleService->store($request);
             DB::commit();
             return back()->with('message', 'Utworzono nową rolę.');
         } catch (\Exception $e) {

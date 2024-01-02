@@ -21,7 +21,7 @@ class EmployeeService
             )->paginate(request('display'));
     }
 
-    public function validateAndUpdate(FormRequest $request, User $user): void
+    public function update(User $user, FormRequest $request): void
     {
         $validatedData = $request->validated();
 
@@ -34,13 +34,9 @@ class EmployeeService
         $user->update($validatedData);
     }
 
-    public function validateAndChangePassword(FormRequest $request, User $user): void
+    public function changePassword(User $user, FormRequest $request): void
     {
-        $formPassword = $request->validate([
-            'password' => 'required|string|min:8|confirmed',
-        ]);
-
-        $user->update(['password' => Hash::make($formPassword['password'])]);
+        $user->update(['password' => Hash::make($request->validated())]);
     }
 
     public function checkAndSetBlock(User $user): void
@@ -61,7 +57,7 @@ class EmployeeService
         $user->save();
     }
 
-    public function checkRoleAndChange(FormRequest $request, User $user): void
+    public function checkRoleAndChange(User $user, FormRequest $request): void
     {
         $role = Role::where('id', $request->id)->first();
 
@@ -72,8 +68,9 @@ class EmployeeService
             $user->syncRoles([]);
     }
 
-    public function store(array $formFields): void
+    public function store(FormRequest $request): void
     {
+        $formFields = $request->validated();
         $formFields['password'] = Hash::make($formFields['password']);
 
         User::create($formFields);

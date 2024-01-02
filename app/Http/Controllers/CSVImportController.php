@@ -25,7 +25,7 @@ class CSVImportController extends Controller
     {
         DB::beginTransaction();
         try {
-            $this->productService->validateAndImportNewProduct($request);
+            $this->productService->importNewProduct($request);
             DB::commit();
             return back()->with('message', 'Nowe produktu zostały dodane do bazy.');
         } catch (\Exception $e) {
@@ -38,7 +38,7 @@ class CSVImportController extends Controller
     {
         DB::beginTransaction();
         try {
-            $this->productService->validateAndImportUpdateProduct($request);
+            $this->productService->importProductToUpdate($request);
             DB::commit();
             return back()->with('message', 'Produkty zostały zaktualizowane.');
         } catch (\Exception $e) {

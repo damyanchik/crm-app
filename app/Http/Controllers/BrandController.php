@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreBrandRequest;
+use App\Http\Requests\UpdateBrandRequest;
 use App\Models\Brand;
 use App\Services\BrandService;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class BrandController extends Controller
@@ -28,10 +29,10 @@ class BrandController extends Controller
         return view('products.brands.create');
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(StoreBrandRequest $request): RedirectResponse
     {
         try {
-            $this->brandService->store($request->validate(['name' => 'unique:brands,name']));
+            $this->brandService->store($request);
             return redirect()->route('brands')->with('message', 'Marka została utworzona.');
         } catch (\Exception $e) {
             return back()->with('message', 'Nastąpił błąd w trakcie zapisu.');
@@ -45,10 +46,10 @@ class BrandController extends Controller
         ]);
     }
 
-    public function update(Request $request, Brand $brand): RedirectResponse
+    public function update(UpdateBrandRequest $request, Brand $brand): RedirectResponse
     {
         try {
-            $this->brandService->update($brand, $request->validate(['name' => 'required']));
+            $this->brandService->update($brand, $request);
             return redirect()->route('brands')->with('message', 'Marka została edytowana.');
         } catch (\Exception $e) {
             return back()->with('message', 'Nastąpił błąd w trakcie zapisu.');

@@ -14,6 +14,10 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class ProductService
 {
+    public function __construct(protected FileDataImporter $fileDataImporter)
+    {
+    }
+
     public function getProducts(): object
     {
         return Product::search(request('search'))
@@ -24,7 +28,7 @@ class ProductService
             ->paginate(request('display'));
     }
 
-    public function validateAndStoreProduct(FormRequest $request): void
+    public function store(FormRequest $request): void
     {
         $validatedData = $request->validated();
 
@@ -35,7 +39,7 @@ class ProductService
         Product::create($validatedData);
     }
 
-    public function validateAndUpdateProduct(FormRequest $request, Product $product): void
+    public function update(FormRequest $request, Product $product): void
     {
         $validatedData = $request->validated();
 
@@ -48,27 +52,26 @@ class ProductService
         $product->update($validatedData);
     }
 
-    public function validateAndImportNewProduct(FormRequest $request): void
+    public function importNewProduct(FormRequest $request): void
     {
         $csvData = CSVHelper::validateFileAndReadToArray($request, [
             'name', 'code', 'quantity', 'unit', 'price', 'brand_id', 'category_id'
         ]);
 
-        $fileImportProcessor = new FileDataImporter(new ProductAdditionFactory());
-        $fileImportProcessor->processData($csvData);
+        $this->fileDataImporter->setFactory(new ProductAdditionFactory());
 
-        Product::insert($fileImportProcessor->processData($csvData));
+        Product::insert($this->fileDataImporter->processData($csvData));
     }
 
-    public function validateAndImportUpdateProduct(FormRequest $request): void
+    public function importProductToUpdate(FormRequest $request): void
     {
         $csvData = CSVHelper::validateFileAndReadToArray($request, [
             'code', 'quantity', 'price'
         ]);
 
-        $fileImportProcessor = new FileDataImporter(new ProductUpdateFactory());
+        $this->fileDataImporter->setFactory(new ProductUpdateFactory());
 
-        Product::updateMany($fileImportProcessor->processData($csvData), 'code');
+        Product::updateMany($this->fileDataImporter->processData($csvData), 'code');
     }
 
     public function destroyPhoto(Product $product): void

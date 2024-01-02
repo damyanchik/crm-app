@@ -35,7 +35,7 @@ class ProductController extends Controller
     {
         DB::beginTransaction();
         try {
-            $this->productService->validateAndStoreProduct($request);
+            $this->productService->store($request);
             DB::commit();
             return redirect()->route('products')->with('message', 'Produkt został utworzony.');
         } catch (\Exception $e) {
@@ -55,7 +55,7 @@ class ProductController extends Controller
     {
         DB::beginTransaction();
         try {
-            $this->productService->validateAndUpdateProduct($request, $product);
+            $this->productService->update($request, $product);
             DB::commit();
             return back()->with('message', 'Produkt został zaktualizowany.');
         } catch (\Exception $e) {

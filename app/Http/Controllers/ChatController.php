@@ -25,7 +25,7 @@ class ChatController extends Controller
     public function loadMessages(Request $request): JsonResponse
     {
         return response()->json([
-            'messages' => $this->chatService->getMessages($request->input('page'))
+            'messages' => $this->chatService->getMessages($request)
         ]);
     }
 }

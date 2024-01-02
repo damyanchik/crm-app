@@ -6,16 +6,17 @@ namespace App\Services;
 
 use App\Events\PusherBroadcast;
 use App\Models\ChatMessage;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class PusherService
 {
-    public function processMessage(string $formField): array
+    public function processMessage(Request $request): array
     {
         $user = Auth::user();
 
         $message = $this->saveChatMessage(
-            $formField,
+            $request->get('message'),
             $user
         );
 

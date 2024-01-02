@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Models\Client;
+use Illuminate\Foundation\Http\FormRequest;
 
 class ClientService
 {
@@ -17,14 +18,16 @@ class ClientService
             )->paginate(request('display'));
     }
 
-    public function store(array $formFields): void
+    public function store(FormRequest $request): void
     {
-        Client::create($formFields);
+        Client::create($request->validated());
     }
 
-    public function update(Client $client, array $formFields): void
+    public function update(Client $client, FormRequest $request): void
     {
+        $formFields = $request->validated();
         $formFields['user_id'] = $formFields['user_id'] ?? null;
+
         $client->update($formFields);
     }
 

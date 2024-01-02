@@ -11,7 +11,6 @@ class CSVHelper
 {
     public static function validateFileAndReadToArray(FormRequest $request, array $headers): array
     {
-        $request->validated();
         $csvData = $request->file('csv_file');
 
         return CSVHelper::readToArray(

@@ -8,10 +8,7 @@ use App\Patterns\AbstractFactories\FileDataImporter\Factories\AbstractFactory;
 
 class FileDataImporter
 {
-    private AbstractFactory $factory;
-    private array $importedData;
-
-    public function __construct(AbstractFactory $factory)
+    public function setFactory(AbstractFactory $factory): void
     {
         $this->factory = $factory;
     }
@@ -24,6 +21,6 @@ class FileDataImporter
         if (!$validator->validate($data))
             return [];
 
-        return $this->importedData = $processor->process($data);
+        return $processor->process($data);
     }
 }

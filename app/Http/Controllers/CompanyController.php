@@ -22,10 +22,10 @@ class CompanyController extends Controller
         ]);
     }
 
-    public function update(UpdateCompanyRequest $detailsRequest): RedirectResponse
+    public function update(UpdateCompanyRequest $request): RedirectResponse
     {
         try {
-            $this->companyService->update($detailsRequest->validated());
+            $this->companyService->update($request);
             return redirect()->route('companyDetailsAdmin')->with('message', 'Dane zostały zaktualizowane.');
         } catch (\Exception $e) {
             return back()->with('message', 'Nastąpił błąd w trakcie zapisu.');

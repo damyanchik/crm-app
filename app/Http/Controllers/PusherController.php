@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Events\PusherBroadcast;
+use App\Http\Requests\ReceiveChatPusherRequest;
 use App\Services\PusherService;
 use Illuminate\Http\Request;
 use App\Models\ChatMessage;
@@ -19,16 +20,13 @@ class PusherController extends Controller
 
     public function broadcast(Request $request): View
     {
-        return view('chat.broadcast', $this->pusherService->processMessage($request->get('message')));
+        return view('chat.broadcast', $this->pusherService->processMessage($request));
     }
 
-    public function receive(Request $request): View
+    public function receive(ReceiveChatPusherRequest $request): View
     {
         return view('chat.receive', [
-            'message' => $request->get('message'),
-            'name' => $request->get('name'),
-            'time' => $request->get('time'),
-            'avatar' => $request->get('avatar'),
+            $request->validated()
         ]);
     }
 }
