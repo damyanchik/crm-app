@@ -215,7 +215,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/invoice/{order}', [DocumentController::class, 'generateInvoice'])
         ->middleware(['permission:closeOrder|rejectOrder|readyOrder'])
         ->name('generateInvoice');
-    Route::get('/client-offer/{offer}', [DocumentController::class, 'getOffer'])
+    Route::get('/client-offer/{offer}', [DocumentController::class, 'generateOffer'])
         ->middleware(['permission:makeOrder'])
         ->name('generateProductList');
 

@@ -47,29 +47,29 @@
 <body>
 
 <header>
-    <h1>Oferta nr {{ $offerNumber }}</h1>
-    <small>{{ $date }}</small>
+    <h1>Oferta nr {{ $order['id'] }}</h1>
+    <small>{{ $order['created_at'] }}</small>
 </header>
 
 <div class="details small text-end">
     <h3>Dostawca</h3>
-    <p>{{ $CRMCompany }}</p>
-    <p>{{ $CRMTax }}</p>
-    <p>{{ $CRMAddress }}</p>
-    <p>{{ $CRMCityAndPostalCode }}</p>
-    <p>{{ $CRMCountry }}</p>
-    <p>{{ $CRMPhone }}</p>
-    <p>{{ $CRMEmail }}</p>
+    <p>{{ $company->company }}</p>
+    <p>{{ $company->tax }}</p>
+    <p>{{ $company->address }}</p>
+    <p>{{ $company->postal_code .' '. $company->city }}</p>
+    <p>{{ $company->country }}</p>
+    <p>{{ $company->phone }}</p>
+    <p>{{ $company->email }}</p>
 </div>
 <div class="details small text-start mb-3">
-    <h3>Kontrahent</h3>
-    <p>{{ $clientCompany }}</p>
-    <p>{{ $clientTax }}</p>
-    <p>{{ $clientAddress }}</p>
-    <p>{{ $clientCityAndPostalCode }}</p>
-    <p>{{ $clientCountry }}</p>
-    <p>{{ $clientPhone }}</p>
-    <p>{{ $clientEmail }}</p>
+    <h3>Odbiorca</h3>
+    <p>{{ $order->client->company }}</p>
+    <p>{{ $order->client->tax }}</p>
+    <p>{{ $order->client->address }}</p>
+    <p>{{ $order->client->postal_code .' '. $order->client->city }}</p>
+    <p>{{ $order->client->country }}</p>
+    <p>{{ $order->client->phone }}</p>
+    <p>{{ $order->client->email }}</p>
 </div>
 
 <table id="invoice" class="small">
@@ -82,7 +82,7 @@
     </tr>
     </thead>
     <tbody>
-    @foreach($items as $item)
+    @foreach($order->orderItem as $item)
         <tr>
             <td>{{ $item->name }}</td>
             <td>{{ $item->quantity.' '.app('ProductUnitEnum')->getUnit($item->unit) }}</td>
@@ -96,18 +96,18 @@
     <tr>
         <td colspan="3" class="text-end" style="border: none; font-size: 12px; font-weight: bold;">RAZEM PRODUKTÓW</td>
         <td colspan="1" class="text-end"
-            style="border: none; font-size: 12px; font-weight: bold;">{{ $totalQuantity }}</td>
+            style="border: none; font-size: 12px; font-weight: bold;">{{ $order->total_quantity }}</td>
     </tr>
     <tr>
-        <td colspan="3" class="text-end" style="border: none; font-size: 12px; font-weight: bold;">SUMA OFERTY</td>
+        <td colspan="3" class="text-end" style="border: none; font-size: 12px; font-weight: bold;">SUMA ZAMÓWIENIA</td>
         <td colspan="1" class="text-end"
-            style="border: none; font-size: 12px; font-weight: bold;">{{ app('PriceHelper')->formatPrice($totalPrice) }}</td>
+            style="border: none; font-size: 12px; font-weight: bold;">{{ app('PriceHelper')->formatPrice($order->total_price) }}</td>
     </tr>
     </tfoot>
 </table>
 <div class="text-end pe-3 mt-4">
     <span style="font-size: 14px;">Oferujący</span><br/>
-    <span style="font-weight: bold; font-size: 14px">{{ $seller }}</span>
+    <span style="font-weight: bold; font-size: 14px">{{ $order->user->name .' '. $order->user->surname }}</span>
 </div>
 </body>
 </html>

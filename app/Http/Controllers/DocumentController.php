@@ -24,16 +24,16 @@ class DocumentController extends Controller
         }
 
         try {
-            return $this->documentService->generateInvoice($order, 'download');
+            return $this->documentService->generateInvoice($order);
         } catch (\Exception $e) {
             return back()->with('message', 'Błąd w trakcie generowania faktury.');
         }
     }
 
-    public function getOffer(Order $offer): object
+    public function generateOffer(Order $offer): object
     {
         try {
-            return $this->documentService->generateOffer($offer, 'download');
+            return $this->documentService->generateOffer($offer);
         } catch (\Exception $e) {
             return back()->with('message', 'Błąd w trakcie generowania oferty.');
         }
