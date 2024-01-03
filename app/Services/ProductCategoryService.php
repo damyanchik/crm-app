@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Http\Requests\IndexRequest;
 use App\Models\ProductCategory;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ProductCategoryService
 {
-    public function getAll(): object
+    public function __construct(protected SearchService $searchService)
     {
-        return ProductCategory::where(
-            'name', 'like', '%' . request('search') . '%'
-        )->orderBy(
-            request('column') ?? 'id',
-            request('order') ?? 'ASC'
-        )->paginate(request('display'));
+    }
+
+    public function getAll(IndexRequest $indexRequest): object
+    {
+        return $this->searchService->searchItems(new ProductCategory(), $indexRequest);
     }
 
     public function store(FormRequest $request): void

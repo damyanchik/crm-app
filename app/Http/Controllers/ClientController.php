@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\IndexRequest;
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
 use App\Models\Client;
@@ -17,10 +18,10 @@ class ClientController extends Controller
     {
     }
 
-    public function index(): View
+    public function index(IndexRequest $indexRequest): View
     {
         return view('clients.index', [
-            'clients' => $this->clientService->getAll()
+            'clients' => $this->clientService->getAll($indexRequest)
         ]);
     }
 

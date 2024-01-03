@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\IndexRequest;
 use App\Http\Requests\StoreCategoryProductRequest;
 use App\Http\Requests\UpdateCategoryProductRequest;
 use App\Models\ProductCategory;
@@ -17,10 +18,10 @@ class ProductCategoryController extends Controller
     {
     }
 
-    public function index(): View
+    public function index(IndexRequest $indexRequest): View
     {
         return view('products.product_categories.index', [
-            'productCategories' => $this->categoryService->getAll()
+            'productCategories' => $this->categoryService->getAll($indexRequest)
         ]);
     }
 

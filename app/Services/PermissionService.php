@@ -17,23 +17,13 @@ class PermissionService
         $rolesAndPermissions = $request->toArray();
         unset($rolesAndPermissions['_token']);
 
-        DB::beginTransaction();
-        try {
-            foreach ($rolesAndPermissions as $role => $permission) {
-                $currentRole = Role::findById($role);
-                if ($currentRole->name == 'admin')
-                    continue;
+        foreach ($rolesAndPermissions as $role => $permission) {
+            $currentRole = Role::findById($role);
+            if ($currentRole->name == 'admin')
+                continue;
 
-                $currentRole->syncPermissions($permission);
-                $currentRole->setUpdatedAt(now());
-            }
-
-            DB::commit();
-            Session::flash('success', 'Zmiany w uprawnieniach zostały wprowadzone.');
-
-        } catch (\Exception $e) {
-            DB::rollBack();
-            Session::flash('error', 'Błąd w trakcie nadawania uprawnień, spróbuj ponownie!');
+            $currentRole->syncPermissions($permission);
+            $currentRole->setUpdatedAt(now());
         }
     }
 

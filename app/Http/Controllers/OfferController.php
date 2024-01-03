@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Enum\ProductUnitEnum;
+use App\Http\Requests\IndexRequest;
 use App\Http\Requests\StoreAndUpdateOfferRequest;
 use App\Http\Requests\StoreAndUpdateOfferItemsRequest;
 use App\Models\Order;
@@ -19,10 +20,10 @@ class OfferController extends Controller
     {
     }
 
-    public function index(): View
+    public function index(IndexRequest $indexRequest): View
     {
         return view('orders.offers.index', [
-            'offers' => $this->offerService->getOffers()
+            'offers' => $this->offerService->getAll($indexRequest)
         ]);
     }
 

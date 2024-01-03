@@ -6,6 +6,7 @@ namespace App\Services;
 
 use App\Helpers\CSVHelper;
 use App\Helpers\PhotoHelper;
+use App\Http\Requests\IndexRequest;
 use App\Models\Product;
 use App\Patterns\AbstractFactories\FileDataImporter\Factories\ProductAdditionFactory;
 use App\Patterns\AbstractFactories\FileDataImporter\Factories\ProductUpdateFactory;
@@ -14,18 +15,13 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class ProductService
 {
-    public function __construct(protected FileDataImporter $fileDataImporter)
+    public function __construct(protected FileDataImporter $fileDataImporter, protected SearchService $searchService)
     {
     }
 
-    public function getProducts(): object
+    public function getAll(IndexRequest $indexRequest): object
     {
-        return Product::search(request('search'))
-            ->orderBy(
-                request('column') ?? 'id',
-                request('order') ?? 'ASC'
-            )
-            ->paginate(request('display'));
+        return $this->searchService->searchItems(new Product(), $indexRequest);
     }
 
     public function store(FormRequest $request): void

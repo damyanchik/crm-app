@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Helpers\PhotoHelper;
+use App\Http\Requests\IndexRequest;
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Hash;
@@ -12,13 +13,13 @@ use Spatie\Permission\Models\Role;
 
 class EmployeeService
 {
-    public function getAll(): object
+    public function __construct(protected SearchService $searchService)
     {
-        return User::search(request('search'))
-            ->sortBy(
-                request('column') ?? 'id',
-                request('order') ?? 'asc'
-            )->paginate(request('display'));
+    }
+
+    public function getAll(IndexRequest $indexRequest): object
+    {
+        return $this->searchService->searchItems(new User(), $indexRequest);
     }
 
     public function update(User $user, FormRequest $request): void

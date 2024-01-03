@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\IndexRequest;
 use App\Http\Requests\StoreBrandRequest;
 use App\Http\Requests\UpdateBrandRequest;
 use App\Models\Brand;
@@ -17,10 +18,10 @@ class BrandController extends Controller
     {
     }
 
-    public function index(): View
+    public function index(IndexRequest $indexRequest): View
     {
         return view('products.brands.index', [
-            'brands' => $this->brandService->getAll()
+            'brands' => $this->brandService->getAll($indexRequest)
         ]);
     }
 

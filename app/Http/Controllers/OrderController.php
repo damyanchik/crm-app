@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\IndexRequest;
 use App\Models\Order;
 use App\Services\OrderService;
 use Illuminate\Http\RedirectResponse;
@@ -15,10 +16,10 @@ class OrderController extends Controller
     {
     }
 
-    public function index(): View
+    public function index(IndexRequest $indexRequest): View
     {
         return view('orders.index', [
-            'orders' => $this->orderService->getOrders()
+            'orders' => $this->orderService->getAll($indexRequest)
         ]);
     }
 

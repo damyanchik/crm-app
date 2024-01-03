@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Helpers\PhotoHelper;
+use App\Http\Requests\IndexRequest;
 use App\Models\Product;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
@@ -19,10 +20,10 @@ class ProductController extends Controller
     {
     }
 
-    public function index(): View
+    public function index(IndexRequest $indexRequest): View
     {
         return view('products.index', [
-            'products' => $this->productService->getProducts()
+            'products' => $this->productService->getAll($indexRequest)
         ]);
     }
 

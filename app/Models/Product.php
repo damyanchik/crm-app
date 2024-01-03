@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\SortableTrait;
 use App\Traits\UpdateSelectedRecordsTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    use HasFactory, UpdateSelectedRecordsTrait;
+    use HasFactory, SortableTrait, UpdateSelectedRecordsTrait;
 
     protected $table = 'products';
 

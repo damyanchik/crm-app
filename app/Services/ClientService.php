@@ -4,18 +4,19 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Http\Requests\IndexRequest;
 use App\Models\Client;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ClientService
 {
-    public function getAll(): object
+    public function __construct(protected SearchService $searchService)
     {
-        return Client::search(request('search'))
-            ->sortBy(
-                request('column') ?? 'id',
-                request('order') ?? 'asc'
-            )->paginate(request('display'));
+    }
+
+    public function getAll(IndexRequest $indexRequest): object
+    {
+        return $this->searchService->searchItems(new Client(), $indexRequest);
     }
 
     public function store(FormRequest $request): void

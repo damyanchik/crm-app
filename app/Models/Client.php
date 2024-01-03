@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\SortableTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Client extends Model
 {
-    use HasFactory;
+    use HasFactory, SortableTrait;
 
     protected $table = 'Client';
 
@@ -54,10 +55,6 @@ class Client extends Model
                 'users.name',
                 'users.surname'
             );
-    }
-    public function scopeSortBy($query, $column, $direction)
-    {
-        return $query->orderBy($column, $direction);
     }
 
     public function user()

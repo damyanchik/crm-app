@@ -4,23 +4,19 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Http\Requests\IndexRequest;
 use App\Models\Brand;
 use Illuminate\Foundation\Http\FormRequest;
 
 class BrandService
 {
-    public function getAll(): object
+    public function __construct(protected SearchService $searchService)
     {
-        return Brand::where(
-            'name',
-            'like',
-            '%' . request('search') . '%'
-        )->orderBy(
-            request('column') ?? 'id',
-            request('order') ?? 'asc'
-        )->paginate(
-            request('display')
-        );
+    }
+
+    public function getAll(IndexRequest $indexRequest): object
+    {
+        return $this->searchService->searchItems(new Brand(), $indexRequest);
     }
 
     public function store(FormRequest $request): void

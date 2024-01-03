@@ -6,7 +6,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CalendarStoreRequest extends FormRequest
+class StoreCalendarRequest extends FormRequest
 {
     public function authorize(): bool
     {

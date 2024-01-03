@@ -8,6 +8,7 @@ use App\Enum\OrderStatusEnum;
 use App\Helpers\CSVHelper;
 use App\Helpers\InvoiceHelper;
 use App\Helpers\StockHelper;
+use App\Http\Requests\IndexRequest;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Patterns\AbstractFactories\FileDataImporter\Factories\ProductForOfferFactory;
@@ -16,24 +17,20 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class OfferService
 {
-    public function __construct(protected FileDataImporter $fileDataImporter)
+    public function __construct(protected FileDataImporter $fileDataImporter, protected SearchService $searchService)
     {
     }
 
-    public function getOffers(): object
+    public function getAll(IndexRequest $indexRequest): object
     {
-        return Order::search(request('search'))
-            ->where(function ($query) {
-                $query->whereIn('status', [
-                    OrderStatusEnum::OFFER['id'],
-                    OrderStatusEnum::ACCEPTED['id']
-                ]);
-            })
-            ->sortBy(
-                request('column') ?? 'id',
-                request('order') ?? 'asc'
-            )
-            ->paginate(request('display'));
+        $callable = function ($query) {
+            $query->whereIn('status', [
+                OrderStatusEnum::OFFER['id'],
+                OrderStatusEnum::ACCEPTED['id']
+            ]);
+        };
+
+        return $this->searchService->searchItems(new Order(), $indexRequest, $callable);
     }
 
     public function store(FormRequest $offerRequest, FormRequest $itemsRequest): void

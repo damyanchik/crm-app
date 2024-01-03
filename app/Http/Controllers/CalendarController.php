@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use App\Models\Calendar;
-use App\Http\Requests\CalendarStoreRequest;
+use App\Http\Requests\StoreCalendarRequest;
 use App\Services\CalendarService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -23,7 +23,7 @@ class CalendarController extends Controller
         ]);
     }
 
-    public function store(CalendarStoreRequest $calendarStoreRequest): RedirectResponse
+    public function store(StoreCalendarRequest $calendarStoreRequest): RedirectResponse
     {
         try {
             $this->calendarService->store($calendarStoreRequest);

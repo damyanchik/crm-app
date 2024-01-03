@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\IndexRequest;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
 use App\Http\Requests\UpdatePasswordEmployeeRequest;
@@ -20,10 +21,10 @@ class EmployeeController extends Controller
     {
     }
 
-    public function index(): View
+    public function index(IndexRequest $indexRequest): View
     {
         return view('employees.index', [
-            'users' => $this->employeeService->getAll()
+            'users' => $this->employeeService->getAll($indexRequest)
         ]);
     }
 

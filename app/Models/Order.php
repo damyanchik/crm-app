@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\SortableTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    use HasFactory;
+    use HasFactory, SortableTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -44,11 +45,6 @@ class Order extends Model
                 'users.name',
                 'users.surname'
             );
-    }
-
-    public function scopeSortBy($query, $column, $direction)
-    {
-        return $query->orderBy($column, $direction);
     }
 
     public function user()

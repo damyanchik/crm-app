@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\SortableTrait;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -11,7 +12,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles;
+    use HasApiTokens, SortableTrait, HasFactory, Notifiable, HasRoles;
 
     protected $table = 'users';
 
@@ -72,11 +73,6 @@ class User extends Authenticatable implements MustVerifyEmail
                 ->orWhere('position', 'like', '%' . $searchTerm . '%')
                 ->orWhere('department', 'like', '%' . $searchTerm . '%');
         });
-    }
-
-    public function scopeSortBy($query, $column, $direction)
-    {
-        return $query->orderBy($column, $direction);
     }
 
     public function client()
