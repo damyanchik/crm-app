@@ -10,6 +10,10 @@ use Illuminate\Support\Carbon;
 
 class DashboardService
 {
+    public function __construct(protected StatisticBuilder $statisticBuilder)
+    {
+    }
+
     public function getDashboardData(): array
     {
         $endDate = Carbon::now();
@@ -21,12 +25,14 @@ class DashboardService
         $thisWeek = [$endDateLastWeek, $endDate];
         $lastYear = [$startYear, $endDate];
 
-        $builder = new StatisticBuilder('orders', 'updated_at');
-        $this->buildBasicStatistics($builder, $lastYear, $lastWeek, $thisWeek);
-        $this->getEveryMonth($endDate, $builder, 'TotalSalesMonth');
-        $builder->where('status', [OrderStatusEnum::CLOSED['id']]);
+        $this->statisticBuilder->setTable('orders');
+        $this->statisticBuilder->setDataColumn('updated_at');
 
-        return $this->orderFromLastMonth($builder->getQuery()->first());
+        $this->buildBasicStatistics($this->statisticBuilder, $lastYear, $lastWeek, $thisWeek);
+        $this->getEveryMonth($endDate, $this->statisticBuilder, 'TotalSalesMonth');
+        $this->statisticBuilder->where('status', [OrderStatusEnum::CLOSED['id']]);
+
+        return $this->orderFromLastMonth($this->statisticBuilder->getQuery()->first());
     }
 
     private function buildBasicStatistics(object $builder, array $lastYear, array $lastWeek, array $thisWeek): void

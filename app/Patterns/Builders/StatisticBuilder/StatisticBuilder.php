@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\DB;
 
 class StatisticBuilder extends QueryBuilder implements StatisticBuilderInterface
 {
+    /**
+     * Summarize the column in the specified period and give it an alias.
+     */
     public function selectSum(string $column, string $alias, array $dateRange): object
     {
         $this->query->addSelect(
@@ -22,6 +25,9 @@ class StatisticBuilder extends QueryBuilder implements StatisticBuilderInterface
         return $this;
     }
 
+    /**
+     * Count the columns in a specific period and give them an alias.
+     */
     public function selectCount(string $column, string $alias, array $dateRange): object
     {
         $this->query->addSelect(
@@ -36,6 +42,9 @@ class StatisticBuilder extends QueryBuilder implements StatisticBuilderInterface
         return $this;
     }
 
+    /**
+     * Set condition for records.
+     */
     public function where(string $column, array $values): object
     {
         $this->query->whereIn($column, $values);
