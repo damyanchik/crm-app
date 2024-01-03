@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\HasProduct;
 use App\Traits\InsertOrIgnoreRecordsTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class ProductCategory extends Model
 {
-    use HasFactory, InsertOrIgnoreRecordsTrait;
+    use HasFactory, HasProduct, InsertOrIgnoreRecordsTrait;
 
     protected $table = 'product_categories';
 
@@ -20,9 +21,4 @@ class ProductCategory extends Model
     protected $fillable = [
         'name'
     ];
-
-    public function product()
-    {
-        return $this->hasMany(Product::class, 'category_id');
-    }
 }
