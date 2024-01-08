@@ -12,9 +12,9 @@ use Spatie\Permission\Models\Role;
 
 class PermissionService
 {
-    public function assignPermissionsToRole(Request $request): void
+    public function assignPermissionsToRole(array $data): void
     {
-        $rolesAndPermissions = $request->toArray();
+        $rolesAndPermissions = $data;
         unset($rolesAndPermissions['_token']);
 
         foreach ($rolesAndPermissions as $role => $permission) {

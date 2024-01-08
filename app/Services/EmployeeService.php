@@ -58,9 +58,9 @@ class EmployeeService
         $user->save();
     }
 
-    public function checkRoleAndChange(User $user, FormRequest $request): void
+    public function checkRoleAndChange(User $user, int $roleId): void
     {
-        $role = Role::where('id', $request->id)->first();
+        $role = Role::where('id', $roleId)->first();
 
         if ($role !== null) {
             $user->syncRoles([]);
@@ -69,9 +69,9 @@ class EmployeeService
             $user->syncRoles([]);
     }
 
-    public function store(FormRequest $request): void
+    public function store(array $validatedData): void
     {
-        $formFields = $request->validated();
+        $formFields = $validatedData;
         $formFields['password'] = Hash::make($formFields['password']);
 
         User::create($formFields);

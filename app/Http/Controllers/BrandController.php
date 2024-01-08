@@ -33,7 +33,7 @@ class BrandController extends Controller
     public function store(StoreBrandRequest $request): RedirectResponse
     {
         try {
-            $this->brandService->store($request);
+            $this->brandService->store($request->validated());
             return redirect()->route('brands')->with('message', 'Marka została utworzona.');
         } catch (\Exception $e) {
             return back()->with('message', 'Nastąpił błąd w trakcie zapisu.');
@@ -50,7 +50,7 @@ class BrandController extends Controller
     public function update(UpdateBrandRequest $request, Brand $brand): RedirectResponse
     {
         try {
-            $this->brandService->update($brand, $request);
+            $this->brandService->update($brand, $request->validated());
             return redirect()->route('brands')->with('message', 'Marka została edytowana.');
         } catch (\Exception $e) {
             return back()->with('message', 'Nastąpił błąd w trakcie zapisu.');

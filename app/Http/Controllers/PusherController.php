@@ -20,7 +20,7 @@ class PusherController extends Controller
 
     public function broadcast(Request $request): View
     {
-        return view('chat.broadcast', $this->pusherService->processMessage($request));
+        return view('chat.broadcast', $this->pusherService->processMessage($request->get('message')));
     }
 
     public function receive(ReceiveChatPusherRequest $request): View

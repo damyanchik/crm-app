@@ -9,9 +9,9 @@ use Spatie\Permission\Models\Role;
 
 class RoleService
 {
-    public function store(FormRequest $formField): void
+    public function store(array $validatedData): void
     {
-        Role::create($formField->validated());
+        Role::create($validatedData);
     }
 
     public function destroy(Role $role): void

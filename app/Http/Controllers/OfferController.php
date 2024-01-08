@@ -39,7 +39,7 @@ class OfferController extends Controller
     {
         DB::beginTransaction();
         try {
-            $this->offerService->store($offerRequest, $itemsRequest);
+            $this->offerService->store($offerRequest->validated(), $itemsRequest->validated());
             DB::commit();
             return redirect()->route('storeOffer')->with('message', 'Utworzono nową ofertę.');
         } catch (\Exception $e) {
@@ -60,7 +60,7 @@ class OfferController extends Controller
     {
         DB::beginTransaction();
         try {
-            $this->offerService->update($offer, $offerRequest, $itemsRequest);
+            $this->offerService->update($offer, $offerRequest->validated(), $itemsRequest->validated());
             DB::commit();
             return back()->with('message', 'Oferta została zaktualizowana.');
         } catch (\Exception $e) {

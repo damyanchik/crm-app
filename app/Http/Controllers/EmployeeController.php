@@ -53,7 +53,7 @@ class EmployeeController extends Controller
     public function update(User $user, UpdateEmployeeRequest $request): RedirectResponse
     {
         try {
-            $this->employeeService->update($user, $request);
+            $this->employeeService->update($user, $request->validated());
             return back()->with('message', 'Użytkownik zaktualizowany!');
         } catch (\Exception $e) {
             return back()->with('error', 'Nastąpił błąd w trakcie dodawania nowych produktów!');
@@ -69,7 +69,7 @@ class EmployeeController extends Controller
 
     public function changeRole(User $user, FormRequest $request): RedirectResponse
     {
-        $this->employeeService->checkRoleAndChange($user, $request);
+        $this->employeeService->checkRoleAndChange($user, $request->id);
 
         return back()->with('message', 'Zmieniono rolę użytkownika.');
     }
@@ -89,7 +89,7 @@ class EmployeeController extends Controller
     public function store(StoreEmployeeRequest $request): RedirectResponse
     {
         try {
-            $this->employeeService->store($request);
+            $this->employeeService->store($request->validated());
             return redirect()->route('storeEmployeeAdmin')->with('message', 'Nowy pracownik został założony.');
         } catch (\Exception $e) {
             return back()->with('message', 'Nastąpił błąd w trakcie zapisu.');

@@ -33,10 +33,9 @@ class OfferService
         return $this->searchService->searchItems(new Order(), $indexRequest, $callable);
     }
 
-    public function store(FormRequest $offerRequest, FormRequest $itemsRequest): void
+    public function store(array $offerValidated, array $offersItemsValidated): void
     {
-        $newOffer = Order::create($offerRequest->validated());
-        $offersItemsValidated = $itemsRequest->validated();
+        $newOffer = Order::create($offerValidated);
 
         OrderItem::insert(
             $this->prepareOfferItems(
@@ -46,12 +45,11 @@ class OfferService
         );
     }
 
-    public function update(Order $order, FormRequest $offerRequest, FormRequest $offersItemsRequest): void
+    public function update(Order $order, array $offerValidated, array $offersItemsValidated): void
     {
-        $order->update($offerRequest->validated());
+        $order->update($offerValidated);
         StockHelper::removeAllQuantityToProducts($order);
         $order->orderItem()->delete();
-        $offersItemsValidated = $offersItemsRequest->validated();
 
         OrderItem::insert(
             $this->prepareOfferItems(

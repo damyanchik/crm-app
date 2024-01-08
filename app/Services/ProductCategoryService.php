@@ -19,14 +19,14 @@ class ProductCategoryService
         return $this->searchService->searchItems(new ProductCategory(), $indexRequest);
     }
 
-    public function store(FormRequest $request): void
+    public function store(array $validatedData): void
     {
-        ProductCategory::create($request->validated());
+        ProductCategory::create($validatedData);
     }
 
-    public function update(ProductCategory $productCategory, FormRequest $request): void
+    public function update(ProductCategory $productCategory, array $validatedData): void
     {
-        $productCategory->update($request->validated());
+        $productCategory->update($validatedData);
     }
 
     public function destroy(ProductCategory $productCategory): void

@@ -19,7 +19,7 @@ class ChatService
         )->get();
     }
 
-    public function getMessages(Request $request): Collection
+    public function getMessages(int $page): Collection
     {
         $perPage = 5;
 
@@ -31,7 +31,7 @@ class ChatService
             )
             ->with('user')
             ->offset(
-                ($request->input('page') - 1) * $perPage
+                ($page - 1) * $perPage
             )
             ->limit($perPage)
             ->get();

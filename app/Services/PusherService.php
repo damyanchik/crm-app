@@ -11,16 +11,16 @@ use Illuminate\Support\Facades\Auth;
 
 class PusherService
 {
-    public function processMessage(Request $request): array
+    public function processMessage(string $message): array
     {
         $user = Auth::user();
 
-        $message = $this->saveChatMessage(
-            $request->get('message'),
+        $savedMessage = $this->saveChatMessage(
+            $message,
             $user
         );
 
-        $content = $this->prepareContent($message, $user);
+        $content = $this->prepareContent($savedMessage, $user);
 
         broadcast(new PusherBroadcast($content))->toOthers();
 

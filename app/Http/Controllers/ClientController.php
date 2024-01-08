@@ -40,7 +40,7 @@ class ClientController extends Controller
     public function store(StoreClientRequest $request): RedirectResponse
     {
         try {
-            $this->clientService->store($request);
+            $this->clientService->store($request->validated());
             return redirect()->route('clients')->with('message', 'Klient został założony.');
         } catch (\Exception $e) {
             return back()->with('message', 'Nastąpił błąd w trakcie zapisu.');
@@ -50,7 +50,7 @@ class ClientController extends Controller
     public function update(UpdateClientRequest $request, Client $client): RedirectResponse
     {
         try {
-            $this->clientService->update($client, $request);
+            $this->clientService->update($client, $request->validated());
             return redirect()->route('clients')->with('message', 'Klient został zaktualizowany.');
         } catch (\Exception $e) {
             return back()->with('message', 'Nastąpił błąd w trakcie zapisu.');

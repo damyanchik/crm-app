@@ -19,14 +19,14 @@ class ClientService
         return $this->searchService->searchItems(new Client(), $indexRequest);
     }
 
-    public function store(FormRequest $request): void
+    public function store(array $validatedData): void
     {
-        Client::create($request->validated());
+        Client::create($validatedData);
     }
 
-    public function update(Client $client, FormRequest $request): void
+    public function update(Client $client, array $validatedData): void
     {
-        $formFields = $request->validated();
+        $formFields = $validatedData;
         $formFields['user_id'] = $formFields['user_id'] ?? null;
 
         $client->update($formFields);

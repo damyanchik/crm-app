@@ -33,7 +33,7 @@ class RoleController extends Controller
     public function storeRole(StoreRoleRequest $request): RedirectResponse
     {
         try {
-            $this->roleService->store($request);
+            $this->roleService->store($request->validated());
             DB::commit();
             return back()->with('message', 'Utworzono nową rolę.');
         } catch (\Exception $e) {
@@ -45,7 +45,7 @@ class RoleController extends Controller
     public function storePermission(Request $request): RedirectResponse
     {
         try {
-            $this->permissionService->assignPermissionsToRole($request);
+            $this->permissionService->assignPermissionsToRole($request->toArray());
             DB::commit();
             return back()->with('message', 'Wprowadzono zmiany w uprawnieniach ról.');
         } catch (\Exception $e) {

@@ -6,7 +6,6 @@ namespace App\Services;
 
 use App\Http\Requests\IndexRequest;
 use App\Models\Brand;
-use Illuminate\Foundation\Http\FormRequest;
 
 class BrandService
 {
@@ -19,14 +18,14 @@ class BrandService
         return $this->searchService->searchItems(new Brand(), $indexRequest);
     }
 
-    public function store(FormRequest $request): void
+    public function store(array $validatedData): void
     {
-        Brand::create($request->validated());
+        Brand::create($validatedData);
     }
 
-    public function update(Brand $brand, FormRequest $request): void
+    public function update(Brand $brand, array $validatedData): void
     {
-        $brand->update($request->validated());
+        $brand->update($validatedData);
     }
 
     public function destroy(Brand $brand): void

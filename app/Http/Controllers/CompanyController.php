@@ -25,7 +25,7 @@ class CompanyController extends Controller
     public function update(UpdateCompanyRequest $request): RedirectResponse
     {
         try {
-            $this->companyService->update($request);
+            $this->companyService->update($request->validated());
             return redirect()->route('companyDetailsAdmin')->with('message', 'Dane zostały zaktualizowane.');
         } catch (\Exception $e) {
             return back()->with('message', 'Nastąpił błąd w trakcie zapisu.');

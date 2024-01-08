@@ -14,11 +14,11 @@ class CompanyService
         return CompanyInfo::all()->first();
     }
 
-    public function update(FormRequest $request): void
+    public function update(array $validateData): void
     {
         CompanyInfo::updateOrCreate(
             ['id' => 1],
-            $request->validated()
+            $validateData
         );
     }
 }

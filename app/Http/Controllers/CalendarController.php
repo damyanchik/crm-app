@@ -26,7 +26,7 @@ class CalendarController extends Controller
     public function store(StoreCalendarRequest $calendarStoreRequest): RedirectResponse
     {
         try {
-            $this->calendarService->store($calendarStoreRequest);
+            $this->calendarService->store($calendarStoreRequest->validated());
             return redirect()->route('calendar')->with('message', 'Utworzono wydarzenie w kalendarzu.');
         } catch (\Exception $e) {
             return back()->with('message', 'Nastąpił błąd w trakcie zapisu.');

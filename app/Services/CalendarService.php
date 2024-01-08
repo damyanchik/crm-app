@@ -22,10 +22,10 @@ class CalendarService
         });
     }
 
-    public function store(FormRequest $request): void
+    public function store(array $validatedData): void
     {
         $formFields = array_merge(
-            $request->validated(), [
+            $validatedData, [
             'user_id' => Auth::id()
         ]);
 
