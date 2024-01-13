@@ -9,11 +9,11 @@ use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
 use App\Http\Requests\UpdatePasswordEmployeeRequest;
 use App\Models\User;
+use App\Repositories\RoleRepository;
 use App\Services\EmployeeService;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
-use Spatie\Permission\Models\Role;
 
 class EmployeeController extends Controller
 {
@@ -42,11 +42,11 @@ class EmployeeController extends Controller
         return back()->with('message', 'Zmiana statusu użytkownika!');
     }
 
-    public function edit(User $user): View
+    public function edit(User $user, RoleRepository $roleRepository): View
     {
         return view('employees.edit', [
             'user' => $user,
-            'roles' => Role::get()
+            'roles' => $roleRepository->getAll()
         ]);
     }
 

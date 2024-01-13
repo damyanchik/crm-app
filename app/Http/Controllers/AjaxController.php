@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Repositories\BrandRepository;
-use App\Repositories\ClientRepository;
-use App\Repositories\ProductCategoryRepository;
-use App\Repositories\ProductRepository;
-use App\Repositories\UserRepository;
 use App\Services\AjaxService;
+use App\Services\BrandService;
+use App\Services\ClientService;
+use App\Services\EmployeeService;
+use App\Services\ProductCategoryService;
+use App\Services\ProductService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -19,41 +19,40 @@ class AjaxController extends Controller
     {
     }
 
-    public function searchUser(Request $request): JsonResponse
+    public function searchUser(Request $request, EmployeeService $employeeService): JsonResponse
     {
         return response()->json([
-            'users' => $this->ajaxService->getUsers(new UserRepository(), $request->input('searchTerm'))
+            'users' => $employeeService->handleAjax($request->input('searchTerm'))
         ]);
     }
 
-    public function searchClient(Request $request): JsonResponse
+    public function searchClient(Request $request, ClientService $clientService): JsonResponse
     {
         return response()->json([
-            'clients' => $this->ajaxService->getClients(new ClientRepository(), $request->input('searchTerm'))
+            'clients' => $clientService->handleAjax($request->input('searchTerm'))
         ]);
     }
 
-    public function searchBrand(Request $request): JsonResponse
+    public function searchBrand(Request $request, BrandService $brandService): JsonResponse
     {
         return response()->json([
-            'brands' => $this->ajaxService->getBrands(new BrandRepository(), $request->input('searchTerm'))
+            'brands' => $brandService->handleAjax($request->input('searchTerm'))
         ]);
     }
 
-    public function searchProductCategory(Request $request): JsonResponse
+    public function searchProductCategory(Request $request, ProductCategoryService $productCategoryService): JsonResponse
     {
         return response()->json([
-            'productCategories' => $this->ajaxService->getProductCategories(
-                new ProductCategoryRepository(),
+            'productCategories' => $productCategoryService->handleAjax(
                 $request->input('searchTerm')
             )
         ]);
     }
 
-    public function searchProduct(Request $request): JsonResponse
+    public function searchProduct(Request $request, ProductService $productService): JsonResponse
     {
         return response()->json([
-            'products' => $this->ajaxService->getProducts(new ProductRepository(), $request->input('searchTerm'))
+            'products' => $productService->handleAjax($request->input('searchTerm'))
         ]);
     }
 }

@@ -20,7 +20,7 @@ class ProductService
 
     public function getAll(array $searchParams): object
     {
-        return $this->productRepository->searchAndSort(new Product(), $searchParams);
+        return $this->productRepository->searchAndSort($searchParams);
     }
 
     public function store(array $validatedData, object $file = null): void
@@ -74,5 +74,16 @@ class ProductService
     public function destroy(Product $product): void
     {
         $this->productRepository->destroy($product);
+    }
+
+    public function handleAjax(string $searchTerm): object
+    {
+        return Product::with('brand')
+            ->where('name', 'like', "%$searchTerm%")
+            ->orWhere('code', 'like', "%$searchTerm%")
+            ->orWhereHas('brand', function ($brandQuery) use ($searchTerm) {
+                $brandQuery->where('name', 'like', "%$searchTerm%");
+            })
+            ->get();
     }
 }

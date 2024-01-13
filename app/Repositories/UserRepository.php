@@ -7,25 +7,20 @@ use App\Models\User;
 use App\Traits\SearchableTrait;
 use Illuminate\Support\Facades\Hash;
 
-class UserRepository
+class UserRepository extends BaseRepository
 {
     use SearchableTrait;
 
-    public function getAll(array $searchParams): object
+    public function __construct(User $model)
     {
-        return $this->searchAndSort(new User(), $searchParams);
+        parent::__construct($model);
     }
 
-    public function store(array $validatedData): void
+    public function store(array $data): void
     {
-        $validatedData['password'] = Hash::make($validatedData['password']);
+        $data['password'] = Hash::make($data['password']);
 
-        User::create($validatedData);
-    }
-
-    public function update(User $user, array $validatedData): void
-    {
-        $user->update($validatedData);
+        parent::store($data);
     }
 
     public function setPassword(User $user, $validatedData): void

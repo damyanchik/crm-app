@@ -15,7 +15,7 @@ class ProductCategoryService
 
     public function getAll(array $searchParams): object
     {
-        return $this->categoryRepository->searchAndSort(new ProductCategory(), $searchParams);
+        return $this->categoryRepository->searchAndSort($searchParams);
     }
 
     public function store(array $validatedData): void
@@ -31,5 +31,13 @@ class ProductCategoryService
     public function destroy(ProductCategory $productCategory): void
     {
         $this->categoryRepository->destroy($productCategory);
+    }
+
+    public function handleAjax(string $searchTerm): object
+    {
+        return $this->categoryRepository->searchWhereItems(
+            $searchTerm,
+            ['name']
+        );
     }
 }

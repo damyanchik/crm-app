@@ -5,9 +5,9 @@ namespace App\Repositories;
 use App\Models\ChatMessage;
 use Illuminate\Database\Eloquent\Collection;
 
-class ChatRepository
+class ChatRepository extends BaseRepository
 {
-    public function getAll(int $page): Collection
+    public function getOrdered(int $page): Collection
     {
         $perPage = 5;
 

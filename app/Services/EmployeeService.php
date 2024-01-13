@@ -17,15 +17,15 @@ class EmployeeService
 
     public function getAll(array $searchParams): object
     {
-        return $this->userRepository->searchAndSort(new User(), $searchParams);
+        return $this->userRepository->searchAndSort($searchParams);
     }
 
     public function update(User $user, array $validatedData, object $file): void
     {
         if ($file->isValid()) {
-            if ($user->avatar)
+            if ($user->avatar) {
                 PhotoHelper::deletePreviousPhoto($user->photo);
-
+            }
             $validatedData['avatar'] = $file->store('images/avatars', 'public');
         }
 
@@ -49,7 +49,7 @@ class EmployeeService
 
     public function checkRoleAndChange(User $user, int $roleId): void
     {
-        $role = $this->roleRepository->getById($roleId);
+        $role = $this->roleRepository->findById($roleId);
 
         if ($role !== null) {
             $user->assignRole($role);
@@ -61,5 +61,13 @@ class EmployeeService
     public function store(array $validatedData): void
     {
         $this->userRepository->store($validatedData);
+    }
+
+    public function handleAjax(string $searchTerm): object
+    {
+        return $this->userRepository->searchWhereItems(
+            $searchTerm,
+            ['name', 'surname', 'email']
+        );
     }
 }

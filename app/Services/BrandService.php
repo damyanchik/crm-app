@@ -15,7 +15,7 @@ class BrandService
 
     public function getAll(array $searchParams): object
     {
-        return $this->brandRepository->searchAndSort(new Brand(), $searchParams);
+        return $this->brandRepository->searchAndSort($searchParams);
     }
 
     public function store(array $validatedData): void
@@ -31,5 +31,13 @@ class BrandService
     public function destroy(Brand $brand): void
     {
         $this->brandRepository->destroy($brand);
+    }
+
+    public function handleAjax(string $searchTerm): object
+    {
+        return $this->brandRepository->searchWhereItems(
+            $searchTerm,
+            ['name']
+        );
     }
 }

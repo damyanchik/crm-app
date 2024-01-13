@@ -4,9 +4,14 @@ namespace App\Repositories;
 
 use Spatie\Permission\Models\Permission;
 
-class PermissionRepository
+class PermissionRepository extends BaseRepository
 {
-    public function getAll(): array
+    public function __construct(Permission $model)
+    {
+        parent::__construct($model);
+    }
+
+    public function getToArray(): array
     {
         return Permission::get()->toArray();
     }

@@ -4,30 +4,21 @@ namespace App\Repositories;
 
 use App\Models\Client;
 use App\Traits\SearchableTrait;
+use Illuminate\Database\Eloquent\Model;
 
-class ClientRepository
+class ClientRepository extends BaseRepository
 {
     use SearchableTrait;
 
-    public function getAll(array $searchParams): object
+    public function __construct(Client $model)
     {
-        return $this->searchAndSort(new Client(), $searchParams);
+        parent::__construct($model);
     }
 
-    public function store(array $validatedData): void
+    public function update(Model|int $client, array $data): void
     {
-        Client::create($validatedData);
-    }
+        $data['user_id'] = $data['user_id'] ?? null;
 
-    public function update(Client $client, array $validatedData): void
-    {
-        $validatedData['user_id'] = $validatedData['user_id'] ?? null;
-
-        $client->update($validatedData);
-    }
-
-    public function destroy(Client $client): void
-    {
-        $client->delete();
+        parent::update($client, $data);
     }
 }

@@ -5,25 +5,22 @@ namespace App\Repositories;
 use App\Helpers\PhotoHelper;
 use App\Models\Product;
 use App\Traits\SearchableTrait;
+use Illuminate\Database\Eloquent\Model;
 
-class ProductRepository
+class ProductRepository extends BaseRepository
 {
     use SearchableTrait;
 
-    public function store(array $validatedData): void
+    public function __construct(Product $model)
     {
-        Product::create($validatedData);
+        parent::__construct($model);
     }
 
-    public function update(array $validatedData, Product $product): void
+    public function destroy(Model|int $product): void
     {
-        $product->update($validatedData);
-    }
-
-    public function destroy(Product $product): void
-    {
-        PhotoHelper::deletePreviousPhoto($product->photo);
-        $product->delete();
+        $currentModel = $this->checkModelOrInt($product);
+        PhotoHelper::deletePreviousPhoto($currentModel->photo);
+        parent::destroy($currentModel);
     }
 
     public function destroyPhoto(Product $product): void
@@ -42,16 +39,5 @@ class ProductRepository
     public function updateMany(array $data): void
     {
         Product::updateMany($data, 'code');
-    }
-
-    public function searchProducts(string $searchTerm): object
-    {
-        return Product::with('brand')
-            ->where('name', 'like', "%$searchTerm%")
-            ->orWhere('code', 'like', "%$searchTerm%")
-            ->orWhereHas('brand', function ($brandQuery) use ($searchTerm) {
-                $brandQuery->where('name', 'like', "%$searchTerm%");
-            })
-            ->get();
     }
 }

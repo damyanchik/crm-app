@@ -15,7 +15,7 @@ class ClientService
 
     public function getAll(array $searchParams): object
     {
-        return $this->clientRepository->searchAndSort(new Client(), $searchParams);
+        return $this->clientRepository->searchAndSort($searchParams);
     }
 
     public function store(array $validatedData): void
@@ -31,5 +31,13 @@ class ClientService
     public function destroy(Client $client): void
     {
         $this->clientRepository->destroy($client);
+    }
+
+    public function handleAjax(string $searchTerm): object
+    {
+        return $this->clientRepository->searchWhereItems(
+            $searchTerm,
+            ['name', 'surname', 'company', 'tax', 'email']
+        );
     }
 }

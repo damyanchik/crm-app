@@ -18,7 +18,7 @@ class CompanyController extends Controller
     public function edit(): View
     {
         return view('admin.company_details', [
-            'companyDetails' => $this->companyService->getAll()
+            'companyDetails' => $this->companyService->getAll()->first()
         ]);
     }
 

@@ -24,6 +24,6 @@ class ChatService
 
     public function getMessages(int $page): Collection
     {
-        return $this->chatRepository->getAll($page);
+        return $this->chatRepository->getOrdered($page);
     }
 }

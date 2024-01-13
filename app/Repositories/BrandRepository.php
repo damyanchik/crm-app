@@ -5,22 +5,12 @@ namespace App\Repositories;
 use App\Models\Brand;
 use App\Traits\SearchableTrait;
 
-class BrandRepository
+class BrandRepository extends BaseRepository
 {
     use SearchableTrait;
 
-    public function store(array $validatedData): void
+    public function __construct(Brand $model)
     {
-        Brand::create($validatedData);
-    }
-
-    public function update(Brand $brand, array $validatedData): void
-    {
-        $brand->update($validatedData);
-    }
-
-    public function destroy(Brand $brand): void
-    {
-        $brand->delete();
+        parent::__construct($model);
     }
 }

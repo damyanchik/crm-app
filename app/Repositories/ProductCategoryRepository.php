@@ -5,22 +5,12 @@ namespace App\Repositories;
 use App\Models\ProductCategory;
 use App\Traits\SearchableTrait;
 
-class ProductCategoryRepository
+class ProductCategoryRepository extends BaseRepository
 {
     use SearchableTrait;
 
-    public function store(array $validatedData): void
+    public function __construct(ProductCategory $model)
     {
-        ProductCategory::create($validatedData);
-    }
-
-    public function update(ProductCategory $productCategory, array $validatedData): void
-    {
-        $productCategory->update($validatedData);
-    }
-
-    public function destroy(ProductCategory $productCategory): void
-    {
-        $productCategory->delete();
+        parent::__construct($model);
     }
 }

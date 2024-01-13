@@ -8,10 +8,16 @@ use App\Helpers\StockHelper;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Traits\SearchableTrait;
+use Illuminate\Database\Eloquent\Model;
 
-class OrderRepository
+class OrderRepository extends BaseRepository
 {
     use SearchableTrait;
+
+    public function __construct(Order $model)
+    {
+        parent::__construct($model);
+    }
 
     public function getByStatusAndSort(array $searchParams, array|null $status = null): object
     {
@@ -23,10 +29,10 @@ class OrderRepository
             $callable = null;
         }
 
-        return $this->searchAndSort(new Order(), $searchParams, $callable);
+        return $this->searchAndSort($searchParams, $callable);
     }
 
-    public function store(array $offerValidated, array $offersItemsValidated): void
+    public function storeWithItems(array $offerValidated, array $offersItemsValidated): void
     {
         $newOffer = Order::create($offerValidated);
 
@@ -38,7 +44,7 @@ class OrderRepository
         );
     }
 
-    public function update(Order $order, array $offerValidated, array $offersItemsValidated): void
+    public function updateWithItems(Order $order, array $offerValidated, array $offersItemsValidated): void
     {
         $order->update($offerValidated);
         StockHelper::removeAllQuantityToProducts($order);
@@ -52,10 +58,10 @@ class OrderRepository
         );
     }
 
-    public function destroy(Order $offer): void
+    public function destroy(Model|int $offer): void
     {
         StockHelper::removeAllQuantityToProducts($offer);
-        $offer->delete();
+        parent::destroy($offer);
     }
 
     public function transformToOrder(Order $offer): void

@@ -19,6 +19,6 @@ class CompanyService
 
     public function update(array $validateData): void
     {
-        $this->companyRepository->update($validateData);
+        $this->companyRepository->update(1, $validateData);
     }
 }

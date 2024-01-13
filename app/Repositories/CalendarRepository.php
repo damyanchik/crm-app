@@ -2,14 +2,18 @@
 
 namespace App\Repositories;
 
-
 use App\Enum\CalendarColorEnum;
 use App\Models\Calendar;
 use Illuminate\Support\Facades\Auth;
 
-class CalendarRepository
+class CalendarRepository extends BaseRepository
 {
-    public function getAll(): object
+    public function __construct(Calendar $model)
+    {
+        parent::__construct($model);
+    }
+
+    public function getOrdered(): object
     {
         $events = Calendar::orderBy('id', 'ASC')
             ->with('user:id,name,surname')
@@ -20,19 +24,11 @@ class CalendarRepository
         });
     }
 
-    public function store(array $validatedData): void
+    public function store(array $data): void
     {
-        $formFields = array_merge(
-            $validatedData, [
-            'user_id' => Auth::id()
-        ]);
+        $data['user_id'] = Auth::id();
 
-        Calendar::create($formFields);
-    }
-
-    public function destroy(Calendar $event): void
-    {
-        $event->delete();
+        parent::store($data);
     }
 
     private function transformEvent(Calendar $event): array

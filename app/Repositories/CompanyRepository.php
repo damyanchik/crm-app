@@ -4,18 +4,10 @@ namespace App\Repositories;
 
 use App\Models\CompanyInfo;
 
-class CompanyRepository
+class CompanyRepository extends BaseRepository
 {
-    public function getAll(): object
+    public function __construct(CompanyInfo $model)
     {
-        return CompanyInfo::all()->first();
-    }
-
-    public function update(array $validateData): void
-    {
-        CompanyInfo::updateOrCreate(
-            ['id' => 1],
-            $validateData
-        );
+        parent::__construct($model);
     }
 }

@@ -27,12 +27,12 @@ class OfferService
 
     public function store(array $offerValidated, array $offersItemsValidated): void
     {
-        $this->orderRepository->store($offerValidated, $offersItemsValidated);
+        $this->orderRepository->storeWithItems($offerValidated, $offersItemsValidated);
     }
 
     public function update(Order $order, array $offerValidated, array $offersItemsValidated): void
     {
-        $this->orderRepository->update($order, $offerValidated, $offersItemsValidated);
+        $this->orderRepository->updateWithItems($order, $offerValidated, $offersItemsValidated);
     }
 
     public function destroy(Order $offer): void

@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace App\Traits;
 
-use Illuminate\Database\Eloquent\Model;
-
 trait SearchableTrait
 {
-    public function searchAndSort(Model $model, array $searchParams, ?callable $whereCallback = null): object
+    public function searchAndSort(array $searchParams, ?callable $whereCallback = null): object
     {
-        $query = $model::search($searchParams['search'])
+        $query = $this->model::search($searchParams['search'])
             ->sortBy($searchParams['column'], $searchParams['order']);
 
         if (!empty($whereCallback)) {
@@ -20,12 +18,12 @@ trait SearchableTrait
         return $query->paginate($searchParams['display']);
     }
 
-    public function searchWhereItems(object $query, string $searchTerm, array $columns): object
+    public function searchWhereItems(string $searchTerm, array $columns): object
     {
         foreach ($columns as $column) {
-            $query->orWhere($column, 'like', "%$searchTerm%");
+            $this->model->orWhere($column, 'like', "%$searchTerm%");
         }
 
-        return $query->get();
+        return $this->model->get();
     }
 }

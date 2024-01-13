@@ -33,7 +33,7 @@ class PermissionService
             'Admin'
         ];
 
-        return $this->groupPermissionNamesBySuffixes($this->permissionRepository->getAll(), $suffixNames);
+        return $this->groupPermissionNamesBySuffixes($this->permissionRepository->getToArray(), $suffixNames);
     }
 
     private function groupPermissionNamesBySuffixes(array $names, array $suffixes): array

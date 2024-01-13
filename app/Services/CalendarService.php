@@ -15,7 +15,7 @@ class CalendarService
 
     public function getCalendarData(): object
     {
-        return $this->calendarRepository->getAll();
+        return $this->calendarRepository->getOrdered();
     }
 
     public function store(array $validatedData): void
