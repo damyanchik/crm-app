@@ -8,6 +8,8 @@ use App\Factories\FileDataImporter\Factories\SimpleFactory;
 
 class FileDataImporter
 {
+    private SimpleFactory $factory;
+
     public function setFactory(SimpleFactory $factory): void
     {
         $this->factory = $factory;
@@ -18,8 +20,9 @@ class FileDataImporter
         $validator = $this->factory->createValidator();
         $processor = $this->factory->createProcessor();
 
-        if (!$validator->validate($data))
+        if (!$validator->validate($data)) {
             return [];
+        }
 
         return $processor->process($data);
     }

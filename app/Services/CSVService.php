@@ -2,35 +2,35 @@
 
 declare(strict_types=1);
 
-namespace App\Helpers;
+namespace App\Services;
 
-use Illuminate\Foundation\Http\FormRequest;
 use League\Csv\Reader;
 
-class CSVHelper
+class CSVService
 {
-    public static function validateFileAndReadToArray(object $file, array $headers): array
+    public function validateFileAndReadToArray(object $file, array $headers): array
     {
-        return CSVHelper::readToArray(
+        return $this->readToArray(
             $file->getPathname(),
             $headers
         );
     }
 
-    public static function readToArray(string $filePath, array $columnHeaders): array
+    public function readToArray(string $filePath, array $columnHeaders): array
     {
         $csv = Reader::createFromPath($filePath, 'r');
         $csv->setDelimiter(';');
         $csvData = iterator_to_array($csv->getRecords());
         $mappedArray = [];
 
-        if (!empty($csvData) && !empty($columnHeaders))
-            $mappedArray = self::mapArray($csvData, $columnHeaders);
+        if (!empty($csvData) && !empty($columnHeaders)) {
+            $mappedArray = $this->mapArray($csvData, $columnHeaders);
+        }
 
         return $mappedArray;
     }
 
-    private static function mapArray(array $csvData, array $columnHeaders): array
+    private function mapArray(array $csvData, array $columnHeaders): array
     {
         $csvMappedData = [];
 
@@ -38,8 +38,9 @@ class CSVHelper
             $rowData = [];
 
             foreach ($columnHeaders as $columnName => $columnIndex) {
-                if (!isset($row[$columnName]))
+                if (!isset($row[$columnName])) {
                     continue;
+                }
 
                 $rowData[$columnIndex] = $row[$columnName];
             }

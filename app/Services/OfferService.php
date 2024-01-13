@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Enum\OrderStatusEnum;
-use App\Helpers\CSVHelper;
 use App\Models\Order;
 use App\Factories\FileDataImporter\Factories\ProductForOfferFactory;
 use App\Factories\FileDataImporter\FileDataImporter;
@@ -13,7 +12,11 @@ use App\Repositories\OrderRepository;
 
 class OfferService
 {
-    public function __construct(protected FileDataImporter $fileDataImporter, protected OrderRepository $orderRepository)
+    public function __construct(
+        protected FileDataImporter $fileDataImporter,
+        protected OrderRepository $orderRepository,
+        protected CSVService $CSVService
+    )
     {
     }
 
@@ -47,7 +50,7 @@ class OfferService
 
     public function validateAndImportCsv(object $file): array
     {
-        $csvData = CSVHelper::validateFileAndReadToArray($file, [
+        $csvData = $this->CSVService->validateFileAndReadToArray($file, [
             'code', 'quantity', 'price'
         ]);
 

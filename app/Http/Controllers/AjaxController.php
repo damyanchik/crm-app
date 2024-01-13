@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Services\AjaxService;
 use App\Services\BrandService;
 use App\Services\ClientService;
 use App\Services\EmployeeService;
@@ -15,10 +14,6 @@ use Illuminate\Http\Request;
 
 class AjaxController extends Controller
 {
-    public function __construct(protected AjaxService $ajaxService)
-    {
-    }
-
     public function searchUser(Request $request, EmployeeService $employeeService): JsonResponse
     {
         return response()->json([

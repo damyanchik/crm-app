@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Helpers\CSVHelper;
 use App\Helpers\PhotoHelper;
 use App\Models\Product;
 use App\Factories\FileDataImporter\Factories\ProductAdditionFactory;
@@ -14,7 +13,10 @@ use App\Repositories\ProductRepository;
 
 class ProductService
 {
-    public function __construct(protected ProductRepository $productRepository, protected FileDataImporter $fileDataImporter)
+    public function __construct(
+        protected ProductRepository $productRepository,
+        protected FileDataImporter $fileDataImporter,
+        protected CSVService $CSVService)
     {
     }
 
@@ -46,7 +48,7 @@ class ProductService
 
     public function importNewProduct(object $file): void
     {
-        $csvData = CSVHelper::validateFileAndReadToArray($file, [
+        $csvData = $this->CSVService->validateFileAndReadToArray($file, [
             'name', 'code', 'quantity', 'unit', 'price', 'brand_id', 'category_id'
         ]);
 
@@ -57,7 +59,7 @@ class ProductService
 
     public function importProductToUpdate(object $file): void
     {
-        $csvData = CSVHelper::validateFileAndReadToArray($file, [
+        $csvData = $this->CSVService->validateFileAndReadToArray($file, [
             'code', 'quantity', 'price'
         ]);
 
@@ -78,12 +80,6 @@ class ProductService
 
     public function handleAjax(string $searchTerm): object
     {
-        return Product::with('brand')
-            ->where('name', 'like', "%$searchTerm%")
-            ->orWhere('code', 'like', "%$searchTerm%")
-            ->orWhereHas('brand', function ($brandQuery) use ($searchTerm) {
-                $brandQuery->where('name', 'like', "%$searchTerm%");
-            })
-            ->get();
+        return $this->productRepository->searchToAjax($searchTerm);
     }
 }

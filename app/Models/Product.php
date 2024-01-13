@@ -48,6 +48,20 @@ class Product extends Model
             );
     }
 
+    public static function getExistingByCodes(array $data): array
+    {
+        if (isset($data[0]['code']) || isset($data['code'])) {
+            $codes = array_column($data, 'code');
+        } else {
+            $codes = $data;
+        }
+
+        return Product::whereIn('code', $codes)
+            ->select('code')
+            ->get()
+            ->toArray();
+    }
+
     public function brand()
     {
         return $this->belongsTo(Brand::class, 'brand_id');

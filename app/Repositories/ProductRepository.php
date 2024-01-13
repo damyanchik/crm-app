@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repositories;
 
 use App\Helpers\PhotoHelper;
@@ -39,5 +41,16 @@ class ProductRepository extends BaseRepository
     public function updateMany(array $data): void
     {
         Product::updateMany($data, 'code');
+    }
+
+    public function searchToAjax(string $searchTerm): object
+    {
+        return Product::with('brand')
+            ->where('name', 'like', "%$searchTerm%")
+            ->orWhere('code', 'like', "%$searchTerm%")
+            ->orWhereHas('brand', function ($brandQuery) use ($searchTerm) {
+                $brandQuery->where('name', 'like', "%$searchTerm%");
+            })
+            ->get();
     }
 }

@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repositories;
 
 use App\Enum\OrderStatusEnum;
-use App\Helpers\InvoiceHelper;
 use App\Helpers\StockHelper;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -58,19 +59,44 @@ class OrderRepository extends BaseRepository
         );
     }
 
-    public function destroy(Model|int $offer): void
+    public function destroy(Model|int $model): void
     {
-        StockHelper::removeAllQuantityToProducts($offer);
-        parent::destroy($offer);
+        StockHelper::removeAllQuantityToProducts($model);
+        parent::destroy($model);
     }
 
     public function transformToOrder(Order $offer): void
     {
         $offer->update([
-            'invoice_num' => InvoiceHelper::generateInvoiceNumber(),
+            'invoice_num' => $this->generateInvoiceNumber(),
             'status' => OrderStatusEnum::PENDING['id'],
             'updated_at' => now()
         ]);
+    }
+
+    private function generateInvoiceNumber(): string
+    {
+        $invoiceNumber = $this->getOrderQuantityInCurrentMonth() + 1;
+        $invoice = $invoiceNumber . '/FV/' . now()->month . '/' . now()->year;
+
+        while (Order::where('invoice_num', '=', $invoice)->exists()) {
+            $invoiceNumber++;
+            $invoice = $invoiceNumber . '/FV/' . now()->month . '/' . now()->year;
+        }
+
+        return $invoice;
+    }
+
+    private function getOrderQuantityInCurrentMonth(): int
+    {
+        $orderMonthQuantity = Order::whereMonth('created_at', '=', now()->month)
+            ->whereNotIn('status', [
+                OrderStatusEnum::OFFER['id'],
+                OrderStatusEnum::ACCEPTED['id'],
+            ])
+            ->count();
+
+        return $orderMonthQuantity->quantity;
     }
 
     private function prepareOfferItems(int $offerId, array $offerItems): array
