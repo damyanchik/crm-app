@@ -25,7 +25,7 @@ class CSVImportController extends Controller
     {
         DB::beginTransaction();
         try {
-            $this->productService->importNewProduct($request);
+            $this->productService->importNewProduct($request->file('csv_file'));
             DB::commit();
             return back()->with('message', 'Nowe produktu zostały dodane do bazy.');
         } catch (\Exception $e) {
@@ -38,7 +38,7 @@ class CSVImportController extends Controller
     {
         DB::beginTransaction();
         try {
-            $this->productService->importProductToUpdate($request);
+            $this->productService->importProductToUpdate($request->file('csv_file'));
             DB::commit();
             return back()->with('message', 'Produkty zostały zaktualizowane.');
         } catch (\Exception $e) {
@@ -51,7 +51,7 @@ class CSVImportController extends Controller
     {
         return view('orders.offers.create',[
             'jsonUnits' => json_encode(ProductUnitEnum::getAllUnits()),
-            'products' => $this->offerService->validateAndImportCsv($request)]
+            'products' => $this->offerService->validateAndImportCsv($request->file('csv_file'))]
         );
     }
 }

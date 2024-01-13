@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Models\CompanyInfo;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Repositories\CompanyRepository;
 
 class CompanyService
 {
+    public function __construct(protected CompanyRepository $companyRepository)
+    {
+    }
+
     public function getAll(): object
     {
-        return CompanyInfo::all()->first();
+        return $this->companyRepository->getAll();
     }
 
     public function update(array $validateData): void
     {
-        CompanyInfo::updateOrCreate(
-            ['id' => 1],
-            $validateData
-        );
+        $this->companyRepository->update($validateData);
     }
 }

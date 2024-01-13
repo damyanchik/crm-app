@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Helpers\PhotoHelper;
 use App\Http\Requests\IndexRequest;
 use App\Models\Product;
 use App\Http\Requests\StoreProductRequest;
@@ -23,7 +22,7 @@ class ProductController extends Controller
     public function index(IndexRequest $indexRequest): View
     {
         return view('products.index', [
-            'products' => $this->productService->getAll($indexRequest)
+            'products' => $this->productService->getAll($indexRequest->getSearchParams())
         ]);
     }
 
@@ -36,7 +35,7 @@ class ProductController extends Controller
     {
         DB::beginTransaction();
         try {
-            $this->productService->store($request);
+            $this->productService->store($request->validated(), $request->file('photo'));
             DB::commit();
             return redirect()->route('products')->with('message', 'Produkt został utworzony.');
         } catch (\Exception $e) {
@@ -56,7 +55,7 @@ class ProductController extends Controller
     {
         DB::beginTransaction();
         try {
-            $this->productService->update($request, $product);
+            $this->productService->update($request->validated(), $product, $request->file('photo'));
             DB::commit();
             return back()->with('message', 'Produkt został zaktualizowany.');
         } catch (\Exception $e) {

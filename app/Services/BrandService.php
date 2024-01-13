@@ -4,32 +4,32 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Http\Requests\IndexRequest;
 use App\Models\Brand;
+use App\Repositories\BrandRepository;
 
 class BrandService
 {
-    public function __construct(protected SearchService $searchService)
+    public function __construct(protected BrandRepository $brandRepository)
     {
     }
 
-    public function getAll(IndexRequest $indexRequest): object
+    public function getAll(array $searchParams): object
     {
-        return $this->searchService->searchItems(new Brand(), $indexRequest);
+        return $this->brandRepository->searchAndSort(new Brand(), $searchParams);
     }
 
     public function store(array $validatedData): void
     {
-        Brand::create($validatedData);
+        $this->brandRepository->store($validatedData);
     }
 
     public function update(Brand $brand, array $validatedData): void
     {
-        $brand->update($validatedData);
+        $this->brandRepository->update($brand, $validatedData);
     }
 
     public function destroy(Brand $brand): void
     {
-        $brand->delete();
+        $this->brandRepository->destroy($brand);
     }
 }

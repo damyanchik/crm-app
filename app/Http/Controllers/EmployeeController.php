@@ -24,7 +24,7 @@ class EmployeeController extends Controller
     public function index(IndexRequest $indexRequest): View
     {
         return view('employees.index', [
-            'users' => $this->employeeService->getAll($indexRequest)
+            'users' => $this->employeeService->getAll($indexRequest->getSearchParams())
         ]);
     }
 
@@ -37,7 +37,7 @@ class EmployeeController extends Controller
 
     public function block(User $user): RedirectResponse
     {
-        $this->employeeService->checkAndSetBlock($user);
+        $this->employeeService->toggleBlock($user);
 
         return back()->with('message', 'Zmiana statusu użytkownika!');
     }
@@ -53,7 +53,7 @@ class EmployeeController extends Controller
     public function update(User $user, UpdateEmployeeRequest $request): RedirectResponse
     {
         try {
-            $this->employeeService->update($user, $request->validated());
+            $this->employeeService->update($user, $request->validated(), $request->file('avatar'));
             return back()->with('message', 'Użytkownik zaktualizowany!');
         } catch (\Exception $e) {
             return back()->with('error', 'Nastąpił błąd w trakcie dodawania nowych produktów!');
@@ -62,7 +62,7 @@ class EmployeeController extends Controller
 
     public function changePassword(User $user, UpdatePasswordEmployeeRequest $request): RedirectResponse
     {
-        $this->employeeService->changePassword($user, $request);
+        $this->employeeService->changePassword($user, $request->validated());
 
         return back()->with('message', 'Zmieniono hasło użytkownika na nowe.');
     }

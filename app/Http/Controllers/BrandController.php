@@ -21,7 +21,7 @@ class BrandController extends Controller
     public function index(IndexRequest $indexRequest): View
     {
         return view('products.brands.index', [
-            'brands' => $this->brandService->getAll($indexRequest)
+            'brands' => $this->brandService->getAll($indexRequest->getSearchParams())
         ]);
     }
 

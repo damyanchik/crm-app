@@ -6,25 +6,21 @@ namespace App\Services;
 
 use App\Enum\OrderStatusEnum;
 use App\Helpers\StockHelper;
-use App\Http\Requests\IndexRequest;
 use App\Models\Order;
+use App\Repositories\OrderRepository;
 
 class OrderService
 {
-    public function __construct(protected SearchService $searchService)
+    public function __construct(protected OrderRepository $orderRepository)
     {
     }
 
-    public function getAll(IndexRequest $indexRequest): object
+    public function getAll(array $searchParams): object
     {
-        $callable = function ($query) {
-            $query->whereIn('status', [
-                OrderStatusEnum::PENDING['id'],
-                OrderStatusEnum::READY['id']
-            ]);
-        };
-
-        return $this->searchService->searchItems(new Order(), $indexRequest, $callable);
+        return $this->orderRepository->getByStatusAndSort($searchParams, [
+            OrderStatusEnum::PENDING['id'],
+            OrderStatusEnum::READY['id']
+        ]);
     }
 
     public function close(Order $order): void

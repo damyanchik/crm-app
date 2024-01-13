@@ -4,36 +4,32 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Http\Requests\IndexRequest;
 use App\Models\Client;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Repositories\ClientRepository;
 
 class ClientService
 {
-    public function __construct(protected SearchService $searchService)
+    public function __construct(protected ClientRepository $clientRepository)
     {
     }
 
-    public function getAll(IndexRequest $indexRequest): object
+    public function getAll(array $searchParams): object
     {
-        return $this->searchService->searchItems(new Client(), $indexRequest);
+        return $this->clientRepository->searchAndSort(new Client(), $searchParams);
     }
 
     public function store(array $validatedData): void
     {
-        Client::create($validatedData);
+        $this->clientRepository->store($validatedData);
     }
 
     public function update(Client $client, array $validatedData): void
     {
-        $formFields = $validatedData;
-        $formFields['user_id'] = $formFields['user_id'] ?? null;
-
-        $client->update($formFields);
+        $this->clientRepository->update($client, $validatedData);
     }
 
     public function destroy(Client $client): void
     {
-        $client->delete();
+        $this->clientRepository->destroy($client);
     }
 }

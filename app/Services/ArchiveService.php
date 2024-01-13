@@ -7,22 +7,19 @@ namespace App\Services;
 use App\Enum\OrderStatusEnum;
 use App\Http\Requests\IndexRequest;
 use App\Models\Order;
+use App\Repositories\OrderRepository;
 
 class ArchiveService
 {
-    public function __construct(protected SearchService $searchService)
+    public function __construct( protected OrderRepository $orderRepository)
     {
     }
 
-    public function getAll(IndexRequest $request): object
+    public function getAll(array $searchParams): object
     {
-        $callable = function ($query) {
-            $query->whereIn('status', [
-                OrderStatusEnum::REJECTED['id'],
-                OrderStatusEnum::CLOSED['id'],
-            ]);
-        };
-
-        return $this->searchService->searchItems(new Order(), $request, $callable);
+        return $this->orderRepository->getByStatusAndSort($searchParams, [
+            OrderStatusEnum::REJECTED['id'],
+            OrderStatusEnum::CLOSED['id'],
+        ]);
     }
 }

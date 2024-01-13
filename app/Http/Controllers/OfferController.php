@@ -23,7 +23,7 @@ class OfferController extends Controller
     public function index(IndexRequest $indexRequest): View
     {
         return view('orders.offers.index', [
-            'offers' => $this->offerService->getAll($indexRequest)
+            'offers' => $this->offerService->getAll($indexRequest->getSearchParams())
         ]);
     }
 

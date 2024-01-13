@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\Patterns\AbstractFactories\FileDataImporter\Validators;
+namespace App\Factories\FileDataImporter\Validators;
 
 use Illuminate\Support\Facades\Validator;
 
-class ProductUpdateValidator implements ValidatorInterface
+class ProductForOfferValidator implements ValidatorInterface
 {
     public function validate(array $data): bool
     {
         $validator = Validator::make($data, [
             '*.code' => 'required|string',
             '*.quantity' => 'required|numeric',
-            '*.price' => 'required|numeric',
+            '*.price' => 'numeric',
         ]);
         $errors = $validator->errors();
 

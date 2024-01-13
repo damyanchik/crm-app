@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Patterns\AbstractFactories\FileDataImporter\Validators;
+namespace App\Factories\FileDataImporter\Validators;
 
 use App\Enum\ProductUnitEnum;
 use Illuminate\Support\Facades\Validator;

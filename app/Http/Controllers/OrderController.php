@@ -19,7 +19,7 @@ class OrderController extends Controller
     public function index(IndexRequest $indexRequest): View
     {
         return view('orders.index', [
-            'orders' => $this->orderService->getAll($indexRequest)
+            'orders' => $this->orderService->getAll($indexRequest->getSearchParams())
         ]);
     }
 
@@ -47,7 +47,7 @@ class OrderController extends Controller
     {
         try {
             $this->orderService->close($order);
-            return redirect('/orders/archive')->route('orderArchives')->with(
+            return redirect()->route('orderArchives')->with(
                 'message',
                 'Zamknięto zamówienie o nr '.$order->invoice_num.'.'
             );

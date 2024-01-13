@@ -4,33 +4,23 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
+use App\Repositories\PermissionRepository;
+use App\Repositories\RoleRepository;
 
 class PermissionService
 {
-    public function assignPermissionsToRole(array $data): void
+    public function __construct(protected PermissionRepository $permissionRepository, protected RoleRepository $roleRepository)
     {
-        $rolesAndPermissions = $data;
+    }
+
+    public function assignPermissionsToRole(array $rolesAndPermissions): void
+    {
         unset($rolesAndPermissions['_token']);
-
-        foreach ($rolesAndPermissions as $role => $permission) {
-            $currentRole = Role::findById($role);
-            if ($currentRole->name == 'admin')
-                continue;
-
-            $currentRole->syncPermissions($permission);
-            $currentRole->setUpdatedAt(now());
-        }
+        $this->roleRepository->assignPermissions($rolesAndPermissions);
     }
 
     public function groupPermissionNamesBySuffixForView(): array
     {
-        $permissions = Permission::get()->toArray();
-
         $suffixNames = [
             'Offer',
             'Order',
@@ -43,7 +33,7 @@ class PermissionService
             'Admin'
         ];
 
-        return $this->groupPermissionNamesBySuffixes($permissions, $suffixNames);
+        return $this->groupPermissionNamesBySuffixes($this->permissionRepository->getAll(), $suffixNames);
     }
 
     private function groupPermissionNamesBySuffixes(array $names, array $suffixes): array

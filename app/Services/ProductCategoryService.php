@@ -4,33 +4,32 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Http\Requests\IndexRequest;
 use App\Models\ProductCategory;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Repositories\ProductCategoryRepository;
 
 class ProductCategoryService
 {
-    public function __construct(protected SearchService $searchService)
+    public function __construct(protected ProductCategoryRepository $categoryRepository)
     {
     }
 
-    public function getAll(IndexRequest $indexRequest): object
+    public function getAll(array $searchParams): object
     {
-        return $this->searchService->searchItems(new ProductCategory(), $indexRequest);
+        return $this->categoryRepository->searchAndSort(new ProductCategory(), $searchParams);
     }
 
     public function store(array $validatedData): void
     {
-        ProductCategory::create($validatedData);
+        $this->categoryRepository->store($validatedData);
     }
 
     public function update(ProductCategory $productCategory, array $validatedData): void
     {
-        $productCategory->update($validatedData);
+        $this->categoryRepository->update($productCategory, $validatedData);
     }
 
     public function destroy(ProductCategory $productCategory): void
     {
-        $productCategory->delete();
+        $this->categoryRepository->destroy($productCategory);
     }
 }

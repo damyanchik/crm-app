@@ -9,12 +9,10 @@ use League\Csv\Reader;
 
 class CSVHelper
 {
-    public static function validateFileAndReadToArray(FormRequest $request, array $headers): array
+    public static function validateFileAndReadToArray(object $file, array $headers): array
     {
-        $csvData = $request->file('csv_file');
-
         return CSVHelper::readToArray(
-            $csvData->getPathname(),
+            $file->getPathname(),
             $headers
         );
     }

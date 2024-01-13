@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Patterns\AbstractFactories\FileDataImporter\Processors;
+namespace App\Factories\FileDataImporter\Processors;
 
 use App\Models\Product;
 

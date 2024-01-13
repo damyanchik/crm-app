@@ -21,7 +21,7 @@ class ProductCategoryController extends Controller
     public function index(IndexRequest $indexRequest): View
     {
         return view('products.product_categories.index', [
-            'productCategories' => $this->categoryService->getAll($indexRequest)
+            'productCategories' => $this->categoryService->getAll($indexRequest->getSearchParams())
         ]);
     }
 

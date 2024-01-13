@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Patterns\AbstractFactories\FileDataImporter;
+namespace App\Factories\FileDataImporter;
 
-use App\Patterns\AbstractFactories\FileDataImporter\Factories\AbstractFactory;
+use App\Factories\FileDataImporter\Factories\SimpleFactory;
 
 class FileDataImporter
 {
-    public function setFactory(AbstractFactory $factory): void
+    public function setFactory(SimpleFactory $factory): void
     {
         $this->factory = $factory;
     }

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Builders\StatisticBuilder\StatisticBuilder;
 use App\Enum\OrderStatusEnum;
-use App\Patterns\Builders\StatisticBuilder\StatisticBuilder;
 use Illuminate\Support\Carbon;
 
 class DashboardService

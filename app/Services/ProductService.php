@@ -6,81 +6,73 @@ namespace App\Services;
 
 use App\Helpers\CSVHelper;
 use App\Helpers\PhotoHelper;
-use App\Http\Requests\IndexRequest;
 use App\Models\Product;
-use App\Patterns\AbstractFactories\FileDataImporter\Factories\ProductAdditionFactory;
-use App\Patterns\AbstractFactories\FileDataImporter\Factories\ProductUpdateFactory;
-use App\Patterns\AbstractFactories\FileDataImporter\FileDataImporter;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Factories\FileDataImporter\Factories\ProductAdditionFactory;
+use App\Factories\FileDataImporter\Factories\ProductUpdateFactory;
+use App\Factories\FileDataImporter\FileDataImporter;
+use App\Repositories\ProductRepository;
 
 class ProductService
 {
-    public function __construct(protected FileDataImporter $fileDataImporter, protected SearchService $searchService)
+    public function __construct(protected ProductRepository $productRepository, protected FileDataImporter $fileDataImporter)
     {
     }
 
-    public function getAll(IndexRequest $indexRequest): object
+    public function getAll(array $searchParams): object
     {
-        return $this->searchService->searchItems(new Product(), $indexRequest);
+        return $this->productRepository->searchAndSort(new Product(), $searchParams);
     }
 
-    public function store(FormRequest $request): void
+    public function store(array $validatedData, object $file = null): void
     {
-        $validatedData = $request->validated();
-
-        if ($request->hasFile('photo') && $request->file('photo')->isValid()) {
-            $request->file('photo')->store('images/product_photo', 'public');
+        if ($file->isValid()) {
+            $validatedData['photo'] = $file->store('images/product_photo', 'public');
         }
 
-        Product::create($validatedData);
+        $this->productRepository->store($validatedData);
     }
 
-    public function update(FormRequest $request, Product $product): void
+    public function update(array $validatedData, Product $product, object $file = null): void
     {
-        $validatedData = $request->validated();
-
-        if ($request->hasFile('photo') && $request->file('photo')->isValid()) {
-            if ($product->photo)
+        if ($file->isValid()) {
+            if ($product->photo) {
                 PhotoHelper::deletePreviousPhoto($product->photo);
-            $validatedData['photo'] = $request->file('photo')->store('images/product_photo', 'public');
+            }
+            $validatedData['photo'] = $file->store('images/product_photo', 'public');
         }
 
-        $product->update($validatedData);
+        $this->productRepository->update($validatedData, $product);
     }
 
-    public function importNewProduct(FormRequest $request): void
+    public function importNewProduct(object $file): void
     {
-        $csvData = CSVHelper::validateFileAndReadToArray($request, [
+        $csvData = CSVHelper::validateFileAndReadToArray($file, [
             'name', 'code', 'quantity', 'unit', 'price', 'brand_id', 'category_id'
         ]);
 
         $this->fileDataImporter->setFactory(new ProductAdditionFactory());
 
-        Product::insert($this->fileDataImporter->processData($csvData));
+        $this->productRepository->storeMany($this->fileDataImporter->processData($csvData));
     }
 
-    public function importProductToUpdate(FormRequest $request): void
+    public function importProductToUpdate(object $file): void
     {
-        $csvData = CSVHelper::validateFileAndReadToArray($request, [
+        $csvData = CSVHelper::validateFileAndReadToArray($file, [
             'code', 'quantity', 'price'
         ]);
 
         $this->fileDataImporter->setFactory(new ProductUpdateFactory());
 
-        Product::updateMany($this->fileDataImporter->processData($csvData), 'code');
+        $this->productRepository->updateMany($this->fileDataImporter->processData($csvData));
     }
 
     public function destroyPhoto(Product $product): void
     {
-        PhotoHelper::deletePreviousPhoto($product->photo);
-
-        $product->setAttribute('photo', null);
-        $product->save();
+        $this->productRepository->destroyPhoto($product);
     }
 
     public function destroy(Product $product): void
     {
-        PhotoHelper::deletePreviousPhoto($product->photo);
-        $product->delete();
+        $this->productRepository->destroy($product);
     }
 }

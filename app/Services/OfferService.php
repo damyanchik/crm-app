@@ -6,92 +6,53 @@ namespace App\Services;
 
 use App\Enum\OrderStatusEnum;
 use App\Helpers\CSVHelper;
-use App\Helpers\InvoiceHelper;
-use App\Helpers\StockHelper;
-use App\Http\Requests\IndexRequest;
 use App\Models\Order;
-use App\Models\OrderItem;
-use App\Patterns\AbstractFactories\FileDataImporter\Factories\ProductForOfferFactory;
-use App\Patterns\AbstractFactories\FileDataImporter\FileDataImporter;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Factories\FileDataImporter\Factories\ProductForOfferFactory;
+use App\Factories\FileDataImporter\FileDataImporter;
+use App\Repositories\OrderRepository;
 
 class OfferService
 {
-    public function __construct(protected FileDataImporter $fileDataImporter, protected SearchService $searchService)
+    public function __construct(protected FileDataImporter $fileDataImporter, protected OrderRepository $orderRepository)
     {
     }
 
-    public function getAll(IndexRequest $indexRequest): object
+    public function getAll(array $searchParams): object
     {
-        $callable = function ($query) {
-            $query->whereIn('status', [
-                OrderStatusEnum::OFFER['id'],
-                OrderStatusEnum::ACCEPTED['id']
-            ]);
-        };
-
-        return $this->searchService->searchItems(new Order(), $indexRequest, $callable);
+        return $this->orderRepository->getByStatusAndSort($searchParams, [
+            OrderStatusEnum::OFFER['id'],
+            OrderStatusEnum::ACCEPTED['id']
+        ]);
     }
 
     public function store(array $offerValidated, array $offersItemsValidated): void
     {
-        $newOffer = Order::create($offerValidated);
-
-        OrderItem::insert(
-            $this->prepareOfferItems(
-                intval($newOffer->id),
-                $offersItemsValidated['products']
-            )
-        );
+        $this->orderRepository->store($offerValidated, $offersItemsValidated);
     }
 
     public function update(Order $order, array $offerValidated, array $offersItemsValidated): void
     {
-        $order->update($offerValidated);
-        StockHelper::removeAllQuantityToProducts($order);
-        $order->orderItem()->delete();
-
-        OrderItem::insert(
-            $this->prepareOfferItems(
-                intval($order->id),
-                $offersItemsValidated['products']
-            )
-        );
-    }
-
-    public function transformToOrder(Order $offer): void
-    {
-        $offer->update([
-            'invoice_num' => InvoiceHelper::generateInvoiceNumber(),
-            'status' => OrderStatusEnum::PENDING['id'],
-            'updated_at' => now()
-        ]);
+        $this->orderRepository->update($order, $offerValidated, $offersItemsValidated);
     }
 
     public function destroy(Order $offer): void
     {
-        StockHelper::removeAllQuantityToProducts($offer);
-        $offer->delete();
+        $this->orderRepository->destroy($offer);
     }
 
-    public function validateAndImportCsv(FormRequest $request): array
+    public function transformToOrder(Order $offer): void
     {
-        $csvData = CSVHelper::validateFileAndReadToArray($request, [
+        $this->orderRepository->transformToOrder($offer);
+    }
+
+    public function validateAndImportCsv(object $file): array
+    {
+        $csvData = CSVHelper::validateFileAndReadToArray($file, [
             'code', 'quantity', 'price'
         ]);
 
         $this->fileDataImporter->setFactory(new ProductForOfferFactory());
 
         return $this->fileDataImporter->processData($csvData);
-    }
-
-    private function prepareOfferItems(int $offerId, array $offerItems): array
-    {
-        foreach ($offerItems as &$orderItem) {
-            $orderItem['order_id'] = $offerId;
-            StockHelper::takeQuantityFromProductByCode($orderItem['code'], $orderItem['quantity']);
-        }
-
-        return $offerItems;
     }
 }

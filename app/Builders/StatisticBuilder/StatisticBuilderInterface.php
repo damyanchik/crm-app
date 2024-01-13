@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Patterns\Builders\StatisticBuilder;
+namespace App\Builders\StatisticBuilder;
 
 interface StatisticBuilderInterface
 {

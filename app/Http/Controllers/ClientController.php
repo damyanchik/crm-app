@@ -21,7 +21,7 @@ class ClientController extends Controller
     public function index(IndexRequest $indexRequest): View
     {
         return view('clients.index', [
-            'clients' => $this->clientService->getAll($indexRequest)
+            'clients' => $this->clientService->getAll($indexRequest->getSearchParams())
         ]);
     }
 

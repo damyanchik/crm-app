@@ -18,7 +18,7 @@ class ArchiveController extends Controller
     public function index(IndexRequest $request): View
     {
         return view('orders.index', [
-            'orders' => $this->archiveService->getAll($request)
+            'orders' => $this->archiveService->getAll($request->getSearchParams())
         ]);
     }
 

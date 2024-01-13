@@ -5,75 +5,61 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Helpers\PhotoHelper;
-use App\Http\Requests\IndexRequest;
 use App\Models\User;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Models\Role;
+use App\Repositories\RoleRepository;
+use App\Repositories\UserRepository;
 
 class EmployeeService
 {
-    public function __construct(protected SearchService $searchService)
+    public function __construct(protected UserRepository $userRepository, protected RoleRepository $roleRepository)
     {
     }
 
-    public function getAll(IndexRequest $indexRequest): object
+    public function getAll(array $searchParams): object
     {
-        return $this->searchService->searchItems(new User(), $indexRequest);
+        return $this->userRepository->searchAndSort(new User(), $searchParams);
     }
 
-    public function update(User $user, FormRequest $request): void
+    public function update(User $user, array $validatedData, object $file): void
     {
-        $validatedData = $request->validated();
-
-        if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
+        if ($file->isValid()) {
             if ($user->avatar)
                 PhotoHelper::deletePreviousPhoto($user->photo);
-            $validatedData['avatar'] = $request->file('avatar')->store('images/avatars', 'public');
+
+            $validatedData['avatar'] = $file->store('images/avatars', 'public');
         }
 
-        $user->update($validatedData);
+        $this->userRepository->update($user, $validatedData);
     }
 
-    public function changePassword(User $user, FormRequest $request): void
+    public function changePassword(User $user, array $validatedData): void
     {
-        $user->update(['password' => Hash::make($request->validated())]);
+        $this->userRepository->setPassword($user, $validatedData);
     }
 
-    public function checkAndSetBlock(User $user): void
+    public function toggleBlock(User $user): void
     {
-        $status = $user->getAttribute('block') == 1 ? 0 : 1;
-
-        $user->setAttribute('block', $status);
-        $user->save();
+        $this->userRepository->toggleBlock($user);
     }
 
     public function checkAndDeleteAvatar(User $user): void
     {
-        if ($user->avatar) {
-            PhotoHelper::deletePreviousPhoto($user->avatar);
-        }
-
-        $user->setAttribute('avatar', null);
-        $user->save();
+        $this->userRepository->setAvatar($user);
     }
 
     public function checkRoleAndChange(User $user, int $roleId): void
     {
-        $role = Role::where('id', $roleId)->first();
+        $role = $this->roleRepository->getById($roleId);
 
         if ($role !== null) {
-            $user->syncRoles([]);
             $user->assignRole($role);
-        } else
-            $user->syncRoles([]);
+        }
+
+        $user->syncRoles([]);
     }
 
     public function store(array $validatedData): void
     {
-        $formFields = $validatedData;
-        $formFields['password'] = Hash::make($formFields['password']);
-
-        User::create($formFields);
+        $this->userRepository->store($validatedData);
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Patterns\AbstractFactories\FileDataImporter\Processors;
+namespace App\PFactories\FileDataImporter\Processors;
 
 use App\Helpers\ProductHelper;
 use App\Helpers\ProductStatusHelper;
