@@ -18,14 +18,14 @@ class ChatController extends Controller
     public function index(): View
     {
         return view('chat.index', [
-            'users' => $this->chatService->getAll()
+            'users' => $this->chatService->getUsers()
         ]);
     }
 
     public function loadMessages(Request $request): JsonResponse
     {
         return response()->json([
-            'messages' => $this->chatService->getMessages($request->input('page'))
+            'messages' => $this->chatService->getMessages(intval($request->input('page')))
         ]);
     }
 }

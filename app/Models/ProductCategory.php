@@ -22,4 +22,13 @@ class ProductCategory extends Model
     protected $fillable = [
         'name'
     ];
+
+    public function scopeSearch($query, $searchTerm)
+    {
+        return $query->where(
+            'name',
+            'like',
+            '%' . $searchTerm . '%'
+        );
+    }
 }

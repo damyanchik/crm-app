@@ -6,7 +6,6 @@ namespace App\Services;
 
 use App\Events\PusherBroadcast;
 use App\Models\ChatMessage;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class PusherService

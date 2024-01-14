@@ -14,7 +14,7 @@ class ChatService
     {
     }
 
-    public function getAll(): Collection
+    public function getUsers(): Collection
     {
         return User::orderBy(
             'surname',

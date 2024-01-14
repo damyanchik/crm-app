@@ -23,7 +23,7 @@ class PermissionService
     {
         $suffixNames = [
             'Offer',
-            'Order',
+            'OrderObserver',
             'Product',
             'Brand',
             'ProductCategory',
