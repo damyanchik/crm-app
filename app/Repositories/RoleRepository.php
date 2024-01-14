@@ -16,7 +16,7 @@ class RoleRepository extends BaseRepository
     public function assignPermissions(array $rolesAndPermissions): void
     {
         foreach ($rolesAndPermissions as $role => $permission) {
-            $currentRole = Role::findById($role);
+            $currentRole = $this->model->findById($role);
             if ($currentRole->name == 'admin') {
                 continue;
             }

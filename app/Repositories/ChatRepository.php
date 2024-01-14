@@ -9,6 +9,11 @@ use Illuminate\Database\Eloquent\Collection;
 
 class ChatRepository extends BaseRepository
 {
+    public function __construct(ChatMessage $model)
+    {
+        parent::__construct($model);
+    }
+
     public function getOrdered(int $page): Collection
     {
         $perPage = 5;
