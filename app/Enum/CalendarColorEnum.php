@@ -17,37 +17,26 @@ class CalendarColorEnum
     public const RED = 'red';
     public const YELLOW = 'yellow';
 
+    public const COLORS = [
+        self::NONE,
+        self::BLACK,
+        self::BLUE,
+        self::GRAY,
+        self::GREEN,
+        self::ORANGE,
+        self::PINK,
+        self::PURPLE,
+        self::RED,
+        self::YELLOW,
+    ];
+
     public static function getColor(int $colorId): string
     {
-        $colors = [
-            self::NONE,
-            self::BLACK,
-            self::BLUE,
-            self::GRAY,
-            self::GREEN,
-            self::ORANGE,
-            self::PINK,
-            self::PURPLE,
-            self::RED,
-            self::YELLOW,
-        ];
-
-        return $colors[$colorId] ?? self::NONE;
+        return self::COLORS[$colorId] ?? self::NONE;
     }
 
     public static function getAllColors(): array
     {
-        return [
-            self::NONE,
-            self::BLACK,
-            self::BLUE,
-            self::GRAY,
-            self::GREEN,
-            self::ORANGE,
-            self::PINK,
-            self::PURPLE,
-            self::RED,
-            self::YELLOW,
-        ];
+        return self::COLORS;
     }
 }
