@@ -39,7 +39,8 @@ class EmployeeController extends Controller
     {
         $this->employeeService->toggleBlock($user);
 
-        return back()->with('message', 'Zmiana statusu użytkownika!');
+        return back()
+            ->with('message', 'Zmiana statusu użytkownika!');
     }
 
     public function edit(User $user, RoleRepository $roleRepository): View
@@ -54,9 +55,11 @@ class EmployeeController extends Controller
     {
         try {
             $this->employeeService->update($user, $request->validated(), $request->file('avatar'));
-            return back()->with('message', 'Użytkownik zaktualizowany!');
+            return back()
+                ->with('message', 'Użytkownik zaktualizowany!');
         } catch (\Exception $e) {
-            return back()->with('error', 'Nastąpił błąd w trakcie dodawania nowych produktów!');
+            return back()
+                ->with('error', 'Nastąpił błąd w trakcie dodawania nowych produktów!');
         }
     }
 
@@ -64,21 +67,24 @@ class EmployeeController extends Controller
     {
         $this->employeeService->changePassword($user, $request->validated());
 
-        return back()->with('message', 'Zmieniono hasło użytkownika na nowe.');
+        return back()
+            ->with('message', 'Zmieniono hasło użytkownika na nowe.');
     }
 
     public function changeRole(User $user, FormRequest $request): RedirectResponse
     {
         $this->employeeService->checkRoleAndChange($user, $request->id);
 
-        return back()->with('message', 'Zmieniono rolę użytkownika.');
+        return back()
+            ->with('message', 'Zmieniono rolę użytkownika.');
     }
 
     public function deleteAvatar(User $user): RedirectResponse
     {
         $this->employeeService->checkAndDeleteAvatar($user);
 
-        return back()->with('message', 'Usunięto zdjęcie profilowe.');
+        return back()
+            ->with('message', 'Usunięto zdjęcie profilowe.');
     }
 
     public function create(): View
@@ -90,9 +96,12 @@ class EmployeeController extends Controller
     {
         try {
             $this->employeeService->store($request->validated());
-            return redirect()->route('storeEmployeeAdmin')->with('message', 'Nowy pracownik został założony.');
+            return redirect()
+                ->route('storeEmployeeAdmin')
+                ->with('message', 'Nowy pracownik został założony.');
         } catch (\Exception $e) {
-            return back()->with('message', 'Nastąpił błąd w trakcie zapisu.');
+            return back()
+                ->with('message', 'Nastąpił błąd w trakcie zapisu.');
         }
     }
 }

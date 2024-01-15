@@ -35,10 +35,12 @@ class RoleController extends Controller
         try {
             $this->roleService->store($request->validated());
             DB::commit();
-            return back()->with('message', 'Utworzono nową rolę.');
+            return back()
+                ->with('message', 'Utworzono nową rolę.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Wystąpił błąd w trakcie tworzenia roli!');
+            return back()
+                ->with('error', 'Wystąpił błąd w trakcie tworzenia roli!');
         }
     }
 
@@ -47,23 +49,28 @@ class RoleController extends Controller
         try {
             $this->permissionService->assignPermissionsToRole($request->toArray());
             DB::commit();
-            return back()->with('message', 'Wprowadzono zmiany w uprawnieniach ról.');
+            return back()
+                ->with('message', 'Wprowadzono zmiany w uprawnieniach ról.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Wystąpił błąd w trakcie przypisywania uprawnień!');
+            return back()
+                ->with('error', 'Wystąpił błąd w trakcie przypisywania uprawnień!');
         }
     }
 
     public function destroyRole(Role $role): RedirectResponse
     {
         if ($role->name == 'admin')
-            return back()->with('message', 'Brak możliwości usunięcia tej roli.');
+            return back()
+                ->with('message', 'Brak możliwości usunięcia tej roli.');
 
         try {
             $this->roleService->destroy($role);
-            return back()->with('message', 'Usunięto rolę i jej uprawnienia.');
+            return back()
+                ->with('message', 'Usunięto rolę i jej uprawnienia.');
         } catch (\Exception $e) {
-            return back()->with('message', 'Wystąpił błąd w trakcie usuwania roli i uprawnień.');
+            return back()
+                ->with('message', 'Wystąpił błąd w trakcie usuwania roli i uprawnień.');
         }
     }
 }

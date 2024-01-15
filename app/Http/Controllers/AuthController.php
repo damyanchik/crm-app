@@ -32,29 +32,37 @@ class AuthController extends Controller
 
     public function authenticate(AuthenticateRequest $request): RedirectResponse
     {
-        if (!auth()->attempt($request->validated()))
-            return back()->withErrors(['email' => 'Niepoprawny email lub hasło.'])->onlyInput('email');
-
+        if (!auth()->attempt($request->validated())) {
+            return back()
+                ->withErrors(['email' => 'Niepoprawny email lub hasło.'])
+                ->onlyInput('email');
+        }
         $this->authService->authenticate($request);
 
-        return redirect()->route('dashboard');
+        return redirect()
+            ->route('dashboard');
     }
 
     public function logout(Request $request): RedirectResponse
     {
         $this->authService->logout($request);
 
-        return redirect()->route('login')->with('message', 'Zostałeś wylogowany.');
+        return redirect()
+            ->route('login')
+            ->with('message', 'Zostałeś wylogowany.');
     }
 
     public function resend(Request $request): RedirectResponse
     {
-        if ($request->user()->hasVerifiedEmail())
-            return redirect()->route('dashboard')->with('message', 'Konto aktywowane.');
-
+        if ($request->user()->hasVerifiedEmail()) {
+            return redirect()
+                ->route('dashboard')
+                ->with('message', 'Konto aktywowane.');
+        }
         $this->authService->resend($request);
 
-        return back()->with('resent', true);
+        return back()
+            ->with('resent', true);
     }
 
     protected function verified(Request $request): RedirectResponse

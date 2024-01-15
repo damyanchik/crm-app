@@ -34,12 +34,16 @@ class OrderController extends Controller
     {
         try {
             $this->orderService->ready($order);
-            return redirect()->route('orders')->with(
-                'message',
-                'Potwierdzono gotowość zamówienia o nr '.$order->invoice_num.'.'
-            );
+            return redirect()
+                ->route('orders')
+                ->with(
+                    'message',
+                    'Potwierdzono gotowość zamówienia o nr '.$order->invoice_num.'.'
+                );
         } catch (\Exception $e) {
-            return redirect()->route('orders')->with('message', 'Wystąpił błąd w trakcie zapisu.');
+            return redirect()
+                ->route('orders')
+                ->with('message', 'Wystąpił błąd w trakcie zapisu.');
         }
     }
 
@@ -47,12 +51,15 @@ class OrderController extends Controller
     {
         try {
             $this->orderService->close($order);
-            return redirect()->route('orderArchives')->with(
-                'message',
-                'Zamknięto zamówienie o nr '.$order->invoice_num.'.'
-            );
+            return redirect()
+                ->route('orderArchives')->with(
+                    'message',
+                    'Zamknięto zamówienie o nr '.$order->invoice_num.'.'
+                );
         } catch (\Exception $e) {
-            return redirect()->route('orders')->with('message', 'Wystąpił błąd w trakcie zapisu.');
+            return redirect()
+                ->route('orders')
+                ->with('message', 'Wystąpił błąd w trakcie zapisu.');
         }
     }
 
@@ -60,12 +67,15 @@ class OrderController extends Controller
     {
         try {
             $this->orderService->reject($order);
-            return redirect('/orders/archive')->with(
-                'message',
-                'Odrzucono zamówienie o nr '.$order->invoice_num.'.'
-            );
+            return redirect('/orders/archive')
+                ->with(
+                    'message',
+                    'Odrzucono zamówienie o nr '.$order->invoice_num.'.'
+                );
         } catch (\Exception $e) {
-            return redirect()->route('orders')->with('message', 'Wystąpił błąd w trakcie zapisu.');
+            return redirect()
+                ->route('orders')
+                ->with('message', 'Wystąpił błąd w trakcie zapisu.');
         }
     }
 }

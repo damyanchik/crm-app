@@ -34,9 +34,12 @@ class ProductCategoryController extends Controller
     {
         try {
             $this->categoryService->store($request->validated());
-            return redirect()->route('prodCats')->with('message', 'Kategoria produktowa została utworzona.');
+            return redirect()
+                ->route('prodCats')
+                ->with('message', 'Kategoria produktowa została utworzona.');
         } catch (\Exception $e) {
-            return back()->with('message', 'Nastąpił błąd w trakcie zapisu.');
+            return back()
+                ->with('message', 'Nastąpił błąd w trakcie zapisu.');
         }
     }
 
@@ -51,9 +54,11 @@ class ProductCategoryController extends Controller
     {
         try {
             $this->categoryService->update($productCategory, $request->validated());
-            return back()->with('message', 'Kategoria produktowa została edytowana.');
+            return back()
+                ->with('message', 'Kategoria produktowa została edytowana.');
         } catch (\Exception $e) {
-            return back()->with('message', 'Nastąpił błąd w trakcie zapisu.');
+            return back()
+                ->with('message', 'Nastąpił błąd w trakcie zapisu.');
         }
     }
 
@@ -61,9 +66,12 @@ class ProductCategoryController extends Controller
     {
         try {
             $this->categoryService->destroy($productCategory);
-            return redirect()->route('prodCats')->with('message', 'Kategoria produktowa została usunięta.');
+            return redirect()
+                ->route('prodCats')
+                ->with('message', 'Kategoria produktowa została usunięta.');
         } catch (\Exception $e) {
-            return back()->with('message', 'Nastąpił błąd w trakcie zapisu.');
+            return back()
+                ->with('message', 'Nastąpił błąd w trakcie zapisu.');
         }
     }
 }

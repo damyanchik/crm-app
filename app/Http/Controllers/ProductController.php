@@ -37,10 +37,13 @@ class ProductController extends Controller
         try {
             $this->productService->store($request->validated(), $request->file('photo'));
             DB::commit();
-            return redirect()->route('products')->with('message', 'Produkt został utworzony.');
+            return redirect()
+                ->route('products')
+                ->with('message', 'Produkt został utworzony.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Nastąpił błąd w trakcie tworzenia produktu!');
+            return back()
+                ->with('error', 'Nastąpił błąd w trakcie tworzenia produktu!');
         }
     }
 
@@ -57,10 +60,12 @@ class ProductController extends Controller
         try {
             $this->productService->update($request->validated(), $product, $request->file('photo'));
             DB::commit();
-            return back()->with('message', 'Produkt został zaktualizowany.');
+            return back()
+                ->with('message', 'Produkt został zaktualizowany.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Nastąpił błąd w trakcie aktualizacji produktu!');
+            return back()
+                ->with('error', 'Nastąpił błąd w trakcie aktualizacji produktu!');
         }
     }
 
@@ -68,9 +73,12 @@ class ProductController extends Controller
     {
         try {
             $this->productService->destroy($product);
-            return redirect()->route('products')->with('message', 'Produkt został usunięty.');
+            return redirect()
+                ->route('products')
+                ->with('message', 'Produkt został usunięty.');
         } catch (\Exception $e) {
-            return back()->with('message', 'Nastąpił błąd w trakcie usuwania produktu.');
+            return back()
+                ->with('message', 'Nastąpił błąd w trakcie usuwania produktu.');
         }
     }
 
@@ -78,9 +86,11 @@ class ProductController extends Controller
     {
         try {
             $this->productService->destroyPhoto($product);
-            return back()->with('message', 'Usunięto zdjęcie produktu.');
+            return back()
+                ->with('message', 'Usunięto zdjęcie produktu.');
         } catch (\Exception $e) {
-            return back()->with('message', 'Nastąpił błąd w trakcie usuwania zdjęcia.');
+            return back()
+                ->with('message', 'Nastąpił błąd w trakcie usuwania zdjęcia.');
         }
     }
 }

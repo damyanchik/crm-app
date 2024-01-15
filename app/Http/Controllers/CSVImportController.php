@@ -27,10 +27,12 @@ class CSVImportController extends Controller
         try {
             $this->CSVService->importNewProduct($request->file('csv_file'));
             DB::commit();
-            return back()->with('message', 'Nowe produktu zostały dodane do bazy.');
+            return back()
+                ->with('message', 'Nowe produktu zostały dodane do bazy.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Nastąpił błąd w trakcie dodawania nowych produktów! Sprawdź czy produkty już istnieją.');
+            return back()
+                ->with('error', 'Nastąpił błąd w trakcie dodawania nowych produktów! Sprawdź czy produkty już istnieją.');
         }
     }
 
@@ -40,10 +42,12 @@ class CSVImportController extends Controller
         try {
             $this->CSVService->importProductToUpdate($request->file('csv_file'));
             DB::commit();
-            return back()->with('message', 'Produkty zostały zaktualizowane.');
+            return back()
+                ->with('message', 'Produkty zostały zaktualizowane.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Nastąpił błąd w trakcie aktualizacji produktów!');
+            return back()
+                ->with('error', 'Nastąpił błąd w trakcie aktualizacji produktów!');
         }
     }
 

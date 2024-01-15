@@ -41,7 +41,9 @@ class ClientController extends Controller
     {
         try {
             $this->clientService->store($request->validated());
-            return redirect()->route('clients')->with('message', 'Klient został założony.');
+            return redirect()
+                ->route('clients')
+                ->with('message', 'Klient został założony.');
         } catch (\Exception $e) {
             return back()->with('message', 'Nastąpił błąd w trakcie zapisu.');
         }
@@ -51,7 +53,9 @@ class ClientController extends Controller
     {
         try {
             $this->clientService->update($client, $request->validated());
-            return redirect()->route('clients')->with('message', 'Klient został zaktualizowany.');
+            return redirect()
+                ->route('clients')
+                ->with('message', 'Klient został zaktualizowany.');
         } catch (\Exception $e) {
             return back()->with('message', 'Nastąpił błąd w trakcie zapisu.');
         }
@@ -68,7 +72,9 @@ class ClientController extends Controller
     {
         try {
             $this->clientService->destroy($client);
-            return redirect()->route('clients')->with('message', 'Klient został usunięty.');
+            return redirect()
+                ->route('clients')
+                ->with('message', 'Klient został usunięty.');
         } catch (\Exception $e) {
             return back()->with('message', 'Nastąpił błąd w trakcie usuwania.');
         }

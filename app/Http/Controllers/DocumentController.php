@@ -20,13 +20,15 @@ class DocumentController extends Controller
             OrderStatusEnum::READY['id'],
             OrderStatusEnum::CLOSED['id']
         ])) {
-            return back()->with('message', 'Błąd w trakcie generowania faktury.');
+            return back()
+                ->with('message', 'Błąd w trakcie generowania faktury.');
         }
 
         try {
             return $this->documentService->generateInvoice($order);
         } catch (\Exception $e) {
-            return back()->with('message', 'Błąd w trakcie generowania faktury.');
+            return back()
+                ->with('message', 'Błąd w trakcie generowania faktury.');
         }
     }
 
@@ -35,7 +37,8 @@ class DocumentController extends Controller
         try {
             return $this->documentService->generateOffer($offer);
         } catch (\Exception $e) {
-            return back()->with('message', 'Błąd w trakcie generowania oferty.');
+            return back()
+                ->with('message', 'Błąd w trakcie generowania oferty.');
         }
     }
 }

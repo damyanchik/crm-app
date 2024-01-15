@@ -26,9 +26,12 @@ class CompanyController extends Controller
     {
         try {
             $this->companyService->update($request->validated());
-            return redirect()->route('companyDetailsAdmin')->with('message', 'Dane zostały zaktualizowane.');
+            return redirect()
+                ->route('companyDetailsAdmin')
+                ->with('message', 'Dane zostały zaktualizowane.');
         } catch (\Exception $e) {
-            return back()->with('message', 'Nastąpił błąd w trakcie zapisu.');
+            return back()
+                ->with('message', 'Nastąpił błąd w trakcie zapisu.');
         }
     }
 }

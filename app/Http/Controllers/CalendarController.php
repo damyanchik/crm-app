@@ -27,9 +27,12 @@ class CalendarController extends Controller
     {
         try {
             $this->calendarService->store($calendarStoreRequest->validated());
-            return redirect()->route('calendar')->with('message', 'Utworzono wydarzenie w kalendarzu.');
+            return redirect()
+                ->route('calendar')
+                ->with('message', 'Utworzono wydarzenie w kalendarzu.');
         } catch (\Exception $e) {
-            return back()->with('message', 'Nastąpił błąd w trakcie zapisu.');
+            return back()
+                ->with('message', 'Nastąpił błąd w trakcie zapisu.');
         }
     }
 
@@ -37,9 +40,12 @@ class CalendarController extends Controller
     {
         try {
             $this->calendarService->destroy($event);
-            return redirect()->route('calendar')->with('message', 'Usunięto wydarzenie w kalendarzu.');
+            return redirect()
+                ->route('calendar')
+                ->with('message', 'Usunięto wydarzenie w kalendarzu.');
         } catch (\Exception $e) {
-            return back()->with('message', 'Nastąpił błąd w trakcie usuniecia.');
+            return back()
+                ->with('message', 'Nastąpił błąd w trakcie usuniecia.');
         }
     }
 }

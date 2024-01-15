@@ -34,9 +34,12 @@ class BrandController extends Controller
     {
         try {
             $this->brandService->store($request->validated());
-            return redirect()->route('brands')->with('message', 'Marka została utworzona.');
+            return redirect()
+                ->route('brands')
+                ->with('message', 'Marka została utworzona.');
         } catch (\Exception $e) {
-            return back()->with('message', 'Nastąpił błąd w trakcie zapisu.');
+            return back()
+                ->with('message', 'Nastąpił błąd w trakcie zapisu.');
         }
     }
 
@@ -51,9 +54,12 @@ class BrandController extends Controller
     {
         try {
             $this->brandService->update($brand, $request->validated());
-            return redirect()->route('brands')->with('message', 'Marka została edytowana.');
+            return redirect()
+                ->route('brands')
+                ->with('message', 'Marka została edytowana.');
         } catch (\Exception $e) {
-            return back()->with('message', 'Nastąpił błąd w trakcie zapisu.');
+            return back()
+                ->with('message', 'Nastąpił błąd w trakcie zapisu.');
         }
     }
 
@@ -61,9 +67,12 @@ class BrandController extends Controller
     {
         try {
             $this->brandService->destroy($brand);
-            return redirect()->route('brands')->with('message', 'Marka została usunięta.');
+            return redirect()
+                ->route('brands')
+                ->with('message', 'Marka została usunięta.');
         } catch (\Exception $e) {
-            return back()->with('message', 'Nastąpił błąd w trakcie usuwania.');
+            return back()
+                ->with('message', 'Nastąpił błąd w trakcie usuwania.');
         }
     }
 }

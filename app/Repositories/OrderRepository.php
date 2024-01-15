@@ -5,12 +5,9 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Enum\OrderStatusEnum;
-use App\Events\StockToOrder;
-use App\Helpers\StockHelper;
+use App\Helpers\InvoiceHelper;
 use App\Models\Order;
-use App\Models\OrderItem;
 use App\Traits\SearchableTrait;
-use Illuminate\Database\Eloquent\Model;
 
 class OrderRepository extends BaseRepository
 {
@@ -51,11 +48,11 @@ class OrderRepository extends BaseRepository
     private function generateInvoiceNumber(): string
     {
         $invoiceNumber = $this->getOrderQuantityInCurrentMonth() + 1;
-        $invoice = $invoiceNumber . '/FV/' . now()->month . '/' . now()->year;
+        $invoice = InvoiceHelper::prepareInvoiceNumber($invoiceNumber);
 
         while (Order::where('invoice_num', '=', $invoice)->exists()) {
             $invoiceNumber++;
-            $invoice = $invoiceNumber . '/FV/' . now()->month . '/' . now()->year;
+            $invoice = InvoiceHelper::prepareInvoiceNumber($invoiceNumber);
         }
 
         return $invoice;
@@ -63,13 +60,11 @@ class OrderRepository extends BaseRepository
 
     private function getOrderQuantityInCurrentMonth(): int
     {
-        $orderMonthQuantity = Order::whereMonth('created_at', '=', now()->month)
+        return Order::whereMonth('created_at', '=', now()->month)
             ->whereNotIn('status', [
                 OrderStatusEnum::OFFER['id'],
                 OrderStatusEnum::ACCEPTED['id'],
             ])
             ->count();
-
-        return $orderMonthQuantity->quantity;
     }
 }

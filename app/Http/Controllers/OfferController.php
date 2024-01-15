@@ -41,10 +41,13 @@ class OfferController extends Controller
         try {
             $this->offerService->store($offerRequest->validated(), $itemsRequest->validated());
             DB::commit();
-            return redirect()->route('storeOffer')->with('message', 'Utworzono nową ofertę.');
+            return redirect()
+                ->route('storeOffer')
+                ->with('message', 'Utworzono nową ofertę.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Błąd w tworzeniu oferty, spróbuj ponownie!');
+            return back()
+                ->with('error', 'Błąd w tworzeniu oferty, spróbuj ponownie!');
         }
     }
 
@@ -62,10 +65,12 @@ class OfferController extends Controller
         try {
             $this->offerService->update($offer, $offerRequest->validated(), $itemsRequest->validated());
             DB::commit();
-            return back()->with('message', 'Oferta została zaktualizowana.');
+            return back()
+                ->with('message', 'Oferta została zaktualizowana.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->with('error', 'Błąd w tworzeniu oferty, spróbuj ponownie!');
+            return back()
+                ->with('error', 'Błąd w tworzeniu oferty, spróbuj ponownie!');
         }
     }
 
@@ -73,9 +78,11 @@ class OfferController extends Controller
     {
         try {
             $this->offerService->destroy($offer);
-            return redirect('/offers')->with('message', 'Oferta została usunięta.');
+            return redirect('/offers')
+                ->with('message', 'Oferta została usunięta.');
         } catch (\Exception $e) {
-            return redirect('/offers')->with('message', 'Nastąpił błąd w trakcie usuwania.');
+            return redirect('/offers')
+                ->with('message', 'Nastąpił błąd w trakcie usuwania.');
         }
     }
 
@@ -83,12 +90,15 @@ class OfferController extends Controller
     {
         try {
             $this->offerService->transformToOrder($offer);
-            return redirect()->route('orders')->with(
-                'message',
-                'Utworzono nowe zamówienie o numerze '.$offer->invoice_num.'.'
-            );
+            return redirect()
+                ->route('orders')
+                ->with(
+                    'message',
+                    'Utworzono nowe zamówienie o numerze '.$offer->invoice_num.'.'
+                );
         } catch (\Exception $e) {
-            return redirect('/offers')->with('message', 'Nastąpił błąd w trakcie tworzenia zamówienia.');
+            return redirect('/offers')
+                ->with('message', 'Nastąpił błąd w trakcie tworzenia zamówienia.');
         }
     }
 }

@@ -39,16 +39,6 @@ class BaseRepository
         $currentModel->delete();
     }
 
-    public function getByColumn(string $value, string $column = 'id'): ?Model
-    {
-        return $this->query()->where($column, $value)->first();
-    }
-
-    private function query(): object
-    {
-        return call_user_func([$this->model, 'query']);
-    }
-
     protected function checkModelOrInt(Model|int $model): Model|int
     {
         return is_int($model) ? $this->findById($model) : $model;
