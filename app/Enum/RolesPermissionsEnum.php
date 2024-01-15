@@ -6,6 +6,7 @@ namespace App\Enum;
 
 class RolesPermissionsEnum
 {
+    const NONE = '';
     const STORE_OFFER = 'storeOffer';
     const UPDATE_OFFER = 'updateOffer';
     const DESTROY_OFFER = 'destroyOffer';
@@ -72,6 +73,6 @@ class RolesPermissionsEnum
             self::SETTINGS_ADMIN => 'Ustawienia strony w panelu',
         ];
 
-        return $map[$name] ?? $name;
+        return $map[$name] ?? self::NONE;
     }
 }

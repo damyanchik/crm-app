@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repositories;
 
+use App\Enum\BlockUserEnum;
 use App\Helpers\PhotoHelper;
 use App\Models\User;
 use App\Traits\SearchableTrait;
@@ -33,7 +34,7 @@ class UserRepository extends BaseRepository
 
     public function toggleBlock(User $user): void
     {
-        $status = $user->getAttribute('block') == 1 ? 0 : 1;
+        $status = $user->getAttribute('block') == BlockUserEnum::BLOCKED ? BlockUserEnum::NONE : BlockUserEnum::BLOCKED;
 
         $user->setAttribute('block', $status);
         $user->save();

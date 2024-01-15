@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Events;
 
+use App\Enum\BlockUserEnum;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -16,7 +17,7 @@ class UserLogging
 
     public function __invoke(): void
     {
-        if (Auth::check() && Auth::user()->block == 1) {
+        if (Auth::check() && Auth::user()->block == BlockUserEnum::BLOCKED) {
             Auth::logout();
         }
     }

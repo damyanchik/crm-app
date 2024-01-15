@@ -73,9 +73,8 @@
                         <div class="col-6 col-md-2 mt-2">
                             <span class="labels">Status</span>
                             <select name="status" class="form-control">
-                                <option value="" disabled selected>Wybierz status</option>
                                 @foreach(app('ProductStatusEnum')->getAllStatuses() as $id => $name)
-                                    <option value="{{ $id }}">{{ $name }}</option>
+                                    <option value="{{ $id == 0 ? '' : $id }}"{{ $id == 0 ? 'disabled selected' : '' }}> {{ $id == 0 ? "Wybierz status" : $name }}</option>
                                 @endforeach
                             </select>
                             @error('status')

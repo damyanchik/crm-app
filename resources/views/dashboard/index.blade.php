@@ -10,7 +10,7 @@
         </div>
         <div class="col-6 col-md-3">
             <h4 class="col-12 fw-bold">Wartość zamówień</h4>
-            <h5>{{ app('PriceHelper')->formatPrice($dashboardData['totalSalesThisWeek']) }}</h5>
+            <h5>{{ app('PriceHelper')->formatPrice($dashboardData['totalSalesThisWeek'] ?? 0) }}</h5>
             <small class="lastWeekDiff">{{ app('PriceHelper')->formatPrice($dashboardData['totalSalesThisWeek'] - $dashboardData['totalSalesLastWeek']) }}</small>
         </div>
         <div class="col-6 col-md-3 mt-4 mt-md-0">

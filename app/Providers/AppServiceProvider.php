@@ -6,8 +6,6 @@ use App\Enum\OrderStatusEnum;
 use App\Enum\ProductStatusEnum;
 use App\Enum\ProductUnitEnum;
 use App\Helpers\PriceHelper;
-use App\Models\OrderItem;
-use App\Observers\OrderItemObserver;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 use App\Enum\CalendarColorEnum;

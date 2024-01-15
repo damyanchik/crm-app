@@ -6,24 +6,23 @@ namespace App\Enum;
 
 class ProductUnitEnum
 {
+    public const NONE = '';
     public const PIECE = 'szt.';
     public const SET = 'kpl.';
 
+    public const UNITS = [
+        self::NONE,
+        self::PIECE,
+        self::SET,
+    ];
+
     public static function getUnit(int $unitId): string
     {
-        $units = [
-            self::PIECE,
-            self::SET,
-        ];
-
-        return $units[$unitId] ?? 'Nieznany';
+        return self::UNITS[$unitId] ?? self::NONE;
     }
 
     public static function getAllUnits(): array
     {
-        return [
-            self::PIECE,
-            self::SET,
-        ];
+        return self::UNITS;
     }
 }

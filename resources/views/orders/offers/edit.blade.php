@@ -38,7 +38,7 @@
                             <select name="status" class="form-control">
                                 <option value="" disabled selected>Wybierz status</option>
                                 @foreach(app('OrderStatusEnum')->getAllStatuses() as $id => $name)
-                                    @if($id !== 0 && $id !== 1)
+                                    @if($id !== \App\Enum\OrderStatusEnum::OFFER['id'] && $id !== \App\Enum\OrderStatusEnum::ACCEPTED['id'])
                                         @continue
                                     @endif
                                     <option value="{{ $id }}" {{ $offer['status'] == $id ? 'selected' : '' }}>{{ $name }}</option>

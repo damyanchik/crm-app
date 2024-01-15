@@ -32,7 +32,7 @@ class CalendarColorEnum
             self::YELLOW,
         ];
 
-        return $colors[$colorId] ?? 'Nieznany';
+        return $colors[$colorId] ?? self::NONE;
     }
 
     public static function getAllColors(): array
