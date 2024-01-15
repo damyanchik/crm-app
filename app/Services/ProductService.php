@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Factories\FileDataImporter\FileDataImporter;
 use App\Helpers\PhotoHelper;
 use App\Models\Product;
-use App\Factories\FileDataImporter\Factories\ProductAdditionFactory;
-use App\Factories\FileDataImporter\Factories\ProductUpdateFactory;
-use App\Factories\FileDataImporter\FileDataImporter;
 use App\Repositories\ProductRepository;
 
 class ProductService

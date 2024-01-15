@@ -7,9 +7,10 @@ namespace App\Repositories;
 use App\Enum\OrderStatusEnum;
 use App\Helpers\InvoiceHelper;
 use App\Models\Order;
+use App\Repositories\Interfaces\OrderRepositoryInterface;
 use App\Traits\SearchableTrait;
 
-class OrderRepository extends BaseRepository
+class OrderRepository extends BaseRepository implements OrderRepositoryInterface
 {
     use SearchableTrait;
 

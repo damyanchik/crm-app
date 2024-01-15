@@ -7,8 +7,8 @@ namespace App\Services;
 use App\Enum\OrderStatusEnum;
 use App\Events\OrderToStock;
 use App\Events\StockToOrder;
-use App\Models\Order;
 use App\Factories\FileDataImporter\FileDataImporter;
+use App\Models\Order;
 use App\Repositories\OrderItemRepository;
 use App\Repositories\OrderRepository;
 

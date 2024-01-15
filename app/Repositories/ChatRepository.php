@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Models\ChatMessage;
+use App\Repositories\Interfaces\ChatRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 
-class ChatRepository extends BaseRepository
+class ChatRepository extends BaseRepository implements ChatRepositoryInterface
 {
     public function __construct(ChatMessage $model)
     {

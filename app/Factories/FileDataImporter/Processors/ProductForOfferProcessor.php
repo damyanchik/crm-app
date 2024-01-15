@@ -11,11 +11,11 @@ class ProductForOfferProcessor implements ProcessorInterface
     public function process(array $data): array
     {
         $existingProducts = $this->getExistingProducts($data);
-        $collection = collect($data);
 
-        $collection->transform(function ($item) use (&$existingProducts) {
-            if (empty($existingProducts[$item['code']]))
+        $collection = collect($data)->transform(function ($item) use (&$existingProducts) {
+            if (empty($existingProducts[$item['code']])) {
                 return $item = null;
+            }
 
             return $this->processItem($item, $existingProducts);
         });
@@ -43,19 +43,22 @@ class ProductForOfferProcessor implements ProcessorInterface
 
     private function updatePrice(&$item, $existingProducts)
     {
-        if (empty($item['price']) && $item['price'] < 0)
+        if (empty($item['price']) && $item['price'] < 0) {
             $item['price'] = $existingProducts[$item['code']]['price'];
+        }
 
-        if ($existingProducts[$item['code']]['price'] != $item['price'] && $item['price'] > 0)
+        if ($existingProducts[$item['code']]['price'] != $item['price'] && $item['price'] > 0) {
             $item['changes']['price'] = $existingProducts[$item['code']]['price'];
+        }
     }
 
     private function updateQuantity(&$item, &$existingProducts)
     {
-        if ($existingProducts[$item['code']]['quantity'] > 0)
+        if ($existingProducts[$item['code']]['quantity'] > 0) {
             $existingProducts[$item['code']]['quantity'] = $existingProducts[$item['code']]['quantity'] - $item['quantity'];
-        else
+        } else {
             $item = null;
+        }
 
         if ($item != null && $existingProducts[$item['code']]['quantity'] < 0) {
             $item['changes']['quantity'] = $item['quantity'];

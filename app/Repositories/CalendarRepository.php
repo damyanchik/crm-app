@@ -6,9 +6,10 @@ namespace App\Repositories;
 
 use App\Enum\CalendarColorEnum;
 use App\Models\Calendar;
+use App\Repositories\Interfaces\CalendarRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 
-class CalendarRepository extends BaseRepository
+class CalendarRepository extends BaseRepository implements CalendarRepositoryInterface
 {
     public function __construct(Calendar $model)
     {

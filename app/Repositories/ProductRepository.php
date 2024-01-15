@@ -6,10 +6,11 @@ namespace App\Repositories;
 
 use App\Helpers\PhotoHelper;
 use App\Models\Product;
+use App\Repositories\Interfaces\ProductRepositoryInterface;
 use App\Traits\SearchableTrait;
 use Illuminate\Database\Eloquent\Model;
 
-class ProductRepository extends BaseRepository
+class ProductRepository extends BaseRepository implements ProductRepositoryInterface
 {
     use SearchableTrait;
 

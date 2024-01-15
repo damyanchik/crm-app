@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Models\Brand;
+use App\Repositories\Interfaces\BrandRepositoryInterface;
 use App\Traits\SearchableTrait;
 
-class BrandRepository extends BaseRepository
+class BrandRepository extends BaseRepository implements BrandRepositoryInterface
 {
     use SearchableTrait;
 

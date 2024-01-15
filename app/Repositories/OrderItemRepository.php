@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Models\OrderItem;
+use App\Repositories\Interfaces\OrderItemRepositoryInterface;
 
-class OrderItemRepository extends BaseRepository
+class OrderItemRepository extends BaseRepository implements OrderItemRepositoryInterface
 {
     public function __construct(OrderItem $model)
     {

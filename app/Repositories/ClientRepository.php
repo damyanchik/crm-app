@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Models\Client;
+use App\Repositories\Interfaces\ClientRepositoryInterface;
 use App\Traits\SearchableTrait;
 use Illuminate\Database\Eloquent\Model;
 
-class ClientRepository extends BaseRepository
+class ClientRepository extends BaseRepository implements ClientRepositoryInterface
 {
     use SearchableTrait;
 

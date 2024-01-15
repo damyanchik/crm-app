@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Strategies\StockOperationStrategy;
 
-use App\Repositories\ProductRepository;
-use Illuminate\Database\Eloquent\Model;
+use App\Repositories\Interfaces\ProductRepositoryInterface;
 
 class AdditionStrategy implements StrategyInterface
 {
-    public function __construct(protected ProductRepository $productRepository)
+    public function __construct(protected ProductRepositoryInterface $productRepository)
     {
     }
 

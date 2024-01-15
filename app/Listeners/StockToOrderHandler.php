@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Listeners;
 
 use App\Events\StockToOrder;
-use App\Repositories\ProductRepository;
+use App\Repositories\Interfaces\ProductRepositoryInterface;
 use App\Strategies\StockOperationStrategy\StockOperation;
 use App\Strategies\StockOperationStrategy\SubtractionStrategy;
 
@@ -15,7 +15,7 @@ class StockToOrderHandler
      * Create the event listener.
      */
     public function __construct(
-        protected ProductRepository $productRepository,
+        protected ProductRepositoryInterface $productRepository,
         protected StockOperation $stockOperation
     )
     {

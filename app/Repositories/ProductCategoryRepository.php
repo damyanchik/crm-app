@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Models\ProductCategory;
+use App\Repositories\Interfaces\ProductCategoryRepositoryInterface;
 use App\Traits\SearchableTrait;
 
-class ProductCategoryRepository extends BaseRepository
+class ProductCategoryRepository extends BaseRepository implements ProductCategoryRepositoryInterface
 {
     use SearchableTrait;
 

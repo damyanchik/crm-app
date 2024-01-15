@@ -7,10 +7,11 @@ namespace App\Repositories;
 use App\Enum\BlockUserEnum;
 use App\Helpers\PhotoHelper;
 use App\Models\User;
+use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Traits\SearchableTrait;
 use Illuminate\Support\Facades\Hash;
 
-class UserRepository extends BaseRepository
+class UserRepository extends BaseRepository implements UserRepositoryInterface
 {
     use SearchableTrait;
 
