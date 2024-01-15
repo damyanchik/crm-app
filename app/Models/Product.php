@@ -6,6 +6,7 @@ use App\Traits\SortableTrait;
 use App\Traits\UpdateSelectedRecordsTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Product extends Model
 {
@@ -62,12 +63,12 @@ class Product extends Model
             ->toArray();
     }
 
-    public function brand()
+    public function brand(): BelongsTo
     {
         return $this->belongsTo(Brand::class, 'brand_id');
     }
 
-    public function productCategory()
+    public function productCategory(): BelongsTo
     {
         return $this->belongsTo(ProductCategory::class, 'category_id');
     }
