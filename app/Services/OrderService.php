@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Enum\OrderStatusEnum;
+use App\Events\OrderToStock;
 use App\Helpers\StockHelper;
 use App\Models\Order;
 use App\Repositories\OrderRepository;
@@ -31,7 +32,7 @@ class OrderService
 
     public function reject(Order $order): void
     {
-        StockHelper::removeAllQuantityToProducts($order);
+        event(new OrderToStock($order));
         $order->setAttribute('status', OrderStatusEnum::REJECTED['id']);
         $order->save();
     }

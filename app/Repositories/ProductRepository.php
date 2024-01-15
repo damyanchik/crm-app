@@ -38,6 +38,13 @@ class ProductRepository extends BaseRepository
         Product::insert($data);
     }
 
+    public function getStock(array $codes): array
+    {
+        return Product::whereIn('code', $codes)
+            ->pluck('quantity', 'code')
+            ->toArray();
+    }
+
     public function updateMany(array $data): void
     {
         Product::updateMany($data, 'code');

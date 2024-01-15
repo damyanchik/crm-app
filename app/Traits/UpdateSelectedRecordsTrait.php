@@ -10,8 +10,9 @@ trait UpdateSelectedRecordsTrait
 {
     public static function updateMany(array $data, string $updateByColumn): void
     {
-        if (self::checkTablePropertyExist() || empty($data))
+        if (self::checkTablePropertyExist() || empty($data)) {
             return;
+        }
 
         DB::update(self::buildFinalQuery($data, $updateByColumn));
     }
@@ -37,13 +38,15 @@ trait UpdateSelectedRecordsTrait
         $cases = [];
         $i = 0;
         foreach ($data as $item) {
-            for ($x = count($columnsToUpdate)-1; $x >= 0; $x--)
+            for ($x = count($columnsToUpdate)-1; $x >= 0; $x--) {
                 $cases[$columnsToUpdate[$x]][$i] = "WHEN '{$item[$updateByColumn]}' THEN '{$item[$columnsToUpdate[$x]]}'";
+            }
             $i++;
         }
 
-        foreach ($cases as &$case)
+        foreach ($cases as &$case) {
             $case = implode(' ', $case);
+        }
 
         self::prepareCaseWithEveryColumn($cases, $updateByColumn);
 

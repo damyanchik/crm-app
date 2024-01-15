@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Enum\OrderStatusEnum;
+use App\Events\OrderToStock;
+use App\Events\StockToOrder;
 use App\Models\Order;
-use App\Factories\FileDataImporter\Factories\ProductForOfferFactory;
 use App\Factories\FileDataImporter\FileDataImporter;
+use App\Repositories\OrderItemRepository;
 use App\Repositories\OrderRepository;
 
 class OfferService
@@ -15,7 +17,7 @@ class OfferService
     public function __construct(
         protected FileDataImporter $fileDataImporter,
         protected OrderRepository $orderRepository,
-        protected CSVService $CSVService
+        protected OrderItemRepository $orderItemRepository
     )
     {
     }
@@ -30,32 +32,31 @@ class OfferService
 
     public function store(array $offerValidated, array $offersItemsValidated): void
     {
-        $this->orderRepository->storeWithItems($offerValidated, $offersItemsValidated);
+        $order = $this->orderRepository->storeAndGet($offerValidated);
+        data_fill($offersItemsValidated['products'], '*.order_id', intval($order->id));
+        $this->orderItemRepository->storeMany($offersItemsValidated['products']);
+        event(new StockToOrder($order));
     }
 
     public function update(Order $order, array $offerValidated, array $offersItemsValidated): void
     {
-        $this->orderRepository->updateWithItems($order, $offerValidated, $offersItemsValidated);
+        $this->orderRepository->update($order, $offerValidated);
+        data_fill($offersItemsValidated['products'], '*.order_id', intval($order->id));
+        event(new OrderToStock($order));
+        $this->orderItemRepository->destroyManyByOrderId(intval($order->id));
+        $this->orderItemRepository->storeMany($offersItemsValidated['products']);
+        event(new StockToOrder($order));
     }
 
-    public function destroy(Order $offer): void
+    public function destroy(Order $order): void
     {
-        $this->orderRepository->destroy($offer);
+        event(new OrderToStock($order));
+        $this->orderItemRepository->destroyManyByOrderId(intval($order->id));
+        $this->orderRepository->destroy($order);
     }
 
-    public function transformToOrder(Order $offer): void
+    public function transformToOrder(Order $order): void
     {
-        $this->orderRepository->transformToOrder($offer);
-    }
-
-    public function validateAndImportCsv(object $file): array
-    {
-        $csvData = $this->CSVService->validateFileAndReadToArray($file, [
-            'code', 'quantity', 'price'
-        ]);
-
-        $this->fileDataImporter->setFactory(new ProductForOfferFactory());
-
-        return $this->fileDataImporter->processData($csvData);
+        $this->orderRepository->transformToOrder($order);
     }
 }

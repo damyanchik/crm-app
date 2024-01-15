@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Enum\ProductUnitEnum;
 use App\Http\Requests\ImportCsvRequest;
+use App\Services\CSVService;
 use App\Services\OfferService;
 use App\Services\ProductService;
 use Illuminate\Http\RedirectResponse;
@@ -15,8 +16,7 @@ use Illuminate\View\View;
 class CSVImportController extends Controller
 {
     public function __construct(
-        protected ProductService $productService,
-        protected OfferService $offerService
+        protected CSVService $CSVService
     )
     {
     }
@@ -25,7 +25,7 @@ class CSVImportController extends Controller
     {
         DB::beginTransaction();
         try {
-            $this->productService->importNewProduct($request->file('csv_file'));
+            $this->CSVService->importNewProduct($request->file('csv_file'));
             DB::commit();
             return back()->with('message', 'Nowe produktu zostały dodane do bazy.');
         } catch (\Exception $e) {
@@ -38,7 +38,7 @@ class CSVImportController extends Controller
     {
         DB::beginTransaction();
         try {
-            $this->productService->importProductToUpdate($request->file('csv_file'));
+            $this->CSVService->importProductToUpdate($request->file('csv_file'));
             DB::commit();
             return back()->with('message', 'Produkty zostały zaktualizowane.');
         } catch (\Exception $e) {
@@ -51,7 +51,7 @@ class CSVImportController extends Controller
     {
         return view('orders.offers.create',[
             'jsonUnits' => json_encode(ProductUnitEnum::getAllUnits()),
-            'products' => $this->offerService->validateAndImportCsv($request->file('csv_file'))]
+            'products' => $this->CSVService->validateAndImportCsv($request->file('csv_file'))]
         );
     }
 }

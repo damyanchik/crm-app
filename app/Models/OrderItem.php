@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Observers\OrderItemObserver;
 use App\Traits\InsertOrIgnoreRecordsTrait;
 use App\Traits\SortableTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -26,6 +27,10 @@ class OrderItem extends Model
         'quantity',
         'price',
         'product_price'
+    ];
+
+    protected $dispatchesEvents = [
+        'inserted' => OrderItemObserver::class,
     ];
 
     public function order()

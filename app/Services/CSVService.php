@@ -4,50 +4,52 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use League\Csv\Reader;
+use App\Factories\FileDataImporter\Factories\ProductAdditionFactory;
+use App\Factories\FileDataImporter\Factories\ProductForOfferFactory;
+use App\Factories\FileDataImporter\Factories\ProductUpdateFactory;
+use App\Factories\FileDataImporter\FileDataImporter;
+use App\Helpers\CSVHelper;
+use App\Repositories\ProductRepository;
 
 class CSVService
 {
-    public function validateFileAndReadToArray(object $file, array $headers): array
+    public function __construct(
+        protected FileDataImporter $fileDataImporter,
+        protected ProductRepository $productRepository
+    )
     {
-        return $this->readToArray(
-            $file->getPathname(),
-            $headers
-        );
     }
 
-    public function readToArray(string $filePath, array $columnHeaders): array
+    public function validateAndImportCsv(object $file): array
     {
-        $csv = Reader::createFromPath($filePath, 'r');
-        $csv->setDelimiter(';');
-        $csvData = iterator_to_array($csv->getRecords());
-        $mappedArray = [];
+        $csvData = CSVHelper::validateFileAndReadToArray($file, [
+            'code', 'quantity', 'price'
+        ]);
 
-        if (!empty($csvData) && !empty($columnHeaders)) {
-            $mappedArray = $this->mapArray($csvData, $columnHeaders);
-        }
+        $this->fileDataImporter->setFactory(new ProductForOfferFactory());
 
-        return $mappedArray;
+        return $this->fileDataImporter->processData($csvData);
     }
 
-    private function mapArray(array $csvData, array $columnHeaders): array
+    public function importNewProduct(object $file): void
     {
-        $csvMappedData = [];
+        $csvData = CSVHelper::validateFileAndReadToArray($file, [
+            'name', 'code', 'quantity', 'unit', 'price', 'brand_id', 'category_id'
+        ]);
 
-        foreach ($csvData as $row) {
-            $rowData = [];
+        $this->fileDataImporter->setFactory(new ProductAdditionFactory());
 
-            foreach ($columnHeaders as $columnName => $columnIndex) {
-                if (!isset($row[$columnName])) {
-                    continue;
-                }
+        $this->productRepository->storeMany($this->fileDataImporter->processData($csvData));
+    }
 
-                $rowData[$columnIndex] = $row[$columnName];
-            }
+    public function importProductToUpdate(object $file): void
+    {
+        $csvData = CSVHelper::validateFileAndReadToArray($file, [
+            'code', 'quantity', 'price'
+        ]);
 
-            $csvMappedData[] = $rowData;
-        }
+        $this->fileDataImporter->setFactory(new ProductUpdateFactory());
 
-        return $csvMappedData;
+        $this->productRepository->updateMany($this->fileDataImporter->processData($csvData));
     }
 }

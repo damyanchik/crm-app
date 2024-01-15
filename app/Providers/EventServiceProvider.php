@@ -2,6 +2,14 @@
 
 namespace App\Providers;
 
+use App\Events\StockToOrder;
+use App\Events\OrderToStock;
+use App\Listeners\OrderToStockHandler;
+use App\Listeners\StockToOrderHandler;
+use App\Models\Order;
+use App\Models\OrderItem;
+use App\Observers\OrderItemObserver;
+use App\Observers\OrderObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -22,6 +30,17 @@ class EventServiceProvider extends ServiceProvider
         Login::class => [
             UserLogging::class,
         ],
+        StockToOrder::class => [
+            StockToOrderHandler::class
+        ],
+        OrderToStock::class => [
+            OrderToStockHandler::class
+        ]
+    ];
+
+    protected $observers = [
+        OrderItem::class => [OrderItemObserver::class],
+        Order::class => [OrderObserver::class]
     ];
 
     /**
@@ -29,7 +48,6 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
     }
 
     /**

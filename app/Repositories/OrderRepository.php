@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repositories;
 
 use App\Enum\OrderStatusEnum;
+use App\Events\StockToOrder;
 use App\Helpers\StockHelper;
 use App\Models\Order;
 use App\Models\OrderItem;
@@ -33,36 +34,9 @@ class OrderRepository extends BaseRepository
         return $this->searchAndSort($searchParams, $callable);
     }
 
-    public function storeWithItems(array $offerValidated, array $offersItemsValidated): void
+    public function storeAndGet(array $offerValidated): Order
     {
-        $newOffer = Order::create($offerValidated);
-
-        OrderItem::insert(
-            $this->prepareOfferItems(
-                intval($newOffer->id),
-                $offersItemsValidated['products']
-            )
-        );
-    }
-
-    public function updateWithItems(Order $order, array $offerValidated, array $offersItemsValidated): void
-    {
-        $order->update($offerValidated);
-        StockHelper::removeAllQuantityToProducts($order);
-        $order->orderItem()->delete();
-
-        OrderItem::insert(
-            $this->prepareOfferItems(
-                intval($order->id),
-                $offersItemsValidated['products']
-            )
-        );
-    }
-
-    public function destroy(Model|int $model): void
-    {
-        StockHelper::removeAllQuantityToProducts($model);
-        parent::destroy($model);
+        return Order::create($offerValidated);
     }
 
     public function transformToOrder(Order $offer): void
@@ -97,15 +71,5 @@ class OrderRepository extends BaseRepository
             ->count();
 
         return $orderMonthQuantity->quantity;
-    }
-
-    private function prepareOfferItems(int $offerId, array $offerItems): array
-    {
-        foreach ($offerItems as &$orderItem) {
-            $orderItem['order_id'] = $offerId;
-            StockHelper::takeQuantityFromProductByCode($orderItem['code'], $orderItem['quantity']);
-        }
-
-        return $offerItems;
     }
 }

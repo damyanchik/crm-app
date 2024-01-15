@@ -43,29 +43,7 @@ class ProductService
             $validatedData['photo'] = $file->store('images/product_photo', 'public');
         }
 
-        $this->productRepository->update($validatedData, $product);
-    }
-
-    public function importNewProduct(object $file): void
-    {
-        $csvData = $this->CSVService->validateFileAndReadToArray($file, [
-            'name', 'code', 'quantity', 'unit', 'price', 'brand_id', 'category_id'
-        ]);
-
-        $this->fileDataImporter->setFactory(new ProductAdditionFactory());
-
-        $this->productRepository->storeMany($this->fileDataImporter->processData($csvData));
-    }
-
-    public function importProductToUpdate(object $file): void
-    {
-        $csvData = $this->CSVService->validateFileAndReadToArray($file, [
-            'code', 'quantity', 'price'
-        ]);
-
-        $this->fileDataImporter->setFactory(new ProductUpdateFactory());
-
-        $this->productRepository->updateMany($this->fileDataImporter->processData($csvData));
+        $this->productRepository->update($product, $validatedData);
     }
 
     public function destroyPhoto(Product $product): void
