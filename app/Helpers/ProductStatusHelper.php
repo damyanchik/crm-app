@@ -11,10 +11,11 @@ class ProductStatusHelper
     public static function checkAllQuantityAndSet(array &$products): void
     {
         foreach ($products as &$item) {
-            if ($item['quantity'] > 0)
+            if ($item['quantity'] > 0) {
                 $item['status'] = ProductStatusEnum::AVAILABLE['id'];
-            else
+            } else {
                 $item['status'] = ProductStatusEnum::OUT_OF_STOCK['id'];
+            }
         }
     }
 
@@ -32,10 +33,11 @@ class ProductStatusHelper
 
     private static function verifyStatus(int $quantity): int
     {
-        if ($quantity > 0)
+        if ($quantity > 0) {
             $status = ProductStatusEnum::AVAILABLE['id'];
-        else
+        } else {
             $status = ProductStatusEnum::OUT_OF_STOCK['id'];
+        }
 
         return $status;
     }
