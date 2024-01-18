@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Strategies\StockOperationStrategy;
 
+use App\Enum\ProductStatusEnum;
 use App\Repositories\Interfaces\ProductRepositoryInterface;
 
 class AdditionStrategy implements StrategyInterface
@@ -23,7 +24,8 @@ class AdditionStrategy implements StrategyInterface
         return array_map(function ($quantity1, $quantity2, $code) {
             return [
                 'code' => $code,
-                'quantity' => $quantity1 + $quantity2
+                'quantity' => $quantity1 + $quantity2,
+                'status' => ProductStatusEnum::AVAILABLE['id']
             ];
         }, $this->getCurrentStock($itemKeys), $items, $itemKeys);
     }

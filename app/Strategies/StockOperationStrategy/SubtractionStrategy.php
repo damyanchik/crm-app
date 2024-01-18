@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Strategies\StockOperationStrategy;
 
+use App\Enum\ProductStatusEnum;
 use App\Repositories\Interfaces\ProductRepositoryInterface;
 
 class SubtractionStrategy implements StrategyInterface
@@ -21,9 +22,12 @@ class SubtractionStrategy implements StrategyInterface
     {
         $itemKeys = array_keys($items);
         return array_map(function ($quantity1, $quantity2, $code) {
+            $newQuantity = max(0, $quantity1 - $quantity2);
+
             return [
                 'code' => $code,
-                'quantity' => max(0, $quantity1 - $quantity2)
+                'quantity' => $newQuantity,
+                'status' => ProductStatusEnum::verifyQuantityAndGetStatus($newQuantity)
             ];
         }, $this->getCurrentStock($itemKeys), $items, $itemKeys);
     }
