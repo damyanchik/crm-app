@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace App\Factories\FileDataImporter\Validators;
 
 use App\Enum\ProductUnitEnum;
+use App\Factories\FileDataImporter\Validators\Traits\CheckingErrorTrait;
 use Illuminate\Support\Facades\Validator;
 
 class ProductAdditionValidator implements ValidatorInterface
 {
+    use CheckingErrorTrait;
+
     public function validate(array $data): bool
     {
         $validator = Validator::make($data, [
@@ -20,8 +23,7 @@ class ProductAdditionValidator implements ValidatorInterface
             '*.brand_id' => 'nullable|string',
             '*.category_id' => 'nullable|string'
         ]);
-        $errors = $validator->errors();
 
-        return empty($errors->messages()) && !empty($data);
+        return $this->isError($validator);
     }
 }

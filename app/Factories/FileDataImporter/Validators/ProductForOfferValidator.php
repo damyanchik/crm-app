@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace App\Factories\FileDataImporter\Validators;
 
+use App\Factories\FileDataImporter\Validators\Traits\CheckingErrorTrait;
 use Illuminate\Support\Facades\Validator;
 
 class ProductForOfferValidator implements ValidatorInterface
 {
+    use CheckingErrorTrait;
+
     public function validate(array $data): bool
     {
         $validator = Validator::make($data, [
@@ -15,8 +18,7 @@ class ProductForOfferValidator implements ValidatorInterface
             '*.quantity' => 'required|numeric',
             '*.price' => 'numeric',
         ]);
-        $errors = $validator->errors();
 
-        return empty($errors->messages()) && !empty($data);
+        return $this->isError($validator);
     }
 }

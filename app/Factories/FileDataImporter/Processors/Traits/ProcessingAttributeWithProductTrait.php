@@ -25,7 +25,7 @@ trait ProcessingAttributeWithProductTrait
     {
         $normalizedRecords = array_change_key_case($recordsFromBase, CASE_LOWER);
 
-        if (!empty($attributeFromCsv) && array_key_exists(strtolower($attributeFromCsv), $normalizedRecords)) {
+        if (array_key_exists(strtolower($attributeFromCsv), $normalizedRecords)) {
             $attributeFromCsv = $normalizedRecords[strtolower($attributeFromCsv)];
         } else {
             $attributeFromCsv = null;
