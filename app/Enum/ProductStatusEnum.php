@@ -37,4 +37,20 @@ class ProductStatusEnum
             self::STATUSES
         );
     }
+
+    public static function verifyProductsAndSetStatus(array &$products): void
+    {
+        foreach ($products as &$item) {
+            $item['status'] = self::verifyQuantityAndGetStatus($item['quantity']);
+        }
+    }
+
+    public static function verifyQuantityAndGetStatus(int $quantity): int
+    {
+        if ($quantity > 0) {
+            return ProductStatusEnum::AVAILABLE['id'];
+        } else {
+            return ProductStatusEnum::OUT_OF_STOCK['id'];
+        }
+    }
 }

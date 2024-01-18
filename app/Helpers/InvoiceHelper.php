@@ -6,8 +6,8 @@ namespace App\Helpers;
 
 class InvoiceHelper
 {
-    public static function prepareInvoiceNumber(int $invoiceNumber): string
+    public static function prepareInvoiceNumber(int $countedOrderInMonth): string
     {
-        return $invoiceNumber . '/FV/' . now()->month . '/' . now()->year;
+        return $countedOrderInMonth . '/FV/' . now()->month . '/' . now()->year;
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Factories\FileDataImporter\Processors;
 
-use App\Helpers\ProductStatusHelper;
+use App\Enum\ProductStatusEnum;
 use App\Models\Brand;
 use App\Models\Product;
 use App\Models\ProductCategory;
@@ -29,7 +29,7 @@ class ProductAdditionProcessor implements ProcessorInterface
                 'categories' => ProductCategory::all()->pluck('id', 'name')->toArray()
         ]);
 
-        ProductStatusHelper::checkAllQuantityAndSet($processedData);
+        ProductStatusEnum::verifyProductsAndSetStatus($processedData);
 
         return $processedData;
     }

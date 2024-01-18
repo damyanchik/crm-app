@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\Factories\FileDataImporter\Processors;
 
-use App\Helpers\ProductHelper;
-use App\Helpers\ProductStatusHelper;
+use App\Enum\ProductStatusEnum;
 use App\Models\Product;
 
 class ProductUpdateProcessor implements ProcessorInterface
@@ -21,7 +20,7 @@ class ProductUpdateProcessor implements ProcessorInterface
             );
         })->unique('code')->toArray();
 
-        ProductStatusHelper::checkAllQuantityAndSet($filteredCollection);
+        ProductStatusEnum::verifyProductsAndSetStatus($filteredCollection);
 
         return $filteredCollection;
     }
