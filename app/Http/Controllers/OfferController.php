@@ -35,7 +35,10 @@ class OfferController extends Controller
         ]);
     }
 
-    public function store(StoreAndUpdateOfferRequest $offerRequest, StoreAndUpdateOfferItemsRequest $itemsRequest): RedirectResponse
+    public function store(
+        StoreAndUpdateOfferRequest $offerRequest,
+        StoreAndUpdateOfferItemsRequest $itemsRequest
+    ): RedirectResponse
     {
         DB::beginTransaction();
         try {
@@ -59,7 +62,11 @@ class OfferController extends Controller
         ]);
     }
 
-    public function update(Order $offer, StoreAndUpdateOfferRequest $offerRequest, StoreAndUpdateOfferItemsRequest $itemsRequest): RedirectResponse
+    public function update(
+        Order $offer,
+        StoreAndUpdateOfferRequest $offerRequest,
+        StoreAndUpdateOfferItemsRequest $itemsRequest
+    ): RedirectResponse
     {
         DB::beginTransaction();
         try {

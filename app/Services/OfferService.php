@@ -34,8 +34,8 @@ class OfferService
     {
         $order = $this->orderRepository->storeAndGet($offerValidated);
         data_fill($offersItemsValidated['products'], '*.order_id', intval($order->id));
-        $this->orderItemRepository->storeMany($offersItemsValidated['products']);
-        event(new StockToOrder($order));
+
+        $this->storeOrderItemsAndRecalculateStock($offersItemsValidated['products'], $order);
     }
 
     public function update(Order $order, array $offerValidated, array $offersItemsValidated): void
@@ -44,8 +44,8 @@ class OfferService
         data_fill($offersItemsValidated['products'], '*.order_id', intval($order->id));
         event(new OrderToStock($order));
         $this->orderItemRepository->destroyManyByOrderId(intval($order->id));
-        $this->orderItemRepository->storeMany($offersItemsValidated['products']);
-        event(new StockToOrder($order));
+
+        $this->storeOrderItemsAndRecalculateStock($offersItemsValidated['products'], $order);
     }
 
     public function destroy(Order $order): void
@@ -58,5 +58,11 @@ class OfferService
     public function transformToOrder(Order $order): void
     {
         $this->orderRepository->transformToOrder($order);
+    }
+
+    private function storeOrderItemsAndRecalculateStock(array $products, Order $order): void
+    {
+        $this->orderItemRepository->storeMany($products);
+        event(new StockToOrder($order));
     }
 }

@@ -11,8 +11,11 @@ use App\Factories\FileDataImporter\FileDataImporter;
 use App\Helpers\CSVHelper;
 use App\Repositories\ProductRepository;
 
-class CSVService
+class CSVProductService
 {
+    const ALL_COLUMNS = ['name', 'code', 'quantity', 'unit', 'price', 'brand_id', 'category_id'];
+    const BASIC_COLUMNS = ['code', 'quantity', 'price'];
+
     public function __construct(
         protected FileDataImporter $fileDataImporter,
         protected ProductRepository $productRepository
@@ -20,33 +23,27 @@ class CSVService
     {
     }
 
-    public function validateAndImportCsv(object $file): array
+    public function importToMakingOfferProcess(object $file): array
     {
-        $csvData = CSVHelper::validateFileAndReadToArray($file, [
-            'code', 'quantity', 'price'
-        ]);
+        $csvData = CSVHelper::validateFileAndReadToArray($file, self::BASIC_COLUMNS);
 
         $this->fileDataImporter->setFactory(new ProductForOfferFactory());
 
         return $this->fileDataImporter->processData($csvData);
     }
 
-    public function importNewProduct(object $file): void
+    public function importToAddNewProduct(object $file): void
     {
-        $csvData = CSVHelper::validateFileAndReadToArray($file, [
-            'name', 'code', 'quantity', 'unit', 'price', 'brand_id', 'category_id'
-        ]);
+        $csvData = CSVHelper::validateFileAndReadToArray($file, self::ALL_COLUMNS);
 
         $this->fileDataImporter->setFactory(new ProductAdditionFactory());
 
         $this->productRepository->storeMany($this->fileDataImporter->processData($csvData));
     }
 
-    public function importProductToUpdate(object $file): void
+    public function importToUpdateProduct(object $file): void
     {
-        $csvData = CSVHelper::validateFileAndReadToArray($file, [
-            'code', 'quantity', 'price'
-        ]);
+        $csvData = CSVHelper::validateFileAndReadToArray($file, self::BASIC_COLUMNS);
 
         $this->fileDataImporter->setFactory(new ProductUpdateFactory());
 

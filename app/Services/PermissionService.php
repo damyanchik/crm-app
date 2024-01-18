@@ -9,6 +9,18 @@ use App\Repositories\RoleRepository;
 
 class PermissionService
 {
+    const SUFFIXNAMES = [
+        'Offer',
+        'OrderObserver',
+        'Product',
+        'Brand',
+        'ProductCategory',
+        'Client',
+        'User',
+        'Calendar',
+        'Admin'
+    ];
+
     public function __construct(protected PermissionRepository $permissionRepository, protected RoleRepository $roleRepository)
     {
     }
@@ -21,28 +33,16 @@ class PermissionService
 
     public function groupPermissionNamesBySuffixForView(): array
     {
-        $suffixNames = [
-            'Offer',
-            'OrderObserver',
-            'Product',
-            'Brand',
-            'ProductCategory',
-            'Client',
-            'User',
-            'Calendar',
-            'Admin'
-        ];
-
-        return $this->groupPermissionNamesBySuffixes($this->permissionRepository->getToArray(), $suffixNames);
+        return $this->groupPermissionNamesBySuffixes($this->permissionRepository->getToArray());
     }
 
-    private function groupPermissionNamesBySuffixes(array $names, array $suffixes): array
+    private function groupPermissionNamesBySuffixes(array $names): array
     {
         $groupedTasks = [];
 
         foreach ($names as $name) {
             $matchedSuffix = null;
-            foreach ($suffixes as $suffix) {
+            foreach (self::SUFFIXNAMES as $suffix) {
                 if (str_ends_with($name['name'], $suffix)) {
                     $matchedSuffix = $suffix;
                     break;

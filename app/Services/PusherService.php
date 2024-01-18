@@ -14,32 +14,23 @@ class PusherService
     {
         $user = Auth::user();
 
-        $savedMessage = $this->saveChatMessage(
-            $message,
+        $content = $this->prepareContent(
+            new ChatMessage([
+                'message' => $message,
+                'recipient' => 0,
+            ]),
             $user
         );
-
-        $content = $this->prepareContent($savedMessage, $user);
 
         broadcast(new PusherBroadcast($content))->toOthers();
 
         return $content;
     }
 
-    private function saveChatMessage(string $messageContent, object $user): ChatMessage
-    {
-        $message = new ChatMessage([
-            'message' => $messageContent,
-            'recipient' => 0,
-        ]);
-
-        $user->chatMessage()->save($message);
-
-        return $message;
-    }
-
     private function prepareContent(ChatMessage $message, object $user): array
     {
+        $user->chatMessage()->save($message);
+
         return [
             'message' => $message->message,
             'time' => $message->created_at->format('Y-m-d H:i:s'),

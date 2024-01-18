@@ -6,7 +6,6 @@ namespace App\Services;
 
 use App\Enum\OrderStatusEnum;
 use App\Events\OrderToStock;
-use App\Helpers\StockHelper;
 use App\Models\Order;
 use App\Repositories\OrderRepository;
 

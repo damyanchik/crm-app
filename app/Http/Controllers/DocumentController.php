@@ -16,10 +16,7 @@ class DocumentController extends Controller
 
     public function generateInvoice(Order $order): object
     {
-        if (!in_array($order->status, [
-            OrderStatusEnum::READY['id'],
-            OrderStatusEnum::CLOSED['id']
-        ])) {
+        if ($this->documentService->isOrderGenerationPermitted($order->status)) {
             return back()
                 ->with('message', 'Błąd w trakcie generowania faktury.');
         }

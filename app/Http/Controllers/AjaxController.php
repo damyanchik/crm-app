@@ -38,7 +38,10 @@ class AjaxController extends Controller
             ]);
     }
 
-    public function searchProductCategory(Request $request, ProductCategoryService $productCategoryService): JsonResponse
+    public function searchProductCategory(
+        Request $request,
+        ProductCategoryService $productCategoryService
+    ): JsonResponse
     {
         return response()
             ->json([

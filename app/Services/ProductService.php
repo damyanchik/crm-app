@@ -13,8 +13,8 @@ class ProductService
 {
     public function __construct(
         protected ProductRepository $productRepository,
-        protected FileDataImporter $fileDataImporter,
-        protected CSVService $CSVService)
+        protected FileDataImporter  $fileDataImporter,
+        protected CSVProductService $CSVService)
     {
     }
 

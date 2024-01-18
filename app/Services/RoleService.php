@@ -22,4 +22,9 @@ class RoleService
     {
         $this->repository->destroy($role);
     }
+
+    public function getAll(): object
+    {
+        return $this->repository->getAll();
+    }
 }

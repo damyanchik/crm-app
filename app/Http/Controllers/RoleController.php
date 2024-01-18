@@ -16,7 +16,7 @@ use Spatie\Permission\Models\Role;
 class RoleController extends Controller
 {
     public function __construct(
-        protected RoleService       $roleService,
+        protected RoleService $roleService,
         protected PermissionService $permissionService
     )
     {
@@ -25,7 +25,7 @@ class RoleController extends Controller
     public function index(): View
     {
         return view('admin.roles_permissions', [
-            'roles' => Role::get(),
+            'roles' => $this->roleService->getAll(),
             'permissions' => $this->permissionService->groupPermissionNamesBySuffixForView()
         ]);
     }
@@ -60,9 +60,10 @@ class RoleController extends Controller
 
     public function destroyRole(Role $role): RedirectResponse
     {
-        if ($role->name == 'admin')
+        if ($role->name == 'admin') {
             return back()
                 ->with('message', 'Brak możliwości usunięcia tej roli.');
+        }
 
         try {
             $this->roleService->destroy($role);

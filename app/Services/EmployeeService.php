@@ -51,7 +51,7 @@ class EmployeeService
     {
         $role = $this->roleRepository->findById($roleId);
 
-        if ($role !== null) {
+        if (!empty($role)) {
             $user->assignRole($role);
         }
 
