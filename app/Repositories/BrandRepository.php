@@ -16,4 +16,9 @@ class BrandRepository extends BaseRepository implements BrandRepositoryInterface
     {
         parent::__construct($model);
     }
+
+    public function storeOrIgnoreMany(array $data): void
+    {
+        Brand::createOrIgnoreMany($data);
+    }
 }

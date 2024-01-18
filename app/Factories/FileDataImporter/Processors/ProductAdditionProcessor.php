@@ -5,23 +5,30 @@ declare(strict_types=1);
 namespace App\Factories\FileDataImporter\Processors;
 
 use App\Enum\ProductStatusEnum;
+use App\Factories\FileDataImporter\Processors\Traits\AttributeStoringTrait;
+use App\Factories\FileDataImporter\Processors\Traits\ProcessingAttributeWithProductTrait;
 use App\Models\Brand;
 use App\Models\Product;
 use App\Models\ProductCategory;
+use App\Repositories\BrandRepository;
+use App\Repositories\Interfaces\ProductRepositoryInterface;
+use App\Repositories\ProductCategoryRepository;
+use App\Repositories\ProductRepository;
+use Illuminate\Support\Collection;
 
 class ProductAdditionProcessor implements ProcessorInterface
 {
+    use AttributeStoringTrait, ProcessingAttributeWithProductTrait;
+
     public function process(array $data): array
     {
-        $this->storeNotExistedAttributes($data);
+        $this->storeNotExistedAttributes(
+            $data,
+            new BrandRepository(new Brand()),
+            new ProductCategoryRepository(new ProductCategory())
+        );
 
-        $existingProductCodes = Product::getExistingByCodes($data);
-        $filteredCollection = collect($data)->filter(function ($item) use ($existingProductCodes) {
-            return !in_array(
-                $item['code'],
-                array_column($existingProductCodes, 'code')
-            );
-        })->unique('code');
+        $filteredCollection = $this->filterProducts($data, new ProductRepository(new Product()));
 
         $processedData = $this->processItemsWithAttributes(
             $filteredCollection, [
@@ -34,51 +41,15 @@ class ProductAdditionProcessor implements ProcessorInterface
         return $processedData;
     }
 
-    private function storeNotExistedAttributes(array $data): void
+    private function filterProducts(array $data, ProductRepositoryInterface $productRepository): Collection
     {
-        $processedCategories = $this->completeQueryParameters('category_id', $data);
-        ProductCategory::createOrIgnoreMany($processedCategories);
+        $existingProductCodes = $productRepository->getExistingCodes($data);
 
-        $processedBrands = $this->completeQueryParameters('brand_id', $data);
-        Brand::createOrIgnoreMany($processedBrands);
-    }
-
-    private function processItemsWithAttributes(object $filteredCollection, array $attributesFromBase): array
-    {
-        return $filteredCollection->transform(function ($item) use ($attributesFromBase) {
-            $this->checkAttributeAndBindIdToProduct(
-                $item['category_id'],
-                $attributesFromBase['categories']
+        return collect($data)->filter(function ($item) use ($existingProductCodes) {
+            return !in_array(
+                $item['code'],
+                array_column($existingProductCodes, 'code')
             );
-            $this->checkAttributeAndBindIdToProduct(
-                $item['brand_id'],
-                $attributesFromBase['brands']
-            );
-            return $item;
-        })->toArray();
-    }
-
-    private function completeQueryParameters(string $attributeColumn, array $data): array
-    {
-        $nonEmptyAttributes = array_filter(array_column($data, $attributeColumn));
-
-        return array_map(function ($value) {
-            return [
-                'name' => $value,
-                'updated_at' => now(),
-                'created_at' => now(),
-            ];
-        }, $nonEmptyAttributes);
-    }
-
-    private function checkAttributeAndBindIdToProduct(string|null &$attributeFromCsv, array $recordsFromBase): void
-    {
-        $normalizedRecords = array_change_key_case($recordsFromBase, CASE_LOWER);
-
-        if (!empty($attributeFromCsv) && array_key_exists(strtolower($attributeFromCsv), $normalizedRecords)) {
-            $attributeFromCsv = $normalizedRecords[strtolower($attributeFromCsv)];
-        } else {
-            $attributeFromCsv = null;
-        }
+        })->unique('code');
     }
 }

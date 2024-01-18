@@ -16,4 +16,5 @@ interface ProductRepositoryInterface
     public function getStock(array $codes): array;
     public function updateMany(array $data): void;
     public function searchToAjax(string $searchTerm): object;
+    public function getExistingProductsUsingData(array $data): array;
 }

@@ -4,13 +4,19 @@ declare(strict_types=1);
 
 namespace App\Factories\FileDataImporter\Processors;
 
+use App\Factories\FileDataImporter\Processors\Traits\VerifyingPriceTrait;
+use App\Factories\FileDataImporter\Processors\Traits\VeryfingQuantityTrait;
 use App\Models\Product;
+use App\Repositories\Interfaces\ProductRepositoryInterface;
+use App\Repositories\ProductRepository;
 
 class ProductForOfferProcessor implements ProcessorInterface
 {
+    use VerifyingPriceTrait, VeryfingQuantityTrait;
+
     public function process(array $data): array
     {
-        $existingProducts = $this->getExistingProducts($data);
+        $existingProducts = $this->getExistingProducts($data, new ProductRepository(new Product()));
 
         $collection = collect($data)->transform(function ($item) use (&$existingProducts) {
             if (empty($existingProducts[$item['code']])) {
@@ -21,13 +27,13 @@ class ProductForOfferProcessor implements ProcessorInterface
         });
 
         $filteredCollection = $collection->filter(function ($item) {
-            return $item != null;
+            return !empty($item);
         });
 
         return $filteredCollection->toArray();
     }
 
-    private function processItem($item, &$existingProducts): mixed
+    private function processItem($item, &$existingProducts): array
     {
         $item += [
             'name' => $existingProducts[$item['code']]['name'],
@@ -41,53 +47,8 @@ class ProductForOfferProcessor implements ProcessorInterface
         return $item;
     }
 
-    private function updatePrice(&$item, $existingProducts)
+    private function getExistingProducts(array $data, ProductRepositoryInterface $productRepository): array
     {
-        if (empty($item['price']) && $item['price'] < 0) {
-            $item['price'] = $existingProducts[$item['code']]['price'];
-        }
-
-        if ($existingProducts[$item['code']]['price'] != $item['price'] && $item['price'] > 0) {
-            $item['changes']['price'] = $existingProducts[$item['code']]['price'];
-        }
-    }
-
-    private function updateQuantity(&$item, &$existingProducts)
-    {
-        if ($existingProducts[$item['code']]['quantity'] > 0) {
-            $existingProducts[$item['code']]['quantity'] = $existingProducts[$item['code']]['quantity'] - $item['quantity'];
-        } else {
-            $item = null;
-        }
-
-        if ($item != null && $existingProducts[$item['code']]['quantity'] < 0) {
-            $item['changes']['quantity'] = $item['quantity'];
-            $item['quantity'] = $item['quantity'] + $existingProducts[$item['code']]['quantity'];
-            $existingProducts[$item['code']]['quantity'] = 0;
-        }
-    }
-
-    private function getExistingProducts(array $data): array
-    {
-        $codes = array_column($data, 'code');
-
-        return Product::whereIn('code', $codes)
-            ->with('brand')
-            ->select('name', 'code', 'quantity', 'price', 'unit', 'brand_id')
-            ->get()
-            ->map(function ($product) {
-                $productArray = $product->toArray();
-
-                return [
-                        'name' => $productArray['name'],
-                        'code' => $productArray['code'],
-                        'quantity' => $productArray['quantity'],
-                        'price' => $productArray['price'],
-                        'unit' => $productArray['unit'],
-                        'brand' => $product->brand->name ?? '',
-                    ] + $productArray;
-            })
-            ->keyBy('code')
-            ->toArray();
+        return $productRepository->getExistingProductsUsingData($data);
     }
 }

@@ -27,7 +27,7 @@ class SubtractionStrategy implements StrategyInterface
             return [
                 'code' => $code,
                 'quantity' => $newQuantity,
-                'status' => ProductStatusEnum::verifyQuantityAndGetStatus($newQuantity)
+                'status' => ProductStatusEnum::verifyQuantityAndGetStatus(intval($newQuantity))
             ];
         }, $this->getCurrentStock($itemKeys), $items, $itemKeys);
     }

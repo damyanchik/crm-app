@@ -16,4 +16,9 @@ class ProductCategoryRepository extends BaseRepository implements ProductCategor
     {
         parent::__construct($model);
     }
+
+    public function storeOrIgnoreMany(array $data): void
+    {
+        ProductCategory::createOrIgnoreMany($data);
+    }
 }

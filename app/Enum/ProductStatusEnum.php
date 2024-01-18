@@ -41,7 +41,7 @@ class ProductStatusEnum
     public static function verifyProductsAndSetStatus(array &$products): void
     {
         foreach ($products as &$item) {
-            $item['status'] = self::verifyQuantityAndGetStatus($item['quantity']);
+            $item['status'] = self::verifyQuantityAndGetStatus(intval($item['quantity']));
         }
     }
 

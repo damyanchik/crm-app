@@ -22,16 +22,51 @@ class ProductRepository extends BaseRepository implements ProductRepositoryInter
     public function destroy(Model|int $product): void
     {
         $currentModel = $this->checkModelOrInt($product);
-        PhotoHelper::deletePreviousPhoto($currentModel->photo);
+
+        if (!empty($currentModel->photo)) {
+            PhotoHelper::deletePreviousPhoto($currentModel->photo);
+        }
+
         parent::destroy($currentModel);
     }
 
     public function destroyPhoto(Product $product): void
     {
-        PhotoHelper::deletePreviousPhoto($product->photo);
+        if (!empty($product->photo)) {
+            PhotoHelper::deletePreviousPhoto($product->photo);
+        }
 
         $product->setAttribute('photo', null);
         $product->save();
+    }
+
+    public function getExistingCodes(array $data): array
+    {
+        return Product::getExistingByCodes($data);
+    }
+
+    public function getExistingProductsUsingData(array $data): array
+    {
+        $codes = array_column($data, 'code');
+
+        return Product::whereIn('code', $codes)
+            ->with('brand')
+            ->select('name', 'code', 'quantity', 'price', 'unit', 'brand_id')
+            ->get()
+            ->map(function ($product) {
+                $productArray = $product->toArray();
+
+                return [
+                        'name' => $productArray['name'],
+                        'code' => $productArray['code'],
+                        'quantity' => $productArray['quantity'],
+                        'price' => $productArray['price'],
+                        'unit' => $productArray['unit'],
+                        'brand' => $product->brand->name ?? '',
+                    ] + $productArray;
+            })
+            ->keyBy('code')
+            ->toArray();
     }
 
     public function storeMany(array $data): void

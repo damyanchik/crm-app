@@ -9,7 +9,7 @@
             <div class="modal-body">
                 <span class="d-block">Układ kolumn: nazwa produktu; kod produktu; ilość; jednostka*; cena, marka**; kategoria produktowa**</span>
                 <span class="d-block">W przypadku braku marki bądź kategorii produktowej zostanie utworzona nowa.</span>
-                <small class="mt-2 mb-1 d-block">*należy podać numer: 0 - sztuki, 1 - komplety</small>
+                <small class="mt-2 mb-1 d-block">*należy podać numer: 1 - sztuki, 2 - komplety</small>
                 <small class="d-block">**zaznaczone pozycje można pominąć</small>
                 <input type="file" class="border form-control form-control-sm mt-2" name="csv_file" accept=".csv">
             </div>
