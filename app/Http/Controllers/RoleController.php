@@ -60,11 +60,6 @@ class RoleController extends Controller
 
     public function destroyRole(Role $role): RedirectResponse
     {
-        if ($role->name == 'admin') {
-            return back()
-                ->with('message', 'Brak możliwości usunięcia tej roli.');
-        }
-
         try {
             $this->roleService->destroy($role);
             return back()

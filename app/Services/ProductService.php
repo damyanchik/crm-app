@@ -23,7 +23,7 @@ class ProductService
         return $this->productRepository->searchAndSort($searchParams);
     }
 
-    public function store(array $validatedData, object $file = null): void
+    public function store(array $validatedData, ?object $file): void
     {
         if ($file->isValid()) {
             $validatedData['photo'] = $file->store('images/product_photo', 'public');
@@ -32,7 +32,7 @@ class ProductService
         $this->productRepository->store($validatedData);
     }
 
-    public function update(array $validatedData, Product $product, object $file = null): void
+    public function update(array $validatedData, Product $product, ?object $file): void
     {
         if ($file->isValid()) {
             if ($product->photo) {

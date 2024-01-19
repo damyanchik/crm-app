@@ -19,7 +19,7 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
         parent::__construct($model);
     }
 
-    public function getByStatusAndSort(array $searchParams, array|null $status = null): object
+    public function getByStatusAndSort(array $searchParams, ?array $status): object
     {
         if ($status) {
             $callable = function ($query) use ($status) {
