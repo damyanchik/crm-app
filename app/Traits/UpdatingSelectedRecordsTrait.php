@@ -6,7 +6,7 @@ namespace App\Traits;
 
 use Illuminate\Support\Facades\DB;
 
-trait UpdateSelectedRecordsTrait
+trait UpdatingSelectedRecordsTrait
 {
     public static function updateMany(array $data, string $updateByColumn): void
     {

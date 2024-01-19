@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 
 interface ProductRepositoryInterface
 {
-    public function __construct(Product $model);
     public function destroy(Model|int $product): void;
     public function destroyPhoto(Product $product): void;
     public function storeMany(array $data): void;

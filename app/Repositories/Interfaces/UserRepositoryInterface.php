@@ -8,7 +8,6 @@ use App\Models\User;
 
 interface UserRepositoryInterface
 {
-    public function __construct(User $model);
     public function store(array $data): void;
     public function setPassword(User $user, $validatedData): void;
     public function toggleBlock(User $user): void;

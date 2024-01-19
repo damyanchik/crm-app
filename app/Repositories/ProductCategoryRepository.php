@@ -6,7 +6,7 @@ namespace App\Repositories;
 
 use App\Models\ProductCategory;
 use App\Repositories\Interfaces\ProductCategoryRepositoryInterface;
-use App\Traits\SearchableTrait;
+use App\Repositories\Traits\SearchableTrait;
 
 class ProductCategoryRepository extends BaseRepository implements ProductCategoryRepositoryInterface
 {

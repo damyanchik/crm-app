@@ -6,7 +6,7 @@ namespace App\Repositories;
 
 use App\Models\Client;
 use App\Repositories\Interfaces\ClientRepositoryInterface;
-use App\Traits\SearchableTrait;
+use App\Repositories\Traits\SearchableTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class ClientRepository extends BaseRepository implements ClientRepositoryInterface

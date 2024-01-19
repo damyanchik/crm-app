@@ -6,7 +6,7 @@ namespace App\Repositories;
 
 use App\Models\Brand;
 use App\Repositories\Interfaces\BrandRepositoryInterface;
-use App\Traits\SearchableTrait;
+use App\Repositories\Traits\SearchableTrait;
 
 class BrandRepository extends BaseRepository implements BrandRepositoryInterface
 {

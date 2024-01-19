@@ -8,7 +8,7 @@ use App\Enum\OrderStatusEnum;
 use App\Helpers\InvoiceHelper;
 use App\Models\Order;
 use App\Repositories\Interfaces\OrderRepositoryInterface;
-use App\Traits\SearchableTrait;
+use App\Repositories\Traits\SearchableTrait;
 
 class OrderRepository extends BaseRepository implements OrderRepositoryInterface
 {
@@ -37,9 +37,9 @@ class OrderRepository extends BaseRepository implements OrderRepositoryInterface
         return Order::create($offerValidated);
     }
 
-    public function transformToOrder(Order $offer): void
+    public function transformToOrder(Order $order): void
     {
-        $offer->update([
+        $order->update([
             'invoice_num' => $this->generateInvoiceNumber(),
             'status' => OrderStatusEnum::PENDING['id'],
             'updated_at' => now()

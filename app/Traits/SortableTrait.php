@@ -24,8 +24,9 @@ trait SortableTrait
         $allowedColumns = array_merge(['id', 'created_at', 'updated_at'], $this->fillable);
         $allowedDirections = ['ASC', 'DESC'];
 
-        return
+        return (
             !in_array(strtolower($column), $allowedColumns) ||
-            !in_array(strtoupper($direction), $allowedDirections);
+            !in_array(strtoupper($direction), $allowedDirections)
+        );
     }
 }

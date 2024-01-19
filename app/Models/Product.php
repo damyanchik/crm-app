@@ -3,14 +3,14 @@
 namespace App\Models;
 
 use App\Traits\SortableTrait;
-use App\Traits\UpdateSelectedRecordsTrait;
+use App\Traits\UpdatingSelectedRecordsTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Product extends Model
 {
-    use HasFactory, SortableTrait, UpdateSelectedRecordsTrait;
+    use HasFactory, SortableTrait, UpdatingSelectedRecordsTrait;
 
     protected $table = 'products';
 
