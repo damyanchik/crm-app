@@ -1,66 +1,42 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# MiCRM Project
+I present a CRM project that I made myself in PHP (Laravel) and JavaScript (JQuery). I came up with the idea to create a simple, small CRM with the most important options. I think that sometimes I will continue improving the project with new ideas. I called it "micrm", a little pun on 'micro' + 'crm'. ;) I think the project is done well and will showcase my skills in the portfolio.
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## About the Project
+The project was created on the Laravel framework and it was on the PHP code that I focused most during my work.
 
-## About Laravel
+I love clear code, so I tried to stick to the most important principles of the Object – Oriented Programming paradigm - SOLID, KISS, DRY, YAGNI and also used architectural design patterns for extensive functionalities. The classes created by me have less than 100 rows, and the methods in the classes are limited to 15-20 rows. PHP, Blade, JS code has been separated from each other.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+In addition, I have used JavaScript packages in my work (Bootstrap 5, Select2, Chart.js, Calendar.js) and PHP (Spatie, Pusher, League / csv, Guzzle, Laravel-dopdf).
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Structure and features
+* Dashboard - welcome screen, shows statistics of the last week and compares with the week before and the year, as well as the calendar of the month with events.
+* Zamówienia (Orders) - contains functionalities for creating, deleting and editing offers, turning offers into orders, creating invoices. It is possible to create an order using a CSV file with the product code and its price and quantity.
+* Produkty (Products) - the ability to manage products, brands and product categories. Group products by brands or product categories. A mechanism has been created that allows you to add products en masse or update prices and stock levels via a CSV file.
+* Klienci (Clients) - the ability to manage clients, client profiles.
+* Pracownicy (Employees) - a list of employees with their profiles and company live chat using Pusher.
+* Kalendarz (Calendar) - calendar with the ability to manage events.
+* Admin - management of company data, employees, permissions and settings of the entire CRM.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Run
+```html
+    git clone https://github.com/damyanchik/crm-app.git
+    composer install
+    php artisan migrate:fresh --seed
+    php artisan serve
+```
 
-## Learning Laravel
+```html
+    Login: admin@example.com
+    Password: password
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Technologies
+* PHP 8
+* Laravel
+* SQL
+* JavaScript
+* jQuery
+* Composer
+* Bootstrap 5
+* HTML
+* CSS

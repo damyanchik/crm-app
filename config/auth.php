@@ -39,6 +39,8 @@ return [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
+            'expire' => env('SESSION_LIFETIME', 120),
+            'timeout' => 5,
         ],
     ],
 
